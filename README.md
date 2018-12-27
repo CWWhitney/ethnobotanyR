@@ -1,2 +1,0 @@
-# ethnobotanyR
-Quantitative ethnobotany indices
