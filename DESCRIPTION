@@ -1,0 +1,11 @@
+Package: ethnobotanyR
+Type: Package
+Title: Calculate Quantitative Ethnobotany Indices
+Version: 0.1.0
+Author: person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre"))
+Maintainer: Cory Whitney <whitney.cory@gmail.com>
+Description: This package calculates common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows the paper by Tardío and Pardo-de-Santayana (2008). Tardío, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39.
+License: GPL
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
