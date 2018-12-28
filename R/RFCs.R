@@ -1,4 +1,3 @@
-
 #' Relative Frequency of Citation (RFC)
 #'
 #' This function allows you to calculate the relative frequency of citation (RFC) per species published by Pardo-de-Santayana (2003).
@@ -9,13 +8,14 @@
 #'
 #' @examples
 #' RFCs(ethnobotanydata)
+#' 
 #' @export RFCs
 RFCs <- function(data) {
     if (!requireNamespace("plyr", quietly = TRUE)) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-    data$FCps <- rowSums((data[, -c(1:2)]) >
+  data$FCps <- rowSums((data[, -c(1:2)]) >
         0)
     data$FCps[data$FCps > 0] <- 1
     RFCs<-plyr::ddply(data, ~sp_name, summarise,
