@@ -6,17 +6,19 @@
 #' @keywords ethnobotany, cultural value, use report
 #'
 #' @examples
+#' 
 #' URs(ethnobotanydata)
+#' 
 #' @export URs
 URs <- function(data) {
     if (!requireNamespace("plyr", quietly = TRUE)) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-    data$URps <- rowSums(data[, -c(1:2)])
-    library(plyr)
+  data$URps <- rowSums(data[, -c(1:2)])
     data_URs <- plyr::ddply(data, ~sp_name,
         summarise, URs = sum(URps))
+    
     print("Total number of Use Reports (URs) for each species in the data set")
     print(data_URs)
 }
