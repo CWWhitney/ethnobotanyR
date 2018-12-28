@@ -7,6 +7,7 @@
 #' @keywords ethnobotany, cultural value
 #'
 #' @examples
+#' 
 #' CVs(ethnobotanydata)
 #'
 #' @export CVs
