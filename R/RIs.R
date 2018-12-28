@@ -7,7 +7,9 @@
 #' @keywords quantitative ethnobotany, relative importance
 #'
 #' @examples
+#' 
 #' RIs(ethnobotanydata)
+#' 
 #' @export RIs
 RIs <- function(data) {
     if (!requireNamespace("plyr", quietly = TRUE)) {
