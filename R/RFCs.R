@@ -6,6 +6,8 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, number of uses
 #'
+#' @importFrom plyr ddply
+#' 
 #' @examples
 #' RFCs(ethnobotanydata)
 #' 
@@ -18,8 +20,8 @@ RFCs <- function(data) {
   data$FCps <- rowSums((data[, -c(1:2)]) >
         0)
     data$FCps[data$FCps > 0] <- 1
-    RFCs<-plyr::ddply(data, ~sp_name, summarise,
-        RFCs = sum(FCps)/(length(unique(informant))))
+    RFCs<-plyr::ddply(data, ~sp_name, plyr::summarise,
+        RFCs = sum(FCps/(length(unique(informant)))))
     print("Relative Frequency of Citation (RFC) for each species in the data set")
     print(RFCs)
     }

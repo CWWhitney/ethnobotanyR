@@ -17,7 +17,7 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 This function allows you to calculate the Cultural Importance Index (CI) per species.
 }
 \examples{
-devtools::use_data(ethnobotanydata)
+
 CIs(ethnobotanydata)
 
 }

@@ -14,7 +14,9 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 This function allows you to calculate the sum of all ethnobotany use reports (UR) for all species, a common metric for ethnobotany studies.
 }
 \examples{
+
 URsum(ethnobotanydata)
+
 }
 \keyword{ethnobotany}
 \keyword{ethnobotany,}

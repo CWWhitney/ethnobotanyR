@@ -5,6 +5,10 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords ethnobotany, cultural value, use report
 #'
+#' @importFrom magrittr %>%
+#' @importFrom plyr ddply 
+#' @importFrom plyr summarise 
+#' 
 #' @examples
 #' 
 #' URs(ethnobotanydata)
@@ -15,9 +19,10 @@ URs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-  data$URps <- rowSums(data[, -c(1:2)])
-    data_URs <- plyr::ddply(data, ~sp_name,
-        summarise, URs = sum(URps))
+   URdata <- data #create subset-able data
+   URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
+    data_URs <- plyr::ddply(URdata, ~sp_name,
+                plyr::summarise, URs = sum(URps))
     
     print("Total number of Use Reports (URs) for each species in the data set")
     print(data_URs)

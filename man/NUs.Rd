@@ -14,7 +14,9 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 This function allows you to calculate the number of uses (NU) per species.
 }
 \examples{
+
 NUs(ethnobotanydata)
+
 }
 \keyword{ethnobotany,}
 \keyword{number}

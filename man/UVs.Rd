@@ -2,7 +2,7 @@
 % Please edit documentation in R/UVs.R
 \name{UVs}
 \alias{UVs}
-\title{Use Value (UV) index}
+\title{Use Value (UV) index per species}
 \source{
 Albuquerque, U. P., R. F. P. Lucena, J. M. Monteiro, A. T. N. Florentino, and C. F. C. B. R. Almeida. 2006. Evaluating Two Quantitative Ethnobotanical Tech- niques. Ethnobotany Research and Applications 4:51–60.
 }
@@ -14,10 +14,12 @@ UVs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-This function allows you to calculate the use value (UV) index per species (see Albuquerque et al. 2006).
+This function allows you to calculate the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
 }
 \examples{
+
 UVs(ethnobotanydata)
+
 }
 \keyword{cultural}
 \keyword{ethnobotany,}
