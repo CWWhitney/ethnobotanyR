@@ -8,16 +8,18 @@
 #' @keywords quantitative ethnobotany, number of uses
 #'
 #' @examples
+#' 
 #' FCs(ethnobotanydata)
+#' 
 #'@export FCs
 FCs <- function(data) {
     if (!requireNamespace("plyr", quietly = TRUE)) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-    data$FCps <- rowSums((data[, -c(1:2)]) >
+  data$FCps <- rowSums((data[, -c(1:2)]) >
         0)
-    data$FCps[data$FCps > 0] <- 1
+  data$FCps[data$FCps > 0] <- 1
     FCs <- plyr::ddply(data, ~sp_name, summarise,
         FCs = sum(FCps))
     print("Frequency of citation (FC) for each species in the data set")
