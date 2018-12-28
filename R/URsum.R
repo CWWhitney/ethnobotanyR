@@ -6,10 +6,13 @@
 #' @keywords ethnobotany, use report, quantitative ethnobotany
 #'
 #' @examples
+#' 
 #' URsum(ethnobotanydata)
+#' 
 #' @export URsum
 URsum <- function(data) {
   URsum <- sum(data[, -c(1:2)])
+  
   print("Sum of all Use Reports (UR) for all species in the data set")
   print(URsum)
 }
