@@ -7,7 +7,9 @@
 #' @keywords quantitative ethnobotany, number of uses
 #'
 #' @examples
+#' 
 #' NUs(ethnobotanydata)
+#' 
 #'@export NUs
 NUs <- function(data) {
     NUdataaggr <- aggregate(data[, -c(1:2)],
