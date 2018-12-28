@@ -7,7 +7,7 @@
 #' @keywords quantitative ethnobotany, cultural importance
 #'
 #' @examples
-#' devtools::use_data(ethnobotanydata)
+#' 
 #' CIs(ethnobotanydata)
 #'
 #'@export CIs
@@ -17,7 +17,7 @@ CIs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-    data$URps <- rowSums(data[, -c(1:2)])
+  data$URps <- rowSums(data[, -c(1:2)])
     data_URs <- plyr::ddply(data, ~sp_name,
         summarise, URs = sum(URps))
     data_Ci <- data_URs
