@@ -8,8 +8,6 @@
 #'
 #' @importFrom stats aggregate
 #' 
-#' @importFrom stats aggregate
-#' 
 #' @examples
 #' 
 #' NUs(ethnobotanydata)
