@@ -14,7 +14,9 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 This function allows you to calculate the use report (UR) per secies, a common metric for ethnobotany studies.
 }
 \examples{
+
 URs(ethnobotanydata)
+
 }
 \keyword{cultural}
 \keyword{ethnobotany,}

@@ -6,8 +6,13 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, relative importance
 #'
+#' @importFrom plyr ddply summarise
+#' @importFrom stats aggregate
+#'
 #' @examples
+#' 
 #' RIs(ethnobotanydata)
+#' 
 #' @export RIs
 RIs <- function(data) {
     if (!requireNamespace("plyr", quietly = TRUE)) {
@@ -20,12 +25,12 @@ RIs <- function(data) {
     RFCstestdata$FCps[RFCstestdata$FCps >
         0] <- 1
     RFCstestdata2 <- plyr::ddply(RFCstestdata,
-        ~sp_name, summarise, FCs = sum(FCps))
+        ~sp_name, plyr::summarise, FCs = sum(FCps))
     RFCstestdata2$RFCs <- RFCstestdata2$FCs/max(RFCstestdata2$FCs)
     RFCs <- RFCstestdata2[, c(1, length(names(RFCstestdata2)))]
 
     RNUstestdata <- data
-    RNUsdataaggr <- aggregate(RNUstestdata[,
+    RNUsdataaggr <- stats::aggregate(RNUstestdata[,
         -c(1:2)], by = list(sp_name = RNUstestdata$sp_name),
         FUN = sum)
     RNUsdataaggr[, -1][RNUsdataaggr[, -1] >

@@ -17,7 +17,9 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 This function allows you to calculate the relative importance index (RI) per species, published by Pardo-de-Santayana (2003).
 }
 \examples{
+
 RIs(ethnobotanydata)
+
 }
 \keyword{ethnobotany,}
 \keyword{importance}

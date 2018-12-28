@@ -6,8 +6,12 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, cultural importance
 #'
+#' @importFrom magrittr %>%
+#' @importFrom plyr ddply 
+#' @importFrom plyr summarise
+#' 
 #' @examples
-#' devtools::use_data(ethnobotanydata)
+#' 
 #' CIs(ethnobotanydata)
 #'
 #'@export CIs
@@ -17,12 +21,13 @@ CIs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-    data$URps <- rowSums(data[, -c(1:2)])
-    data_URs <- plyr::ddply(data, ~sp_name,
-        summarise, URs = sum(URps))
+  URdata<- data #create subset-able data
+  URdata$URps <- select(URdata, -informant, -sp_name) %>% rowSums()
+    data_URs <- plyr::ddply(URdata, ~sp_name,
+                plyr::summarise, URs = sum(URps))
     data_Ci <- data_URs
-    data_Ci$Ci <- data_URs$URs/(length(unique(data$informant)) *
-        ncol(data[, -c(1:2)]))
+    data_Ci$Ci <- data_URs$URs/(length(unique(URdata$informant)) *
+        ncol(URdata[, -c(1:2)]))
     print("Cultural Importance index (CI) for each species in the data set")
     print(data_Ci[c(1, 3)])
 }

@@ -14,7 +14,9 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 This function allows you to calculate the frequency of ciation (FC) per species.
 }
 \examples{
+
 FCs(ethnobotanydata)
+
 }
 \keyword{ethnobotany,}
 \keyword{number}

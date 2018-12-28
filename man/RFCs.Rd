@@ -18,6 +18,7 @@ This function allows you to calculate the relative frequency of citation (RFC) p
 }
 \examples{
 RFCs(ethnobotanydata)
+
 }
 \keyword{ethnobotany,}
 \keyword{number}
