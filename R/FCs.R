@@ -27,6 +27,7 @@ FCs <- function(data) {
   FCdata$FCps[FCdata$FCps > 0] <- 1
     FCs <- plyr::ddply(FCdata, ~sp_name, plyr::summarise,
         FCs = sum(FCps))
+    FCs <- FCs[order(-FCs$FCs),] 
     
     print("Frequency of citation (FC) for each species in the data set")
     print(FCs)
