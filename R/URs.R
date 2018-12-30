@@ -23,7 +23,7 @@ URs <- function(data) {
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     data_URs <- plyr::ddply(URdata, ~sp_name,
                 plyr::summarise, URs = sum(URps))
-    URs <- sort(data_URs, decreasing = TRUE)
+    URs <- data_URs[order(data_URs$URs),] 
     print("Total number of Use Reports (URs) for each species in the data set")
     print(URs)
 }
