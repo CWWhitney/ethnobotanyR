@@ -21,6 +21,11 @@ NUs <- function(data) {
         0] <- 1
     NUdataaggr$NUs <- rowSums(NUdataaggr[,
         -1])
+    
+    #change sort order
+    NUs<-NUdataaggr[, c(1, length(names(NUdataaggr)))]
+    NUs <- NUs[order(-NUs$NUs),] 
+    
     print("Number of Uses (NU) for each species in the data set")
-    print(NUdataaggr[, c(1, length(names(NUdataaggr)))])
+    print(NUs)
 }

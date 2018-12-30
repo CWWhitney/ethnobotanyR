@@ -9,6 +9,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom plyr ddply 
 #' @importFrom plyr summarise
+#' @importFrom dplyr select
 #' 
 #' @examples
 #' 
@@ -22,12 +23,17 @@ CIs <- function(data) {
             call. = FALSE)
     }
   URdata<- data #create subset-able data
-  URdata$URps <- select(URdata, -informant, -sp_name) %>% rowSums()
+  URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     data_URs <- plyr::ddply(URdata, ~sp_name,
                 plyr::summarise, URs = sum(URps))
     data_Ci <- data_URs
     data_Ci$Ci <- data_URs$URs/(length(unique(URdata$informant)) *
         ncol(URdata[, -c(1:2)]))
+    
+    #change sort order
+    CIs<-data_Ci[c(1, 3)]
+    CIs <- CIs[order(-CIs$Ci),] 
+    
     print("Cultural Importance index (CI) for each species in the data set")
-    print(data_Ci[c(1, 3)])
+    print(CIs)
 }

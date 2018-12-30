@@ -23,6 +23,9 @@ RFCs <- function(data) {
     RFCs<-plyr::ddply(data, ~sp_name, plyr::summarise,
         RFCs = sum(FCps/(length(unique(informant)))))
     
+    #change sort order
+    RFCs <- RFCs[order(-RFCs$RFCs),] 
+    
     print("Relative Frequency of Citation (RFC) for each species in the data set")
     print(RFCs)
     }

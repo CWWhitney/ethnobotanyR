@@ -21,8 +21,11 @@ UVs <- function(data) {
     }
     data$UVps <- rowSums((data[, -c(1:2)]) > 
         0)
-    plyr::ddply(data, ~sp_name, plyr::summarise, 
+    UVs <- plyr::ddply(data, ~sp_name, plyr::summarise, 
         UVs = sum(UVps)/(length(unique(informant))))
+    
+    #change sort order
+    UVs <- UVs[order(-UVs$UVs),] 
     
     print("Use Value index (UV) for each species in the data set")
     print(UVs)
