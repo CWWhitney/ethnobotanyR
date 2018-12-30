@@ -43,6 +43,8 @@ RIs <- function(data) {
 
     RIs <- merge(RNUs, RFCs, by = "sp_name")
     RIs$RIs <- (RIs$RNUs + RIs$RFCs)/2
+    #Update sort order
+    RIs <- RIs[order(-RIs$RIs),] 
 
     print("Relative Importance Index (RI) for each species in the data set")
     print(RIs[, c(1, length(names(RIs)))])
