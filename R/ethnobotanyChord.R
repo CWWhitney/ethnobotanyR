@@ -34,5 +34,4 @@ ethnobotanyChord <- function(data) {
   ethnobotanyChord <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) %>% circlize::chordDiagram(transparency = 0.5)
   
     print("Chord diagram for each use related to each species in the data set")
-    print(ethnobotanyChord)
 }
