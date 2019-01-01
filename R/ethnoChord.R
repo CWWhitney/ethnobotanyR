@@ -31,7 +31,27 @@ ethnoChord <- function(data) {
          call. = FALSE)
   }
   #Melt ethnobotany data
-  ethnoChord <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) %>% circlize::chordDiagram(transparency = 0.5)
+  mat <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) 
+  
+  #Create chord plot
+  
+  circlize::chordDiagram(mat, annotationTrack = "grid", 
+                         preAllocateTracks = list(track.height = max(strwidth(unlist(dimnames(mat))))))
+  circlize::circos.track(track.index = 1, panel.fun = function(x, y) {
+    xlim = circlize::get.cell.meta.data("xlim")
+    xplot = circlize::get.cell.meta.data("xplot")
+    ylim = circlize::get.cell.meta.data("ylim")
+    sector.name = circlize::get.cell.meta.data("sector.index")
+    
+    if(abs(xplot[2] - xplot[1]) < 20) {
+      circlize::circos.text(mean(xlim), ylim[1], sector.name, facing = "clockwise",
+                            niceFacing = TRUE, adj = c(0, 0.5), col = "black")
+    } else {
+      circlize::circos.text(mean(xlim), ylim[1], sector.name, facing = "clockwise",
+                            niceFacing = TRUE, adj = c(0, 0.5), col = "black")
+    }
+  }, bg.border = NA)
+  
   
     print("Chord diagram for each use related to each species in the data set")
 }
