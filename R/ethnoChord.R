@@ -14,10 +14,10 @@
 #'
 #' @examples
 #' 
-#' ethnobotanyChord(ethnobotanydata)
+#' ethnoChord(ethnobotanydata)
 #' 
-#' @export ethnobotanyChord
-ethnobotanyChord <- function(data) {
+#' @export ethnoChord
+ethnoChord <- function(data) {
     if (!requireNamespace("reshape", quietly = TRUE)) {
         stop("Package \"reshape\" needed for this function to work. Please install it.",
             call. = FALSE)
@@ -31,7 +31,7 @@ ethnobotanyChord <- function(data) {
          call. = FALSE)
   }
   #Melt ethnobotany data
-  ethnobotanyChord <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) %>% circlize::chordDiagram(transparency = 0.5)
+  ethnoChord <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) %>% circlize::chordDiagram(transparency = 0.5)
   
     print("Chord diagram for each use related to each species in the data set")
 }
