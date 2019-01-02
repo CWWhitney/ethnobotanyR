@@ -1,0 +1,29 @@
+#' Prices of 50,000 round cut diamonds.
+#'
+#' An ethnobotany dataset from 20 informants, four species and 10 uses
+#' column 1 'informant' lists the names or id's of  knowledge holders
+#' column 2 'sp_name' lists the names or id's of species
+#' The other 10 columns are the identified ethnobotany use categories.
+#' The data is populated with counts of uses per person (0 and 1 values).
+#'
+#' @keywords ethnobotany datasets
+#' 
+#' @docType data
+#'
+#' @format A data frame with 80 rows and 12 variables:
+#' \describe{
+#'   \item{informant}{anonymized id's of 20 knowledge holders}
+#'   \item{sp_name}{id's of four species}
+#'   \item{Use_1}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_2}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_3}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_4}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_5}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_6}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_7}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_8}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_9}{one of the categorized uses of species, 0 and 1 values}
+#'   \item{Use_10}{one of the categorized uses of species, 0 and 1 values}
+#'   ...
+#' }
+"ethnobotanydata"
