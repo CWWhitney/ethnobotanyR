@@ -17,6 +17,10 @@ RFCs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  
+  informant <- FCps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
+  
   data$FCps <- rowSums((data[, -c(1:2)]) >
         0)
     data$FCps[data$FCps > 0] <- 1

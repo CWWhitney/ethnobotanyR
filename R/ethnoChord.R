@@ -9,6 +9,9 @@
 #' @importFrom dplyr filter 
 #' @importFrom dplyr select 
 #' @importFrom circlize chordDiagram
+#' @importFrom circlize circos.text 
+#' @importFrom circlize get.cell.meta.data
+#' @importFrom graphics strwidth
 #' 
 #' @keywords ethnobotany, cultural value, use report
 #'
@@ -30,13 +33,16 @@ ethnoChord <- function(data) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
+  
+  value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
   #Melt ethnobotany data
   mat <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) 
   
   #Create chord plot
   
   circlize::chordDiagram(mat, annotationTrack = "grid", 
-                         preAllocateTracks = list(track.height = max(strwidth(unlist(dimnames(mat))))))
+                         preAllocateTracks = list(track.height = max(graphics::strwidth(unlist(dimnames(mat))))))
   circlize::circos.track(track.index = 1, panel.fun = function(x, y) {
     xlim = circlize::get.cell.meta.data("xlim")
     xplot = circlize::get.cell.meta.data("xplot")

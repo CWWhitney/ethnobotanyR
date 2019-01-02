@@ -19,6 +19,9 @@ UVs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.", 
             call. = FALSE)
     }
+  
+  sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
     data$UVps <- rowSums((data[, -c(1:2)]) > 
         0)
     UVs <- plyr::ddply(data, ~sp_name, plyr::summarise, 

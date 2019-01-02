@@ -22,6 +22,9 @@ FCs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  
+  sp_name <- informant <- FCps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
   FCdata <- data #create subset-able data
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
   FCdata$FCps[FCdata$FCps > 0] <- 1

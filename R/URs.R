@@ -19,6 +19,9 @@ URs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  
+  sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
    URdata <- data #create subset-able data
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     data_URs <- plyr::ddply(URdata, ~sp_name,

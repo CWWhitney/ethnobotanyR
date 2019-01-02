@@ -19,6 +19,10 @@ RIs <- function(data) {
         stop("Package \"plyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  
+  FCps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
+
     RFCstestdata <- data
     RFCstestdata$FCps <- rowSums((RFCstestdata[,
         -c(1:2)]) > 0)
