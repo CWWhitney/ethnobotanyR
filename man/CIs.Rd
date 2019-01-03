@@ -4,7 +4,7 @@
 \alias{CIs}
 \title{Cultural Importance index (CI)}
 \source{
-Tardío, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39.
+Tardío, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <DOI:10.1007/s12231-007-9004-5>
 }
 \usage{
 CIs(data)
@@ -22,6 +22,6 @@ CIs(ethnobotanydata)
 
 }
 \keyword{cultural}
-\keyword{ethnobotany,}
+\keyword{ethnobotany}
 \keyword{importance}
 \keyword{quantitative}

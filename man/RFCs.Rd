@@ -4,7 +4,7 @@
 \alias{RFCs}
 \title{Relative Frequency of Citation (RFC)}
 \source{
-Pardo-de-Santayana, M. 2003. Las plantas en la cultura tradicional de la antigua Merindad de Campoo. Ph.D. dissertation, Departamento de Biología, Facul- tad de Ciencias, Universidad Autónoma de Madrid, Spain.
+Tardío, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <DOI:10.1007/s12231-007-9004-5>
 }
 \usage{
 RFCs(data)
