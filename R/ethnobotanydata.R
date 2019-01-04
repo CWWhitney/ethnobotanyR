@@ -1,4 +1,4 @@
-#' Prices of 50,000 round cut diamonds.
+#' Ethnobotany data set.
 #'
 #' An ethnobotany dataset from 20 informants, four species and 10 uses
 #' column 1 'informant' lists the names or id's of  knowledge holders
