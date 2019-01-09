@@ -11,7 +11,7 @@ FCs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-This function allows you to calculate the frequency of ciation (FC) per species.
+This function allows you to calculate the frequency of citation (FC) per species.
 }
 \examples{
 
