@@ -1,0 +1,66 @@
+---
+title: "Quantitative ethnobotany analysis"
+author: "Cory Whitney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quantitative ethnobotany analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+An exemplary data set is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. Start by loading the `ethnobotanydata.rda`' file using `load("ethnobotanydata.rda")`. This is an ethnobotany data set with a column of knowledge holder identifiers `informant` and one of species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+load("ethnobotanydata.rda")
+```
+
+The use report `URs()` function calculates the use report (UR) for each species in the data set. 
+```{r}
+ethnobotanyR::URs(ethnobotanydata)
+```
+The `URum` function calculates the sum of all ethnobotany use reports (UR) for each species in the data set.
+```{r}
+ethnobotanyR::URsum(ethnobotanydata)
+```
+The `CIs` function calculates the Cultural Importance Index (CI) for each species in the data set.
+```{r}
+ethnobotanyR::CIs(ethnobotanydata)
+```
+The frequency of citation `FCs` function calculates the frequency of citation (FC) for each species in the data set.
+```{r}
+ethnobotanyR::FCs(ethnobotanydata)
+```
+The number of Uses `NUs` function calculates the number of uses (NU) for each species in the data set.
+```{r}
+ethnobotanyR::NUs(ethnobotanydata)
+```
+
+Relative Frequency of Citation `RFCs` function calculates the relative frequency of citation (RFC) for each species in the data set.
+```{r}
+ethnobotanyR::RFCs(ethnobotanydata)
+```
+The 'Relative Importance Index' function calculates the relative importance index (RI) for each species in the data set.
+```{r}
+ethnobotanyR::RIs(ethnobotanydata)
+```
+The Use Value (UV) index per species function `UVS` calculates the use value (UV) index for each species in the data set.
+```{r}
+ethnobotanyR::UVs(ethnobotanydata)
+```
+The `ethnoChord` function creates a chord diagram of ethnobotany uses and species.
+```{r, fig.width=7, fig.height=7}
+ethnobotanyR::ethnoChord(ethnobotanydata)
+```
+The `ethnoChordUser` function creates a chord diagram of informants and species uses for ethnobotany studies.
+```{r, fig.width=7, fig.height=7}
+ethnobotanyR::ethnoChordUser(ethnobotanydata)
+```
+
