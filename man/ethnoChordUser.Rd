@@ -2,7 +2,7 @@
 % Please edit documentation in R/ethnoChordUser.R
 \name{ethnoChordUser}
 \alias{ethnoChordUser}
-\title{Create a chord diagram of ethnobotany uses and species}
+\title{Create a chord diagram of informants and species uses}
 \source{
 Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <DOI:10.14237/ebl.9.2.2018.503.>
 }
