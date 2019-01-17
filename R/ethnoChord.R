@@ -37,6 +37,11 @@ ethnoChord <- function(data) {
   
   value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
+  #add error stops with validate_that
+  assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")
+  assertthat::validate_that("sp_name" %in% colnames(data), msg = "A column called \"sp_name\" is missing from your data.")
+  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "Not all uses have values.")
+  
   #Melt ethnobotany data
   mat <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) 
   

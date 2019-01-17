@@ -11,6 +11,14 @@
 #' 
 #' @export URsum
 URsum <- function(data) {
+  
+  URsum <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
+  #add error stops with validate_that
+  assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")
+  assertthat::validate_that("sp_name" %in% colnames(data), msg = "A column called \"sp_name\" is missing from your data.")
+  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "Not all uses have values.")
+  
   URsum <- sum(data[, -c(1:2)])
   
   print("Sum of all Use Reports (UR) for all species in the data set")

@@ -20,9 +20,14 @@ RIs <- function(data) {
             call. = FALSE)
     }
   
-  FCps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  RFCstestdata <- RFCstestdata2 <- RNUs <- RNUsdataaggr <- RNUstestdata <- RFCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
-
+  #add error stops with validate_that
+  assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")
+  assertthat::validate_that("sp_name" %in% colnames(data), msg = "A column called \"sp_name\" is missing from your data.")
+  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "Not all uses have values.")
+  
+    #calculate RFCs
     RFCstestdata <- data
     RFCstestdata$FCps <- rowSums((RFCstestdata[,
         -c(1:2)]) > 0)
@@ -32,7 +37,8 @@ RIs <- function(data) {
         ~sp_name, plyr::summarise, FCs = sum(FCps))
     RFCstestdata2$RFCs <- RFCstestdata2$FCs/max(RFCstestdata2$FCs)
     RFCs <- RFCstestdata2[, c(1, length(names(RFCstestdata2)))]
-
+    
+    #calculate RNUs
     RNUstestdata <- data
     RNUsdataaggr <- stats::aggregate(RNUstestdata[,
         -c(1:2)], by = list(sp_name = RNUstestdata$sp_name),
@@ -45,6 +51,7 @@ RIs <- function(data) {
     RNUsdataaggr$RNUs <- RNUsdataaggr$NUs/max(RNUsdataaggr$NUs)
     RNUs <- RNUsdataaggr[, c(1, length(names(RNUsdataaggr)))]
 
+    #merge RNUs and RFCs    
     RIs <- merge(RNUs, RFCs, by = "sp_name")
     RIs$RIs <- (RIs$RNUs + RIs$RFCs)/2
     

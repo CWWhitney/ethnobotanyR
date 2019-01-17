@@ -14,6 +14,18 @@
 #' 
 #'@export NUs
 NUs <- function(data) {
+  if (!requireNamespace("stats", quietly = TRUE)) {
+    stop("Package \"stats\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  
+  NUdataaggr <- NUs <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  
+  #add error stops with validate_that
+  assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")
+  assertthat::validate_that("sp_name" %in% colnames(data), msg = "A column called \"sp_name\" is missing from your data.")
+  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "Not all uses have values.")
+  
     NUdataaggr <- stats::aggregate(data[, -c(1:2)],
         by = list(sp_name = data$sp_name),
         FUN = sum)

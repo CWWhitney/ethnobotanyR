@@ -1,3 +1,3 @@
 # ethnobotanyR
 R package for calculating quantitative ethnobotany indices
-devtools::install_github(“CWWhitney/ethnobotanyR”)
+The latest version is on GitHub devtools::install_github(“CWWhitney/ethnobotanyR”)

@@ -4,6 +4,7 @@ Title: Calculate Quantitative Ethnobotany Indices
 Version: 0.1.1
 Author: Cory Whitney
 Maintainer: Cory Whitney <whitney.cory@gmail.com>
+YEAR: 2019
 Description: Calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows the paper by Tardio and Pardo-de-Santayana (2008). Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <DOI:10.1007/s12231-007-9004-5>.
 Depends: R (>= 2.10)
 Imports:
