@@ -9,9 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The `ethnobotanyR` can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows the paper by Tardio and Pardo-de-Santayana (2008). 
-
-Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <DOI:10.1007/s12231-007-9004-5>.
+The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one by Tardio and Pardo-de-Santayana (2008) and another by Whitney et al. (2018). 
 
 An example data set is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. Start by loading the `ethnobotanydata.rda`' file using `load("ethnobotanydata.rda")`. This is an ethnobotany data set with a column of knowledge holder identifiers `informant` and one of species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values). The file is included with this package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.
 
@@ -25,22 +23,27 @@ knitr::opts_chunk$set(
 ```{r}
 load("ethnobotanydata.rda")
 ```
+
 The use report `URs()` function calculates the use report (UR) for each species in the data set. 
 ```{r}
 ethnobotanyR::URs(ethnobotanydata)
 ```
+
 The `URum` function calculates the sum of all ethnobotany use reports (UR) for each species in the data set.
 ```{r}
 ethnobotanyR::URsum(ethnobotanydata)
 ```
+
 The `CIs` function calculates the Cultural Importance Index (CI) for each species in the data set.
 ```{r}
 ethnobotanyR::CIs(ethnobotanydata)
 ```
+
 The `FCs` function calculates the frequency of citation (FC) for each species in the data set.
 ```{r}
 ethnobotanyR::FCs(ethnobotanydata)
 ```
+
 The `NUs()` function calculates the number of uses (NU) for each species in the data set.
 ```{r}
 ethnobotanyR::NUs(ethnobotanydata)
@@ -50,24 +53,30 @@ The `RFCs()` function calculates the relative frequency of citation (RFC) for ea
 ```{r}
 ethnobotanyR::RFCs(ethnobotanydata)
 ```
+
 The `RIs()` function calculates the relative importance index (RI) for each species in the data set.
 ```{r}
 ethnobotanyR::RIs(ethnobotanydata)
 ```
+
 The `UVS()` function calculates the use value (UV) index for each species in the data set.
 ```{r}
 ethnobotanyR::UVs(ethnobotanydata)
 ```
 The following chord plots are made using functions from the `circlize` package. An example of the application of chord plots in ethnobotany is described by Whitney et al. (2018). 
 
-Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <DOI:10.14237/ebl.9.2.2018.503.>
-
 The `ethnoChord()` function creates a chord diagram of ethnobotany uses and species.
 ```{r, fig.width=7, fig.height=7}
 ethnobotanyR::ethnoChord(ethnobotanydata)
 ```
-The `ethnoChordUser()` function creates a chord diagram of informants and species uses for ethnobotany studies.
+
+The `ethnoChordUser()` function creates a chord diagram of informants and species uses for ethnobotany studies. 
 ```{r, fig.width=7, fig.height=7}
 ethnobotanyR::ethnoChordUser(ethnobotanydata)
 ```
 
+#References
+
+Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <DOI:10.1007/s12231-007-9004-5>.
+
+Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
