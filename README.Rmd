@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 # ethnobotanyR
 
-The goal of ethnobotanyR is to ...
+The goal of ethnobotanyR is to make it easier for ethnobotanists to calculate quantitative ethnobotany indices.
 
 ## Installation
 
@@ -24,26 +24,7 @@ You can install the released version of ethnobotanyR from [CRAN](https://CRAN.R-
 install.packages("ethnobotanyR")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-## basic example code
+You can install the released version of ethnobotanyR from [GitHub](https://github.com) with:
+``` r
+devtools::install_github(“CWWhitney/ethnobotanyR”)
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!

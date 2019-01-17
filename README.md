@@ -14,7 +14,7 @@ You can install the released version of ethnobotanyR from [CRAN](https://CRAN.R-
 install.packages("ethnobotanyR")
 ```
 
-You can install the released version of ethnobotanyR from [GitHub](https://github.com) with:
+You can install the working version of ethnobotanyR from [GitHub](https://github.com) with:
 
 ``` r
 devtools::install_github(“CWWhitney/ethnobotanyR”)

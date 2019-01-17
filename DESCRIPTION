@@ -1,7 +1,7 @@
 Package: ethnobotanyR
 Type: Package
 Title: Calculate Quantitative Ethnobotany Indices
-Version: 0.1.1
+Version: 0.1.2
 Author: Cory Whitney
 Maintainer: Cory Whitney <whitney.cory@gmail.com>
 YEAR: 2019
