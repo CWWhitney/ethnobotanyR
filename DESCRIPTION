@@ -12,7 +12,8 @@ Imports:
     dplyr,
     reshape,
     circlize,
-    magrittr
+    magrittr,
+    assertthat
 License: GPL
 Encoding: UTF-8
 LazyData: true

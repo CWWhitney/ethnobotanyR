@@ -13,6 +13,8 @@
 #' @importFrom circlize circos.text 
 #' @importFrom circlize get.cell.meta.data
 #' @importFrom graphics strwidth
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
 #' 
 #' @keywords ethnobotany, cultural value, use report
 #'
@@ -35,7 +37,7 @@ ethnoChord <- function(data) {
          call. = FALSE)
   }
   
-  value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  sp_name <- informant <- value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")

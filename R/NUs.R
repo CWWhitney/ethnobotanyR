@@ -7,6 +7,8 @@
 #' @keywords quantitative ethnobotany, number of uses
 #'
 #' @importFrom stats aggregate
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
 #' 
 #' @examples
 #' 
@@ -19,7 +21,7 @@ NUs <- function(data) {
          call. = FALSE)
   }
   
-  NUdataaggr <- NUs <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  NUdataaggr <- NUs <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")

@@ -10,6 +10,8 @@
 #' @importFrom plyr ddply 
 #' @importFrom plyr summarise
 #' @importFrom dplyr select
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
 #' 
 #' @examples
 #' 

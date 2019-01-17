@@ -10,6 +10,8 @@
 #' @importFrom magrittr %>%
 #' @importFrom plyr ddply 
 #' @importFrom plyr summarise 
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
 #' 
 #' @examples
 #' 
@@ -22,7 +24,7 @@ FCs <- function(data) {
             call. = FALSE)
     }
   
-  sp_name <- informant <- FCps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  FCps <- sp_name <- informant <- FCdata <- FCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")

@@ -5,21 +5,29 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords ethnobotany, use report, quantitative ethnobotany
 #'
+#' @importFrom dplyr select
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
+#'
 #' @examples
 #' 
 #' URsum(ethnobotanydata)
 #' 
 #' @export URsum
 URsum <- function(data) {
+  if (!requireNamespace("dplyr", quietly = TRUE)) {
+    stop("Package \"dplyr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
-  URsum <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  URsum <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")
   assertthat::validate_that("sp_name" %in% colnames(data), msg = "A column called \"sp_name\" is missing from your data.")
   assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "Not all uses have values.")
   
-  URsum <- sum(data[, -c(1:2)])
+  URsum <- sum(dplyr::select(data, -informant, -sp_name))
   
   print("Sum of all Use Reports (UR) for all species in the data set")
   print(URsum)

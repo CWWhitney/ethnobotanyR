@@ -8,6 +8,8 @@
 #' @importFrom magrittr %>%
 #' @importFrom plyr ddply 
 #' @importFrom plyr summarise 
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
 #' 
 #' @examples
 #' 

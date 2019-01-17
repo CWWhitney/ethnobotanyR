@@ -8,6 +8,8 @@
 #'
 #' @importFrom plyr ddply summarise
 #' @importFrom stats aggregate
+#' @importFrom assertthat validate_that
+#' @importFrom assertthat see_if
 #'
 #' @examples
 #' 
@@ -20,7 +22,7 @@ RIs <- function(data) {
             call. = FALSE)
     }
   
-  RFCstestdata <- RFCstestdata2 <- RNUs <- RNUsdataaggr <- RNUstestdata <- RFCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  FCps <- RFCstestdata <- informant <- sp_name <- RFCstestdata2 <- RNUs <- RNUsdataaggr <- RNUstestdata <- RFCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "A column called \"informant\" is missing from your data.")
