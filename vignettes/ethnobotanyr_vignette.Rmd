@@ -11,55 +11,81 @@ vignette: >
 
 The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one by Tardio and Pardo-de-Santayana (2008) and another by Whitney et al. (2018). 
 
-An example data set is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. Start by loading the `ethnobotanydata.rda`' file using `load("ethnobotanydata.rda")`. This is an ethnobotany data set with a column of knowledge holder identifiers `informant` and one of species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values). The file is included with this package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.
+An example data set called `ethnobotanydata` is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. This is an ethnobotany data set with a column of knowledge holder identifiers `informant` and one of species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values). The file is included with this package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r}
 load("ethnobotanydata.rda")
 ```
 
 The use report `URs()` function calculates the use report (UR) for each species in the data set. 
+\begin{equation}
+UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}.
+\end{equation}
+`URs()` calculates the total uses for the species by all informants (from $i_1$ to $^iN$) within each use-category for that species $(s)$; i.e., the number of informants who mention each use-category for the species and sums all uses of each use-category (from $u_1$ to $^uNC$).
 ```{r}
 ethnobotanyR::URs(ethnobotanydata)
 ```
 
-The `URum` function calculates the sum of all ethnobotany use reports (UR) for each species in the data set.
+The `URsum()` function calculates the sum of all ethnobotany use reports (UR) for each species in the data set.
 ```{r}
 ethnobotanyR::URsum(ethnobotanydata)
 ```
 
-The `CIs` function calculates the Cultural Importance Index (CI) for each species in the data set.
+The `CIs()` function calculates the Cultural Importance Index (CI) for each species in the data set.
+\begin{equation}
+CI_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui/N}.
+\end{equation}
+`CIs()` is essentially `URs()` divided by the number of informants to account for the diversty of uses for the species.
 ```{r}
 ethnobotanyR::CIs(ethnobotanydata)
 ```
 
-The `FCs` function calculates the frequency of citation (FC) for each species in the data set.
+The `FCs()` function calculates the frequency of citation (FC) for each species in the data set. 
+\begin{equation}
+FC_s = \sum_{i=i_1}^{^iN} UR_i
+\end{equation}
+`FCs()` is the sum of informants that cite a use for the species.
 ```{r}
 ethnobotanyR::FCs(ethnobotanydata)
 ```
 
 The `NUs()` function calculates the number of uses (NU) for each species in the data set.
+\begin{equation}
+NU_s = \sum_{u=u_1}^{^uNC}
+\end{equation}
+$NC$ are the number of use categories. `NUs()` is the sum of all categories for which a species is considered useful.
 ```{r}
 ethnobotanyR::NUs(ethnobotanydata)
 ```
 
 The `RFCs()` function calculates the relative frequency of citation (RFC) for each species in the data set.
+\begin{equation}
+RFC_s = \frac{FC_s}{N} = \frac{\sum_{i=i_1}^{^iN} UR_i}{N}
+\end{equation}
+$FC_s$ is the frequency of citation for each species $s$, $UR_i$ are the use reports for all informants $i$ and $N$ is the total number of informants interviewed in the survey.
 ```{r}
 ethnobotanyR::RFCs(ethnobotanydata)
 ```
 
 The `RIs()` function calculates the relative importance index (RI) for each species in the data set.
+\begin{equation}
+RI_s = \frac{RFC_{s(max)} + RNU_{s(max)}}{2} 
+\end{equation}
+$RFC_{s(max)$ is the relative frequency of citation for the species $s$ over the maximum, $RNU_{s(max)$ is the relative number of uses for $s$ and $N$ over the maximum.
 ```{r}
 ethnobotanyR::RIs(ethnobotanydata)
 ```
 
 The `UVS()` function calculates the use value (UV) index for each species in the data set.
+\begin{equation}
+UV_{s} = \sum U_i/N
+\end{equation}
+$U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey.
 ```{r}
 ethnobotanyR::UVs(ethnobotanydata)
 ```
