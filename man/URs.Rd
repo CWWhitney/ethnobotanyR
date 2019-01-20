@@ -2,7 +2,7 @@
 % Please edit documentation in R/URs.R
 \name{URs}
 \alias{URs}
-\title{Calculate the use report (UR) per secies}
+\title{Calculate the use report (UR) per species}
 \usage{
 URs(data)
 }

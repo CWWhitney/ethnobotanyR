@@ -21,7 +21,7 @@ load("ethnobotanydata.rda")
 
 The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one by Tardio and Pardo-de-Santayana (2008) and another by Whitney et al. (2018). 
 
-An example data set called `ethnobotanydata` is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. This is an ethnobotany data set with a column of 20 knowledge holder identifiers `informant` and one of four species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
+An example data set called `ethnobotanydata` is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of 20 knowledge holder identifiers `informant` and one of four species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
 
 ```{r, echo= FALSE}
 knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
@@ -47,7 +47,7 @@ The `CIs()` function calculates the Cultural Importance Index (CI) for each spec
 \begin{equation}
 CI_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui/N}.
 \end{equation}
-`CIs()` is essentially `URs()` divided by the number of informants to account for the diversty of uses for the species.
+`CIs()` is essentially `URs()` divided by the number of informants to account for the diversity of uses for the species.
 ```{r}
 ethnobotanyR::CIs(ethnobotanydata)
 ```
