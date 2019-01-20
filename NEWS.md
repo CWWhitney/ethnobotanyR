@@ -1,2 +1,4 @@
 # ethnobotanyR News
-Now with a few modifications to functions, including defensive code with Hadley's assertthat() package and a vignette walk-through on how to run the functions. 
+ethnobotanyR 0.1.2 is a patch:
+There are modifications to functions in case users ethnobotany data does not start with 'informant' and 'species'. 
+The vignette now includes formulas and more description of the quantitative ethnobotany calculations. 
