@@ -42,12 +42,13 @@ CIs <- function(data) {
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
   URdata<- data #create subset-able data
+  
   URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     data_URs <- plyr::ddply(URdata, ~sp_name,
                 plyr::summarise, URs = sum(URps))
     data_Ci <- data_URs
     data_Ci$Ci <- data_URs$URs/(length(unique(URdata$informant)) *
-        ncol(URdata[, -c(1:2)]))
+        ncol(dplyr::select(URdata, -informant, -sp_name)))
     
     #change sort order
     CIs<-data_Ci[c(1, 3)]

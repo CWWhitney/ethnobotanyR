@@ -9,6 +9,8 @@
 #' @importFrom stats aggregate
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
+#' @importFrom dplyr select
+#' 
 #' 
 #' @examples
 #' 
@@ -37,13 +39,13 @@ NUs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-    NUdataaggr <- stats::aggregate(data[, -c(1:2)],
-        by = list(sp_name = data$sp_name),
-        FUN = sum)
-    NUdataaggr[, -1][NUdataaggr[, -1] >
-        0] <- 1
-    NUdataaggr$NUs <- rowSums(NUdataaggr[,
-        -1])
+  #Calculate NUs
+    NUdataaggr <- stats::aggregate(dplyr::select(data, -informant, -sp_name),
+        by = list(sp_name = data$sp_name),FUN = sum)
+    
+    NUdataaggr[, -1][NUdataaggr[, -1] > 0] <- 1
+    
+    NUdataaggr$NUs <- rowSums(NUdataaggr[, -1])
     
     #change sort order
     NUs<-NUdataaggr[, c(1, length(names(NUdataaggr)))]

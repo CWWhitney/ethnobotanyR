@@ -22,7 +22,7 @@ UVs <- function(data) {
             call. = FALSE)
     }
   
-  sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  UVpsdata <- sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -38,9 +38,11 @@ UVs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-    data$UVps <- rowSums((data[, -c(1:2)]) > 
-        0)
-    UVs <- plyr::ddply(data, ~sp_name, plyr::summarise, 
+  #create subsettable data
+  UVpsdata <- data
+  
+  UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
+    UVs <- plyr::ddply(UVpsdata, ~sp_name, plyr::summarise, 
         UVs = sum(UVps)/(length(unique(informant))))
     
     #change sort order
