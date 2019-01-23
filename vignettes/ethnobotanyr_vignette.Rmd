@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 load("ethnobotanydata.rda")
 ```
 
+# ethnobotanyR
 
 The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one by Tardio and Pardo-de-Santayana (2008) and another by Whitney et al. (2018). 
 
