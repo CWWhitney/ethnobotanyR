@@ -97,7 +97,7 @@ $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is
 ethnobotanyR::UVs(ethnobotanydata)
 ```
 
-##`ethnobotanyR` chord diagrams ith `circlize`
+##`ethnobotanyR` chord diagrams with `circlize`
 
 The following chord plots are made using functions from the `circlize` package. An example of the application of chord plots in ethnobotany is described by Whitney et al. (2018). 
 
