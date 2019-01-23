@@ -33,7 +33,7 @@ The use report `URs()` function calculates the use report (UR) for each species 
 \begin{equation}
 UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
 \end{equation}
-`URs()` calculates the total uses for the species by all informants (from $i_1$ to $^iN$) within each use-category for that species $(s)$. It is a count of the number of informants who mention each use-category $NC$ for the species and sums all those uses in each use-category (from $u_1$ to $^uNC$).
+`URs()` calculates the total uses for the species by all informants (from $i_1$ to $^iN$) within each use-category for that species $(s)$. It is a count of the number of informants who mention each use-category $NC$ for the species and the sum of all uses in each use-category (from $u_1$ to $^uNC$).
 ```{r}
 ethnobotanyR::URs(ethnobotanydata)
 ```
