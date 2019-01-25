@@ -81,5 +81,5 @@ RIs <- function(data) {
     RIs <- RIs[order(-RIs$RIs),] 
 
     print("Relative Importance Index (RI) for each species in the data set")
-    print(RIs[, c(1, length(names(RIs)))], digits=3)
+    print(RIs[, c(1, length(names(RIs)))], digits=4)
 }

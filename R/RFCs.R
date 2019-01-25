@@ -57,6 +57,6 @@ RFCs <- function(data) {
     RFCs <- RFCs[order(-RFCs$RFCs),] 
     
     print("Relative Frequency of Citation (RFC) for each species in the data set")
-    print(RFCs[, c(1, length(names(RFCs)))], digits=3)
+    print(RFCs[, c(1, length(names(RFCs)))], digits=4)
     }
 
