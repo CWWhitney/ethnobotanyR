@@ -1,5 +1,5 @@
 ---
-title: "Quantitative ethnobotany analysis"
+title: "Quantitative ethnobotany analysis with ethnobotanyR"
 author: "Cory Whitney"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -15,11 +15,18 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(ggplot2)
+library(tidyverse)
+
 load("ethnobotanydata.rda")
+
+
 ```
 
-# ethnobotanyR
 
+
+# ethnobotanyR 
+<img src="ethnobotanyR.png" style="background:none; border:none; box-shadow:none;height="20%"; width="20%";">
 The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one by Tardio and Pardo-de-Santayana (2008) and another by Whitney et al. (2018). 
 
 An example data set called `ethnobotanydata` is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of 20 knowledge holder identifiers `informant` and one of four species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
