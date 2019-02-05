@@ -13,7 +13,8 @@ Imports:
     reshape,
     circlize,
     magrittr,
-    assertthat
+    assertthat,
+    ggplot2
 License: GPL
 Encoding: UTF-8
 LazyData: true

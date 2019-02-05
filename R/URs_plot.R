@@ -6,11 +6,12 @@
 #' @keywords ethnobotany, cultural value, use report
 #'
 #' @importFrom magrittr %>%
-#' @importFrom plyr ddply 
-#' @importFrom plyr summarise 
+#' @importFrom plyr ddply  
+#' @importFrom plyr summarize 
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
-#' 
+#' @importFrom ggplot2 ggplot aes geom_bar coord_polar theme_minimal geom_bar scale_y_continuous
+#'  
 #' @examples
 #' 
 #' #Use built-in ethnobotany data example
@@ -30,7 +31,7 @@ URs_plot <- function(data) {
          call. = FALSE)
   }
   
-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+ value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")

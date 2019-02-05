@@ -3,7 +3,7 @@
 ethnobotanyR
 ============
 
-The goal of ethnobotanyR is to make it easier for ethnobotanists to calculate quantitative ethnobotany indices.
+The goal of ethnobotanyR is to make it easier for ethnobotanists to calculate quantitative ethnobotany indices.<img src="vignettes/ethnobotanyR.png" style="background:none; border:none; box-shadow:none;height="20%"; width="20%";">
 
 Installation
 ------------
