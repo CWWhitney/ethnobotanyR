@@ -6,10 +6,8 @@
 #' @keywords ethnobotany, cultural value, use report
 #'
 #' @importFrom magrittr %>%
-#' @importFrom plyr ddply  
-#' @importFrom plyr summarize 
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @importFrom plyr ddply summarize 
+#' @importFrom assertthat validate_that see_if
 #' @importFrom ggplot2 ggplot aes geom_bar coord_polar theme_minimal geom_bar scale_y_continuous
 #'  
 #' @examples
@@ -53,7 +51,7 @@ URs_plot <- function(data) {
   
   URs_plot <- ggplot(meltURdata, aes(x = sp_name, y = value, fill = sp_name)) +
     geom_bar(width = 1, stat = "identity", color = "white") +
-    scale_y_continuous(breaks = 0:nlevels(DF$variable)) +
+    scale_y_continuous(breaks = 0:nlevels(meltURdata$variable)) +
     coord_polar() + 
     theme_minimal() 
   
