@@ -1,6 +1,6 @@
 #' Use Value (UV) index per species
 #'
-#' This function allows you to calculate the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
+#' Allows users to calculate the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
 #' @source Albuquerque, U. P., R. F. P. Lucena, J. M. Monteiro, A. T. N. Florentino, and C. F. C. B. R. Almeida. 2006. Evaluating Two Quantitative Ethnobotanical Techniques. Ethnobotany Research and Applications 4:51–60. <http://hdl.handle.net/10125/237>
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
@@ -55,11 +55,9 @@ UVs <- function(data) {
   
   UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
     UVs <- UVpsdata %>% dplyr::group_by(sp_name) %>% 
-      dplyr::summarize (UVs = sum(UVps)/(length(unique(informant))))
-    
-    #change sort order and make pretty tibble
-    UVs <- as.data.frame(UVs[order(-UVs$UVs),])
+      dplyr::summarize (UVs = sum(UVps)/(length(unique(informant)))) %>%
+      dplyr::arrange(-UVs)
     
     print("Use Value index (UV) for each species in the data set")
-    print(UVs)
+    print(as.data.frame(UVs))
 }
