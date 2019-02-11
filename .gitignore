@@ -2,7 +2,8 @@ inst/doc
 # History files
 .Rhistory
 .Rapp.history
-
+# Markdown Readme file
+README.Rmd
 # Session Data files
 .RData
 # Example code in package build process
@@ -27,3 +28,5 @@ vignettes/*.pdf
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
 .Rproj.user
+ethnobotanyR.Rproj
+CRAN-RELEASE

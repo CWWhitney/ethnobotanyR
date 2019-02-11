@@ -14,7 +14,7 @@ UVs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-This function allows you to calculate the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
+Allows users to calculate the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
 }
 \examples{
 

@@ -11,7 +11,7 @@ URs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-This function allows you to calculate the use reports (UR) per secies, a common metric for ethnobotany studies.
+Allows users to calculate the use reports (UR) per secies, a common metric for ethnobotany studies.
 }
 \examples{
 
