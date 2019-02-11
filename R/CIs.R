@@ -7,11 +7,8 @@
 #' @keywords quantitative ethnobotany cultural importance
 #'
 #' @importFrom magrittr %>%
-#' @importFrom plyr ddply 
-#' @importFrom plyr summarise
-#' @importFrom dplyr select
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @importFrom dplyr ddply summarize select
+#' @importFrom assertthat validate_that see_if
 #' 
 #' @examples
 #' 
@@ -28,8 +25,8 @@
 #'@export CIs
 #'
 CIs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.",
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
   
@@ -52,8 +49,8 @@ CIs <- function(data) {
   URdata<- data #create subset-able data
   
   URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
-    data_URs <- plyr::ddply(URdata, ~sp_name,
-                plyr::summarise, URs = sum(URps))
+    data_URs <- dplyr::group_by(sp_name) %>%
+      dplyr::summarize (URs = sum(URps))
     data_Ci <- data_URs
     data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant)) *
         ncol(dplyr::select(URdata, -informant, -sp_name)))

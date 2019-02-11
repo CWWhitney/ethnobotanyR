@@ -7,11 +7,8 @@
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
-#' @importFrom dplyr filter 
-#' @importFrom dplyr select 
-#' @importFrom graphics strwidth
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @importFrom dplyr filter summarize select left_join group_by
+#' @importFrom assertthat validate_that see_if
 #' 
 #' @keywords ethnobotany, cultural value, use report, fidelity
 #'
@@ -58,22 +55,30 @@ FLs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  URdata <- data #create subset-able data
+  FLsdata <- data #create subset-able data
   
-  #calculate sum of UR
-  UR_sum <- sum(dplyr::select(data, -informant, -sp_name))
+  #Melt ethnobotany data
+  mat<- reshape::melt(FLsdata, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(-informant) 
   
-  #calculate FLs
-  URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
-  data_FLsT <- plyr::ddply(URdata, ~sp_name,
-              plyr::summarise,  FLs1 = sum(URps),
-                                FLs2 = FLs1/UR_sum,
-                                FLs = FLs2*100 ) 
+ #Calculate uses per category
+ URcatdata <- mat %>% dplyr::group_by(sp_name, variable) %>%
+   dplyr::summarize(URcategory = sum(value, na.rm = TRUE)) 
+      
+ #Calculate uses per species        
+ URspdata <- mat %>%
+   dplyr::group_by(sp_name) %>%
+   dplyr::summarize(URspecies = sum(value, na.rm = TRUE))
+ 
+ #Bind data
+ FLspdata <- dplyr::left_join(URspdata, URcatdata, by = "sp_name", na.rm = TRUE)
+ 
+ #Calcualte FLs
+ FLspdata$FLs <- FLspdata$URcategory / FLspdata$URspecies * 100
   
-  data_FLs <- dplyr::select(data_FLsT, -FLs1, -FLs2)
+ FLspdata <- dplyr::select(FLspdata, -URcategory, -URspecies)
   
   #change sort order
-  FLs <- data_FLs[order(-data_FLs$FLs),] 
+  FLs <- FLspdata[order(-FLspdata$FLs),] 
   
   print("Fidelity level (FL) for each species in the data set")
   print(FLs)

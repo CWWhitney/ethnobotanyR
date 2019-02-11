@@ -99,16 +99,16 @@ $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is
 ethnobotanyR::UVs(ethnobotanydata)
 ```
 
-The `FLs()` function calsulates the fidelity level (FL) per species in teh study. It is a way of calculting the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
+The `FLs()` function calsulates the fidelity level (FL) per species in the study. It is a way of calculting the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
 
 \begin{equation}
-FLs = \frac {Np}{Nc} × 100 
+FL_{s} = \frac {N_{s}}{UR_{s}}
 \end{equation}
 
-where $Np$ is the number of informants that use a particular plant for a specific purpose, and $Nc$ is the total number of citations, a.k.a. the sum of all Use Reports, which can be calculated with `URsum()`.
+where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $UR_s$ is the total number of use reports for the species (multiply FLs by 100 to get the percent FL, as it is reported in some studies).
 
 ```{r}
-#ethnobotanyR::FLs(ethnobotanydata)
+ethnobotanyR::FLs(ethnobotanydata)
 ```
 
 ##`ethnobotanyR` chord diagrams with `circlize`
