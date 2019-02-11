@@ -33,7 +33,11 @@ NUs <- function(data) {
 if (!requireNamespace("dplyr", quietly = TRUE)) {
   stop("Package \"dplyr\" needed for this function to work. Please install it.",
        call. = FALSE)
-}
+  }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+    }
 
   NUdata <- NUdataaggr <- NUs <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -58,7 +62,7 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
     NUdataaggr <- stats::aggregate(dplyr::select(NUdata, -informant, -sp_name),
         by = list(sp_name = data$sp_name),FUN = sum)
     
-    NUdataaggr %>% mutate_each(funs(replace(., . > 0, 1)), -sp_name)
+    NUdataaggr %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
     
     NUdataaggr$NUs <- NUdataaggr %>% dplyr::select(-sp_name) %>% rowSums()
     

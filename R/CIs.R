@@ -29,6 +29,10 @@ CIs <- function(data) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+    }
   
   CI <- CIs <- URdata  <- data_Ci <- data_URs <- URps <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
   

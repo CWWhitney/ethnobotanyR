@@ -1,6 +1,6 @@
 #' Relative Frequency of Citation (RFC)
 #'
-#' This function allows you to calculate the relative frequency of citation (RFC) per species published by Pardo-de-Santayana (2003).
+#' Allows users to calculate the relative frequency of citation (RFC) per species published by Pardo-de-Santayana (2003).
 #' @source Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <https://doi.org/10.1007/s12231-007-9004-5>
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
@@ -27,6 +27,10 @@ RFCs <- function(data) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+    }
   
   RFCdata <- informant <- sp_name <- FCps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -47,19 +51,19 @@ RFCs <- function(data) {
   #Create subsettable data
   RFCdata <- data
   
-  RFCdata$FCps <- rowSums(dplyr::select(RFCdata, -informant, -sp_name) >
-        0)
-  RFCdata$FCps[RFCdata$FCps > 0] <- 1
-    RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize(RFCs = sum(FCps/(length(unique(informant)))))
+  #calculate FC per species (FCps)
+  RFCdata$FCps <- rowSums(dplyr::select(RFCdata, -informant, -sp_name) > 0)
+  
+  #all UR greater than zero to count of '1' FC per species 
+  RFCdata <- RFCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
     
-    #change sort order
-    RFCs <- RFCs[order(-RFCs$RFCs),] 
-    
-    #make a pretty tibble
-    RFCs <- as.data.frame(RFCs[, c(1, length(names(RFCs)))], digits=4)
+  #calculate and creat data set of RFCs
+  RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(RFCs = sum(FCps/(length(unique(informant))))) %>%
+      dplyr::arrange(-RFCs) %>%
+      dplyr::mutate(RFCs = round(RFCs, 3))
     
     print("Relative Frequency of Citation (RFC) for each species in the data set")
-    print(RFCs)
+    print(as.data.frame(RFCs))
     }
 

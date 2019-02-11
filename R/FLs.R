@@ -30,10 +30,6 @@ FLs <- function(data) {
     stop("Package \"reshape\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
-  if (!requireNamespace("circlize", quietly = TRUE)) {
-    stop("Package \"circlize\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)

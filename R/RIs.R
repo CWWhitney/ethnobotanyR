@@ -29,7 +29,11 @@ RIs <- function(data) {
     if (!requireNamespace("dplyr", quietly = TRUE)) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
-    }
+  }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
   FCps <- RFCstestdata <- informant <- sp_name <- RFCstestdata2 <- RNUs <- RNUsdataaggr <- RNUstestdata <- RFCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -48,38 +52,46 @@ RIs <- function(data) {
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
  
-    #create subsettable data for RFCs
-    RFCstestdata <- data
-    
-    #calculate RFCs
-    RFCstestdata$FCps <- rowSums(dplyr::select(RFCstestdata, -informant, -sp_name) > 0)
-    RFCstestdata$FCps[RFCstestdata$FCps >0] <- 1
-    RFCstestdata2 <- RFCstestdata %>% dplyr::group_by(sp_name) %>%
-        dplyr::summarize (FCs = sum(FCps)) 
-    RFCstestdata2$RFCs <- RFCstestdata2$FCs/max(RFCstestdata2$FCs)
-    RFCs <- RFCstestdata2[, c(1, length(names(RFCstestdata2)))]
-    
-   
-    #create subsettable data for RFCs
+  #create subsettable data for RFCs
+  RFCdata <- data
+  
+  RFCdata$FCps <- rowSums(dplyr::select(RFCdata, -informant, -sp_name) > 0)
+  #all UR greater than zero to count of '1' FC
+  RFCdata <- RFCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
+  
+  #calculate and creat data set of RFCs
+  RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>%
+    dplyr::summarize(RFCs = sum(FCps/(length(unique(informant))))) %>%
+    dplyr::arrange(-RFCs) 
+  
+    #create subsettable data for RNUs
     RNUstestdata <- data
     
     #calculate RNUs
     RNUsdataaggr <- stats::aggregate(dplyr::select(RNUstestdata, -informant, -sp_name), 
                                      by = list(sp_name = RNUstestdata$sp_name),
                                      FUN = sum)
-    RNUsdataaggr[, -1][RNUsdataaggr[, -1] > 0] <- 1
-    RNUsdataaggr$NUs <- rowSums(RNUsdataaggr[,-1])
-    RNUsdataaggr[, c(1, length(names(RNUsdataaggr)))]
+    
+    #all UR greater than zero to count of '1' FC
+    RNUsdataaggr <- RNUsdataaggr %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
+    
+    #counts of all use per specise (NUs)
+    RNUsdataaggr$NUs <- RNUsdataaggr %>% dplyr::select(-sp_name) %>% rowSums() 
+    
+    #divide uses per species by max uses
     RNUsdataaggr$RNUs <- RNUsdataaggr$NUs/max(RNUsdataaggr$NUs)
-    RNUs <- RNUsdataaggr[, c(1, length(names(RNUsdataaggr)))]
+    
+    RNUs <- dplyr::select(RNUsdataaggr, sp_name, RNUs)
 
     #merge RNUs and RFCs    
     RIs <- merge(RNUs, RFCs, by = "sp_name")
     RIs$RIs <- (RIs$RNUs + RIs$RFCs)/2
     
     #change sort order
-    RIs <- RIs[order(-RIs$RIs),] 
-
+    RIs <- dplyr::arrange(RIs, -RIs) %>% 
+      dplyr::select(sp_name, RIs) %>%
+      dplyr::mutate(RIs = round(RIs, 3))
+    
     print("Relative Importance Index (RI) for each species in the data set")
-    print(RIs[, c(1, length(names(RIs)))], digits=4)
+    print(as.data.frame(RIs))
 }

@@ -1,7 +1,7 @@
 
 #' Frequency of citation (FC)
 #'
-#' This function allows you to calculate the frequency of citation (FC) per species.
+#' Allows users to calculate the frequency of citation (FC) per species.
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
@@ -26,8 +26,8 @@
 #'
 #'@export FCs
 FCs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.",
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
   if (!requireNamespace("magrittr", quietly = TRUE)) {
