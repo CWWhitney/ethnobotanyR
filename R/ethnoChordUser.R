@@ -7,14 +7,10 @@
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
-#' @importFrom dplyr filter 
-#' @importFrom dplyr select 
-#' @importFrom circlize chordDiagram
-#' @importFrom circlize circos.text 
-#' @importFrom circlize get.cell.meta.data
+#' @importFrom dplyr filter select 
+#' @importFrom circlize chordDiagram  circos.text  get.cell.meta.data
 #' @importFrom graphics strwidth
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @importFrom assertthat validate_that see_if
 #' 
 #' @keywords ethnobotany, cultural value, use report
 #'
