@@ -38,8 +38,12 @@ FLs <- function(data) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
-  data_FLsT <- data_FLs <- FLs <- URdata <- UR_sum <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  URspecies <- URcategory <- variable <-  value <- URspdata <- mat <- FLs <- URdata <- UR_sum <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -77,8 +81,8 @@ FLs <- function(data) {
   
  FLspdata <- dplyr::select(FLspdata, -URcategory, -URspecies)
   
-  #change sort order
-  FLs <- FLspdata[order(-FLspdata$FLs),] 
+  #change sort order and make pretty tibble
+  FLs <- as.data.frame(FLspdata[order(-FLspdata$FLs),] )
   
   print("Fidelity level (FL) for each species in the data set")
   print(FLs)

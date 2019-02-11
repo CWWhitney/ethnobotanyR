@@ -6,8 +6,7 @@
 #' @keywords ethnobotany, cultural value, use report
 #'
 #' @importFrom magrittr %>%
-#' @importFrom plyr ddply 
-#' @importFrom plyr summarise 
+#' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
 #' 
@@ -25,10 +24,14 @@
 #' 
 #' @export URs
 URs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.",
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
   URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -48,11 +51,11 @@ URs <- function(data) {
   
    URdata <- data #create subset-able data
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
-    data_URs <- plyr::ddply(URdata, ~sp_name,
-                plyr::summarise, URs = sum(URps))
+    data_URs <- URdata %>% dplyr::group_by(sp_name) %>%
+                dplyr::summarize (URs = sum(URps))
     
-    #change sort order
-    URs <- data_URs[order(-data_URs$URs),] 
+    #change sort order and make a pretty tibble
+    URs <- as.data.frame(data_URs[order(-data_URs$URs),])
     
     print("Total number of Use Reports (URs) for each species in the data set")
     print(URs)

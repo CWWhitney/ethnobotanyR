@@ -6,11 +6,11 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, relative importance
 #'
-#' @importFrom plyr ddply summarise
+#' @importFrom magrittr %>%
 #' @importFrom stats aggregate
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
-#' @importFrom dplyr select
+#' @importFrom dplyr filter summarize select left_join group_by
 #' 
 #' @examples
 #' 
@@ -26,8 +26,8 @@
 #' 
 #' @export RIs
 RIs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.",
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
   
@@ -54,8 +54,8 @@ RIs <- function(data) {
     #calculate RFCs
     RFCstestdata$FCps <- rowSums(dplyr::select(RFCstestdata, -informant, -sp_name) > 0)
     RFCstestdata$FCps[RFCstestdata$FCps >0] <- 1
-    RFCstestdata2 <- plyr::ddply(RFCstestdata,
-        ~sp_name, plyr::summarise, FCs = sum(FCps))
+    RFCstestdata2 <- RFCstestdata %>% dplyr::group_by(sp_name) %>%
+        dplyr::summarize (FCs = sum(FCps)) 
     RFCstestdata2$RFCs <- RFCstestdata2$FCs/max(RFCstestdata2$FCs)
     RFCs <- RFCstestdata2[, c(1, length(names(RFCstestdata2)))]
     

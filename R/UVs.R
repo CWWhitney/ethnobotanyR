@@ -6,8 +6,8 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, cultural importance
 #'
-#' @importFrom plyr ddply
-#' @importFrom plyr summarise
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
 #'
@@ -25,10 +25,14 @@
 #' 
 #'@export UVs
 UVs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.", 
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.", 
             call. = FALSE)
     }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
   UVpsdata <- sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -50,11 +54,11 @@ UVs <- function(data) {
   UVpsdata <- data
   
   UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
-    UVs <- plyr::ddply(UVpsdata, ~sp_name, plyr::summarise, 
-        UVs = sum(UVps)/(length(unique(informant))))
+    UVs <- UVpsdata %>% dplyr::group_by(sp_name) %>% 
+      dplyr::summarize (UVs = sum(UVps)/(length(unique(informant))))
     
-    #change sort order
-    UVs <- UVs[order(-UVs$UVs),] 
+    #change sort order and make pretty tibble
+    UVs <- as.data.frame(UVs[order(-UVs$UVs),])
     
     print("Use Value index (UV) for each species in the data set")
     print(UVs)

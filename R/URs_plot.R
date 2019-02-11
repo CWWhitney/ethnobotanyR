@@ -6,7 +6,7 @@
 #' @keywords ethnobotany, cultural value, use report
 #'
 #' @importFrom magrittr %>%
-#' @importFrom plyr ddply summarize 
+#' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom assertthat validate_that see_if
 #' @importFrom ggplot2 ggplot aes geom_bar coord_polar theme_minimal geom_bar scale_y_continuous
 #'  
@@ -28,6 +28,10 @@ URs_plot <- function(data) {
     stop("Package \"plyr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
  value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -47,13 +51,16 @@ URs_plot <- function(data) {
   
   URdata <- data #create subset-able data
   
-  meltURdata <- dplyr::select(URdata, -informant) %>% reshape::melt() %>% plyr::ddply(~ sp_name, summarize, value = sum(value))
+  meltURdata <- dplyr::select(URdata, -informant) %>% 
+    reshape::melt(id.vars="sp_name") %>% 
+    dplyr::group_by(sp_name) %>% 
+    dplyr::summarize(value = sum(value))
   
-  URs_plot <- ggplot(meltURdata, aes(x = sp_name, y = value, fill = sp_name)) +
-    geom_bar(width = 1, stat = "identity", color = "white") +
-    scale_y_continuous(breaks = 0:nlevels(meltURdata$variable)) +
-    coord_polar() + 
-    theme_minimal() 
+  URs_plot <- ggplot2::ggplot(meltURdata, ggplot2::aes(x = sp_name, y = value, fill = sp_name)) +
+    ggplot2::geom_bar(width = 1, stat = "identity", color = "white") +
+    ggplot2::scale_y_continuous(breaks = 0:nlevels(meltURdata$sp_name)) +
+    ggplot2::coord_polar() + 
+    ggplot2::theme_minimal() 
   
   print("Radial plot of Use Reports (URs) for each species in the data set")
   print(URs_plot)

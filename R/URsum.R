@@ -27,7 +27,7 @@ URsum <- function(data) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
-  
+
   # Setting 'universal' variables to NULL, appeasing R CMD check
   URsum <- informant <- sp_name <- NULL 
   
@@ -45,7 +45,7 @@ URsum <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  URsum <- sum(dplyr::select(data, -informant, -sp_name))
+  URsum <-  sum(dplyr::select(data, -informant, -sp_name))
   
   print("Sum of all Use Reports (UR) for all species in the data set")
   print(URsum)

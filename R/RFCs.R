@@ -6,8 +6,8 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, number of uses
 #'
-#' @importFrom plyr ddply
-#' @importFrom dplyr select
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter summarize select left_join group_by
 #' 
 #' @examples
 #' 
@@ -23,8 +23,8 @@
 #' 
 #' @export RFCs
 RFCs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.",
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
   
@@ -50,13 +50,16 @@ RFCs <- function(data) {
   RFCdata$FCps <- rowSums(dplyr::select(RFCdata, -informant, -sp_name) >
         0)
   RFCdata$FCps[RFCdata$FCps > 0] <- 1
-    RFCs<-plyr::ddply(RFCdata, ~sp_name, plyr::summarise,
-        RFCs = sum(FCps/(length(unique(informant)))))
+    RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(RFCs = sum(FCps/(length(unique(informant)))))
     
     #change sort order
     RFCs <- RFCs[order(-RFCs$RFCs),] 
     
+    #make a pretty tibble
+    RFCs <- as.data.frame(RFCs[, c(1, length(names(RFCs)))], digits=4)
+    
     print("Relative Frequency of Citation (RFC) for each species in the data set")
-    print(RFCs[, c(1, length(names(RFCs)))], digits=4)
+    print(RFCs)
     }
 
