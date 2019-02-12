@@ -56,11 +56,18 @@ URs_plot <- function(data) {
     dplyr::group_by(sp_name) %>% 
     dplyr::summarize(value = sum(value))
   
-  URs_plot <- ggplot2::ggplot(meltURdata, ggplot2::aes(x = sp_name, y = value, fill = sp_name)) +
+  URs_plot <- 
+    ggplot2::ggplot(meltURdata, ggplot2::aes(x = sp_name, y = value, fill = sp_name)) +
     ggplot2::geom_bar(width = 1, stat = "identity", color = "white") +
-    ggplot2::scale_y_continuous(breaks = 0:nlevels(meltURdata$sp_name)) +
+    ggplot2::scale_y_continuous(breaks = 0:nlevels(meltURdata$sp_name), position = "right") +
     ggplot2::coord_polar() + 
-    ggplot2::theme_minimal() 
+    ggplot2::theme_minimal() +
+    ggplot2::theme(axis.title.x=ggplot2::element_blank())+
+    ggplot2::theme(axis.title.y=ggplot2::element_blank(),
+                   axis.text.y=ggplot2::element_blank(),
+                   axis.ticks.y=ggplot2::element_blank())+
+    ggplot2::geom_text(ggplot2::aes(label=value), position=ggplot2::position_dodge(width=0.9), vjust=-0.25)+
+    ggplot2::theme(legend.position = "none") 
   
   print("Radial plot of Use Reports (URs) for each species in the data set")
   print(URs_plot)

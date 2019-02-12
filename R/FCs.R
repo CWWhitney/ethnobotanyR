@@ -56,10 +56,8 @@ FCs <- function(data) {
   FCdata$FCps[FCdata$FCps > 0] <- 1
     FCs <- FCdata %>% 
       dplyr::group_by(sp_name) %>% 
-      dplyr::summarize(FCs = sum(FCps))
-    
-    #change sort order and make pretty tibble
-    FCs <- as.data.frame(FCs[order(-FCs$FCs),] )
+      dplyr::summarize(FCs = sum(FCps))%>%
+      dplyr::arrange(-FCs) 
     
     print("Frequency of citation (FC) for each species in the data set")
     print(FCs)

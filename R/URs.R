@@ -50,12 +50,11 @@ URs <- function(data) {
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
    URdata <- data #create subset-able data
+   
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     data_URs <- URdata %>% dplyr::group_by(sp_name) %>%
-                dplyr::summarize (URs = sum(URps))
-    
-    #change sort order and make a pretty tibble
-    URs <- as.data.frame(data_URs[order(-data_URs$URs),])
+                dplyr::summarize (URs = sum(URps))%>%
+      dplyr::arrange(-URs) 
     
     print("Total number of Use Reports (URs) for each species in the data set")
     print(URs)
