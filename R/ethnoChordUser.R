@@ -7,14 +7,10 @@
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
-#' @importFrom dplyr filter 
-#' @importFrom dplyr select 
-#' @importFrom circlize chordDiagram
-#' @importFrom circlize circos.text 
-#' @importFrom circlize get.cell.meta.data
+#' @importFrom dplyr filter select 
+#' @importFrom circlize chordDiagram  circos.text  get.cell.meta.data
 #' @importFrom graphics strwidth
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @importFrom assertthat validate_that see_if
 #' 
 #' @keywords ethnobotany, cultural value, use report
 #'
@@ -44,8 +40,12 @@ ethnoChordUser <- function(data) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
-  sp_name <- informant <- value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  mat <- sp_name <- informant <- value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")

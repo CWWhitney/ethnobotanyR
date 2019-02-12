@@ -7,8 +7,7 @@
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
-#' @importFrom dplyr filter 
-#' @importFrom dplyr select 
+#' @importFrom dplyr filter select 
 #' @importFrom circlize chordDiagram
 #' @importFrom circlize circos.text 
 #' @importFrom circlize get.cell.meta.data
@@ -42,6 +41,10 @@ ethnoChord <- function(data) {
    }
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   

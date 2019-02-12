@@ -30,8 +30,16 @@ NUs <- function(data) {
     stop("Package \"stats\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
-  
-  NUdataaggr <- NUs <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check
+if (!requireNamespace("dplyr", quietly = TRUE)) {
+  stop("Package \"dplyr\" needed for this function to work. Please install it.",
+       call. = FALSE)
+  }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+    }
+
+  NUdata <- NUdataaggr <- NUs <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -47,18 +55,21 @@ NUs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
+  #create subsettable data
+  NUdata <- data
+  
   #Calculate NUs
-    NUdataaggr <- stats::aggregate(dplyr::select(data, -informant, -sp_name),
+    NUdataaggr <- stats::aggregate(dplyr::select(NUdata, -informant, -sp_name),
         by = list(sp_name = data$sp_name),FUN = sum)
     
-    NUdataaggr[, -1][NUdataaggr[, -1] > 0] <- 1
+    NUdataaggr %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
     
-    NUdataaggr$NUs <- rowSums(NUdataaggr[, -1])
+    NUdataaggr$NUs <- NUdataaggr %>% dplyr::select(-sp_name) %>% rowSums()
     
     #change sort order
-    NUs<-NUdataaggr[, c(1, length(names(NUdataaggr)))]
-    NUs <- NUs[order(-NUs$NUs),] 
+    NUs <- dplyr::select(NUdataaggr, sp_name, NUs) %>%
+      dplyr::arrange(-NUs) 
     
     print("Number of Uses (NU) for each species in the data set")
-    print(NUs)
+    print(as.data.frame(NUs))
 }

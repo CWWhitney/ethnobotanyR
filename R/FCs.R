@@ -1,15 +1,14 @@
 
 #' Frequency of citation (FC)
 #'
-#' This function allows you to calculate the frequency of citation (FC) per species.
+#' Allows users to calculate the frequency of citation (FC) per species.
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, number of uses
 #' 
 #' @importFrom magrittr %>%
-#' @importFrom plyr ddply 
-#' @importFrom plyr summarise 
+#' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
 #' 
@@ -27,10 +26,14 @@
 #'
 #'@export FCs
 FCs <- function(data) {
-    if (!requireNamespace("plyr", quietly = TRUE)) {
-        stop("Package \"plyr\" needed for this function to work. Please install it.",
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
+  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    stop("Package \"magrittr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   
   FCps <- sp_name <- informant <- FCdata <- FCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
@@ -51,11 +54,12 @@ FCs <- function(data) {
   FCdata <- data #create subset-able data
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
   FCdata$FCps[FCdata$FCps > 0] <- 1
-    FCs <- plyr::ddply(FCdata, ~sp_name, plyr::summarise,
-        FCs = sum(FCps))
+    FCs <- FCdata %>% 
+      dplyr::group_by(sp_name) %>% 
+      dplyr::summarize(FCs = sum(FCps))
     
-    #change sort order
-    FCs <- FCs[order(-FCs$FCs),] 
+    #change sort order and make pretty tibble
+    FCs <- as.data.frame(FCs[order(-FCs$FCs),] )
     
     print("Frequency of citation (FC) for each species in the data set")
     print(FCs)

@@ -90,13 +90,25 @@ $RFC_{s(max)}$ is the relative frequency of citation for the species $s$ over th
 ethnobotanyR::RIs(ethnobotanydata)
 ```
 
-The `UVS()` function calculates the use value (UV) index for each species in the data set.
+The `UVs()` function calculates the use value (UV) index for each species in the data set.
 \begin{equation}
 UV_{s} = \sum U_i/N
 \end{equation}
 $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey.
 ```{r}
 ethnobotanyR::UVs(ethnobotanydata)
+```
+
+The `FLs()` function calsulates the fidelity level (FL) per species in the study. It is a way of calculting the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
+
+\begin{equation}
+FL_{s} = \frac {N_{s}}{UR_{s}}
+\end{equation}
+
+where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $UR_s$ is the total number of use reports for the species (multiply FLs by 100 to get the percent FL, as it is reported in some studies).
+
+```{r}
+ethnobotanyR::FLs(ethnobotanydata)
 ```
 
 ##`ethnobotanyR` chord diagrams with `circlize`

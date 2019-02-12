@@ -11,7 +11,7 @@ URs_plot(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-This function creates a radial bar plot of use reports (UR) per secies based on the `UR function`.
+Creates a radial bar plot of use reports (UR) per secies based on the `UR function`.
 }
 \examples{
 
