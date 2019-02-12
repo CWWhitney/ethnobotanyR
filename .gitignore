@@ -29,3 +29,7 @@ vignettes/*.pdf
 rsconnect/
 .Rproj.user
 ethnobotanyR.Rproj
+<<<<<<< HEAD
+=======
+CRAN-RELEASE
+>>>>>>> 45b982b96542fce91e1e4a08dc1973e6ae0ca3dc
