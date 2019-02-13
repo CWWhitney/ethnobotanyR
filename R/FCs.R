@@ -52,16 +52,14 @@ FCs <- function(data) {
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
   FCdata <- data #create subset-able data
+  
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
-  FCdata$FCps[FCdata$FCps > 0] <- 1
+  FCdata <- FCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
     FCs <- FCdata %>% 
       dplyr::group_by(sp_name) %>% 
-      dplyr::summarize(FCs = sum(FCps))
+      dplyr::summarize(FCs = sum(FCps))%>%
+      dplyr::arrange(-FCs) 
     
-    #change sort order and make pretty tibble
-    FCs <- as.data.frame(FCs[order(-FCs$FCs),] )
-    
-    print("Frequency of citation (FC) for each species in the data set")
-    print(FCs)
+    print(as.data.frame(FCs))
 }
 

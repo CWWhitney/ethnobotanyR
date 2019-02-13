@@ -62,7 +62,7 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
     NUdataaggr <- stats::aggregate(dplyr::select(NUdata, -informant, -sp_name),
         by = list(sp_name = data$sp_name),FUN = sum)
     
-    NUdataaggr %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
+    NUdataaggr <- NUdataaggr %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
     
     NUdataaggr$NUs <- NUdataaggr %>% dplyr::select(-sp_name) %>% rowSums()
     
@@ -70,6 +70,5 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
     NUs <- dplyr::select(NUdataaggr, sp_name, NUs) %>%
       dplyr::arrange(-NUs) 
     
-    print("Number of Uses (NU) for each species in the data set")
     print(as.data.frame(NUs))
 }
