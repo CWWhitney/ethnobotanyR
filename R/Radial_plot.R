@@ -3,6 +3,7 @@
 #' Creates a radial bar plot of use reports (UR) per secies based on the `UR function`.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
+#' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR.
 #' @keywords ethnobotany, cultural value, use report
 #'
 #' @importFrom magrittr %>%
@@ -12,18 +13,18 @@
 #'  
 #' @examples
 #' 
-#' #Use built-in ethnobotany data example
-#' URs_plot(ethnobotanydata)
+#' #Use built-in ethnobotany data example and Frequency of Citation function FCs()
+#' Radial_plot(data = ethnobotanydata, analysis = FCs)
 #' 
 #' #Generate random dataset of three informants uses for four species
 #' eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 #' names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
 #' eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 #' eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
-#' URs_plot(eb_data)
+#' Radial_plot(data = eb_data, analysis = FCs)
 #' 
-#' @export URs_plot
-URs_plot <- function(data) {
+#' @export Radial_plot
+Radial_plot <- function(data = ethnobotanydata, analysis) {
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)
@@ -33,7 +34,7 @@ URs_plot <- function(data) {
          call. = FALSE)
   }
   
- value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -48,18 +49,15 @@ URs_plot <- function(data) {
   data_complete<-data[stats::complete.cases(data), ]
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
+ 
+  Radial_plot_data <- analysis(data) #create subset-able data
   
-  URdata <- data #create subset-able data
+  names(Radial_plot_data)[length(names(Radial_plot_data))]<-"value" 
   
-  meltURdata <- dplyr::select(URdata, -informant) %>% 
-    reshape::melt(id.vars="sp_name") %>% 
-    dplyr::group_by(sp_name) %>% 
-    dplyr::summarize(value = sum(value))
-  
-  URs_plot <- 
-    ggplot2::ggplot(meltURdata, ggplot2::aes(x = sp_name, y = value, fill = sp_name)) +
+  Radial_plot <- 
+    ggplot2::ggplot(Radial_plot_data, ggplot2::aes(x = sp_name, y = value, fill = sp_name)) +
     ggplot2::geom_bar(width = 1, stat = "identity", color = "white") +
-    ggplot2::scale_y_continuous(breaks = 0:nlevels(meltURdata$sp_name), position = "right") +
+    ggplot2::scale_y_continuous(breaks = 0:nlevels(Radial_plot_data$sp_name), position = "right") +
     ggplot2::coord_polar() + 
     ggplot2::theme_minimal() +
     ggplot2::theme(axis.title.x=ggplot2::element_blank())+
@@ -69,6 +67,5 @@ URs_plot <- function(data) {
     ggplot2::geom_text(ggplot2::aes(label=value), position=ggplot2::position_dodge(width=0.9), vjust=-0.25)+
     ggplot2::theme(legend.position = "none") 
   
-  print("Radial plot of Use Reports (URs) for each species in the data set")
-  print(URs_plot)
+  print(Radial_plot)
 }

@@ -52,10 +52,9 @@ URs <- function(data) {
    URdata <- data #create subset-able data
    
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
-    data_URs <- URdata %>% dplyr::group_by(sp_name) %>%
+    URs <- URdata %>% dplyr::group_by(sp_name) %>%
                 dplyr::summarize (URs = sum(URps))%>%
       dplyr::arrange(-URs) 
     
-    print("Total number of Use Reports (URs) for each species in the data set")
-    print(URs)
+    print(as.data.frame(URs))
 }
