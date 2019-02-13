@@ -65,7 +65,8 @@ ethnoChord <- function(data) {
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
   #Melt ethnobotany data
-  mat <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(2:3) 
+  mat <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1)%>%
+   dplyr::arrange(dplyr::desc(informant)) %>%  dplyr::arrange(dplyr::desc(sp_name)) %>% dplyr::select(2:3)
   
   #Create chord plot
   
