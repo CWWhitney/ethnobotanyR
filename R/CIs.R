@@ -69,6 +69,5 @@ CIs <- function(data) {
       dplyr::arrange(-CI) %>%
       dplyr::mutate(CI = round(CI, 4))
     
-    print("Cultural Importance index (CI) for each species in the data set")
     print(as.data.frame(CIs))
 }

@@ -58,6 +58,5 @@ UVs <- function(data) {
       dplyr::summarize (UVs = sum(UVps)/(length(unique(informant)))) %>%
       dplyr::arrange(-UVs)
     
-    print("Use Value index (UV) for each species in the data set")
     print(as.data.frame(UVs))
 }

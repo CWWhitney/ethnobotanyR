@@ -91,7 +91,6 @@ RIs <- function(data) {
     RIs <- dplyr::arrange(RIs, -RIs) %>% 
       dplyr::select(sp_name, RIs) %>%
       dplyr::mutate(RIs = round(RIs, 3))
-    
-    print("Relative Importance Index (RI) for each species in the data set")
+
     print(as.data.frame(RIs))
 }

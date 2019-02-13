@@ -63,7 +63,6 @@ RFCs <- function(data) {
       dplyr::arrange(-RFCs) %>%
       dplyr::mutate(RFCs = round(RFCs, 3))
     
-    print("Relative Frequency of Citation (RFC) for each species in the data set")
     print(as.data.frame(RFCs))
     }
 

@@ -78,6 +78,5 @@ FLs <- function(data) {
  FLs <- dplyr::select(FLspdata, -URcategory, -URspecies) %>%
    dplyr::arrange(-FLs)
   
-  print("Fidelity level (FL) for each species in the data set")
   print(as.data.frame(FLs))
 }

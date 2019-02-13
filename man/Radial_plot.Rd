@@ -10,7 +10,7 @@ Radial_plot(data = ethnobotanydata, analysis)
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 
-\item{analysis}{is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR.}
+\item{analysis}{is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.}
 }
 \description{
 Creates a radial bar plot of use reports (UR) per secies based on the `UR function`.
@@ -18,7 +18,7 @@ Creates a radial bar plot of use reports (UR) per secies based on the `UR functi
 \examples{
 
 #Use built-in ethnobotany data example and Frequency of Citation function FCs()
-Radial_plot(data = ethnobotanydata, analysis = FCs)
+Radial_plot(data, analysis = ethnobotanyR::FCs)
 
 #Generate random dataset of three informants uses for four species
 eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))

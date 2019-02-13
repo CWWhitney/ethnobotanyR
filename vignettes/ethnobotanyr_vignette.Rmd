@@ -41,10 +41,10 @@ UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
 ethnobotanyR::URs(ethnobotanydata)
 ```
 
-`URs_plot()` shows these results in a radial plot using the `ggplot2` library. 
+`Radial_plot()` shows these results together with a radial plot for quick assessment of the result using the `ggplot2` library.
 
-```{r}
-ethnobotanyR::URs_plot(ethnobotanydata)
+```{r, output_format = 'style="border:none"'}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
 ```
 
 The `URsum()` function calculates the sum of all ethnobotany use reports (UR) for all species in the data set.
@@ -53,13 +53,14 @@ The `URsum()` function calculates the sum of all ethnobotany use reports (UR) fo
 ethnobotanyR::URsum(ethnobotanydata)
 ```
 
-The `CIs()` function calculates the Cultural Importance Index (CI) for each species in the data set.
+The `CIs()` function is run with calculates the Cultural Importance Index (CI) for each species in the data set.
 \begin{equation}
 CI_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui/N}.
 \end{equation}
 `CIs()` is essentially `URs()` divided by the number of informants to account for the diversity of uses for the species.
+
 ```{r}
-ethnobotanyR::CIs(ethnobotanydata)
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::CIs)
 ```
 
 The `FCs()` function calculates the frequency of citation (FC) for each species in the data set. 
@@ -68,7 +69,7 @@ FC_s = \sum_{i=i_1}^{^iN} UR_i
 \end{equation}
 `FCs()` is the sum of informants that cite a use for the species.
 ```{r}
-ethnobotanyR::FCs(ethnobotanydata)
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::FCs)
 ```
 
 The `NUs()` function calculates the number of uses (NU) for each species in the data set.
@@ -77,7 +78,7 @@ NU_s = \sum_{u=u_1}^{^uNC}
 \end{equation}
 $NC$ are the number of use categories. `NUs()` is the sum of all categories for which a species is considered useful.
 ```{r}
-ethnobotanyR::NUs(ethnobotanydata)
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::NUs)
 ```
 
 The `RFCs()` function calculates the relative frequency of citation (RFC) for each species in the data set.
@@ -86,7 +87,7 @@ RFC_s = \frac{FC_s}{N} = \frac{\sum_{i=i_1}^{^iN} UR_i}{N}
 \end{equation}
 $FC_s$ is the frequency of citation for each species $s$, $UR_i$ are the use reports for all informants $i$ and $N$ is the total number of informants interviewed in the survey.
 ```{r}
-ethnobotanyR::RFCs(ethnobotanydata)
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RFCs)
 ```
 
 The `RIs()` function calculates the relative importance index (RI) for each species in the data set.
@@ -95,7 +96,7 @@ RI_s = \frac{RFC_{s(max)} + RNU_{s(max)}}{2}
 \end{equation}
 $RFC_{s(max)}$ is the relative frequency of citation for the species $s$ over the maximum, $RNU_{s(max)}$ is the relative number of uses for $s$ over the maximum.
 ```{r}
-ethnobotanyR::RIs(ethnobotanydata)
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RIs)
 ```
 
 The `UVs()` function calculates the use value (UV) index for each species in the data set.
@@ -104,7 +105,7 @@ UV_{s} = \sum U_i/N
 \end{equation}
 $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey.
 ```{r}
-ethnobotanyR::UVs(ethnobotanydata)
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::UVs)
 ```
 
 The `FLs()` function calsulates the fidelity level (FL) per species in the study. It is a way of calculting the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.

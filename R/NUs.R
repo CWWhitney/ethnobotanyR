@@ -70,6 +70,5 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
     NUs <- dplyr::select(NUdataaggr, sp_name, NUs) %>%
       dplyr::arrange(-NUs) 
     
-    print("Number of Uses (NU) for each species in the data set")
     print(as.data.frame(NUs))
 }
