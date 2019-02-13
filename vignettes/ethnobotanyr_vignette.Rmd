@@ -108,7 +108,7 @@ $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::UVs)
 ```
 
-The `FLs()` function calsulates the fidelity level (FL) per species in the study. It is a way of calculting the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
+The `FLs()` function calculates the fidelity level (FL) per species in the study. It is a way of calculating the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
 
 \begin{equation}
 FL_{s} = \frac {N_{s}}{UR_{s}}
