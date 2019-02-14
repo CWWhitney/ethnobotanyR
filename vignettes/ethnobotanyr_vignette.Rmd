@@ -4,7 +4,7 @@ author: "Cory Whitney"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Quantitative ethnobotany analysis}
+  %\VignetteIndexEntry{Quantitative ethnobotany analysis with ethnobotanyR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -43,7 +43,7 @@ ethnobotanyR::URs(ethnobotanydata)
 
 `Radial_plot()` shows these results together with a radial plot for quick assessment of the result using the `ggplot2` library.
 
-```{r, output_format = 'style="border:none"'}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
 ```
 
@@ -59,7 +59,7 @@ CI_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui/N}.
 \end{equation}
 `CIs()` is essentially `URs()` divided by the number of informants to account for the diversity of uses for the species.
 
-```{r}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::CIs)
 ```
 
@@ -68,7 +68,7 @@ The `FCs()` function calculates the frequency of citation (FC) for each species 
 FC_s = \sum_{i=i_1}^{^iN} UR_i
 \end{equation}
 `FCs()` is the sum of informants that cite a use for the species.
-```{r}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::FCs)
 ```
 
@@ -77,7 +77,7 @@ The `NUs()` function calculates the number of uses (NU) for each species in the 
 NU_s = \sum_{u=u_1}^{^uNC}
 \end{equation}
 $NC$ are the number of use categories. `NUs()` is the sum of all categories for which a species is considered useful.
-```{r}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::NUs)
 ```
 
@@ -86,7 +86,7 @@ The `RFCs()` function calculates the relative frequency of citation (RFC) for ea
 RFC_s = \frac{FC_s}{N} = \frac{\sum_{i=i_1}^{^iN} UR_i}{N}
 \end{equation}
 $FC_s$ is the frequency of citation for each species $s$, $UR_i$ are the use reports for all informants $i$ and $N$ is the total number of informants interviewed in the survey.
-```{r}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RFCs)
 ```
 
@@ -95,7 +95,7 @@ The `RIs()` function calculates the relative importance index (RI) for each spec
 RI_s = \frac{RFC_{s(max)} + RNU_{s(max)}}{2} 
 \end{equation}
 $RFC_{s(max)}$ is the relative frequency of citation for the species $s$ over the maximum, $RNU_{s(max)}$ is the relative number of uses for $s$ over the maximum.
-```{r}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RIs)
 ```
 
@@ -104,7 +104,7 @@ The `UVs()` function calculates the use value (UV) index for each species in the
 UV_{s} = \sum U_i/N
 \end{equation}
 $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey.
-```{r}
+```{r, fig.width=7, fig.height=7}
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::UVs)
 ```
 
