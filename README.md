@@ -3,7 +3,9 @@
 ethnobotanyR
 ============
 
-The goal of ethnobotanyR is to make it easier for ethnobotanists to calculate quantitative ethnobotany indices.<img src="vignettes/ethnobotanyR.png" style="background:none; border:none; box-shadow:none;height="20%"; width="20%";">
+The goal of ethnobotanyR is to make it easier for ethnobotanists to calculate quantitative ethnobotany indices.
+
+<img src="vignettes/ethnobotanyR.png" style="background:none; border:none; box-shadow:none;height="20%"; width="20%";">
 
 Installation
 ------------
@@ -19,3 +21,7 @@ You can install the working version of ethnobotanyR from [GitHub](https://github
 ``` r
 devtools::install_github(“CWWhitney/ethnobotanyR”)
 ```
+
+Read more in the vignette associated with the package
+
+<http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html>
