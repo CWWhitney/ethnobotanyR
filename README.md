@@ -22,9 +22,7 @@ You can install the working version of ethnobotanyR from [GitHub](https://github
 devtools::install_github(“CWWhitney/ethnobotanyR”)
 ```
 
-Read more in the vignette associated with the package
-
-<http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html>
+Read more in [Quantitative ethnobotany analysis with ethnobotanyR](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html)
 
 References
 ----------
