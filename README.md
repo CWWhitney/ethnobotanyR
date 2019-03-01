@@ -3,7 +3,7 @@
 ethnobotanyR
 ============
 
-The goal of ethnobotanyR is to provide an easy-to-use platform for ethnobotanists to calculate quantitative ethnobotany indices. Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theorhetial approaches in ethnobotany and developing meaningful hypotheses.
+The goal of ethnobotanyR is to provide an easy-to-use platform for ethnobotanists to calculate quantitative ethnobotany indices. Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theorhetical approaches in ethnobotany and developing meaningful hypotheses.
 
 <img src="vignettes/ethnobotanyR.png" width="20%" />
 
