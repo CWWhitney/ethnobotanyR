@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 load("ethnobotanydata.rda")
 
-# for rendering issues redner with 
+# in case of rendering issues render with 
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
 
 ```
