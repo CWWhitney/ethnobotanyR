@@ -3,7 +3,6 @@ inst/doc
 .Rhistory
 .Rapp.history
 # Markdown Readme file
-README.Rmd
 # Session Data files
 .RData
 # Example code in package build process
