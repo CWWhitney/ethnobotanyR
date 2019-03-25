@@ -3,7 +3,7 @@ output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
+<!-- CRAN stats for the Readme file -->
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
 [![](http://cranlogs.r-pkg.org/badges/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
@@ -34,6 +34,7 @@ install.packages("ethnobotanyR")
 ```
 
 You can install the working version of ethnobotanyR from [GitHub](https://github.com) with:
+
 ``` r
 devtools::install_github(“CWWhitney/ethnobotanyR”)
 ```
