@@ -1,4 +1,4 @@
-#' Create a chord diagram of ethnobotany uses and species
+#' Chord diagram of ethnobotany uses and species
 #'
 #' This function allows you to create a chord diagram of species and uses for ethnobotany studies.
 #' @source Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>

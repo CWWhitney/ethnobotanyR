@@ -1,4 +1,4 @@
-#' Calculate the use reports (UR) per species
+#' Use Report (UR)
 #'
 #' Allows users to calculate the use reports (UR) per secies, a common metric for ethnobotany studies.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.

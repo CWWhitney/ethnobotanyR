@@ -1,3 +1,5 @@
+#' Fidelity Level (FL)
+#' 
 #' Calculate the fidelity level (FL) of species uses in ethnobotany studies
 #'
 #' Allows users to calculate the fidelity level (FL) of species in ethnobotany studies. 

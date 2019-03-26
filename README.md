@@ -9,6 +9,7 @@
 [![](http://cranlogs.r-pkg.org/badges/last-week/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
 
 
+
 # ethnobotanyR
 
 The goal of ethnobotanyR is to provide an easy-to-use platform for

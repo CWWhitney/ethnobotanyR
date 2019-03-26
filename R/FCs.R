@@ -1,5 +1,4 @@
-
-#' Frequency of citation (FC)
+#' Frequency of Citation (FC)
 #'
 #' Allows users to calculate the frequency of citation (FC) per species.
 #' 

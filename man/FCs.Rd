@@ -2,7 +2,7 @@
 % Please edit documentation in R/FCs.R
 \name{FCs}
 \alias{FCs}
-\title{Frequency of citation (FC)}
+\title{Frequency of Citation (FC)}
 \usage{
 FCs(data)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/FLs.R
 \name{FLs}
 \alias{FLs}
-\title{Calculate the fidelity level (FL) of species uses in ethnobotany studies}
+\title{Fidelity Level (FL)}
 \source{
 Friedman, J., Yaniv, Z., Dafni, A., Palewitch, D., 1986. A preliminary classification of the healing potential of medicinal plants, based on a rational analysis of an ethnopharmacological field survey among Bedouins in the Negev Desert, Israel. Journal of Ethnopharmacology 16, 275-287. <https://www.ncbi.nlm.nih.gov/pubmed/3747566>
 }
@@ -14,6 +14,9 @@ FLs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
+Calculate the fidelity level (FL) of species uses in ethnobotany studies
+}
+\details{
 Allows users to calculate the fidelity level (FL) of species in ethnobotany studies.
 }
 \examples{

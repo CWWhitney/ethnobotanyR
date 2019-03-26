@@ -2,7 +2,7 @@
 % Please edit documentation in R/RIs.R
 \name{RIs}
 \alias{RIs}
-\title{#Relative Importance Index (RI)}
+\title{Relative Importance index (RI)}
 \source{
 Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <https://doi.org/10.1007/s12231-007-9004-5>
 }
