@@ -14,10 +14,7 @@ FLs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-Calculate the fidelity level (FL) of species uses in ethnobotany studies
-}
-\details{
-Allows users to calculate the fidelity level (FL) of species in ethnobotany studies.
+Calculates the fidelity level (FL) of species uses in ethnobotany studies.
 }
 \examples{
 
@@ -29,6 +26,7 @@ eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
 eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+
 FLs(eb_data)
 
 }
