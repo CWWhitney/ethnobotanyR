@@ -42,8 +42,6 @@ devtools::install_github(“CWWhitney/ethnobotanyR”)
 
 Read more in [Quantitative ethnobotany analysis with ethnobotanyR](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html)
 
-Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful hypotheses. 
-
 ## References
 
 Albuquerque, Ulysses Paulino, Patricia Muniz de Medeiros, Washington Soares Ferreira Junior, Taline Cristina da Silva, Rafael Ricardo Vasconcelos da Silva, and Thiago Goncalves-Souza. 2019. Social-Ecological Theory of Maximization: Basic Concepts and Two Initial Models. Biological Theory. <doi:10.1007/s13752-019-00316-8>.
