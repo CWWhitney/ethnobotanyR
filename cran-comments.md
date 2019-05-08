@@ -25,3 +25,5 @@ This is a resubmission. In this version I have:
 
 * More clearly identified the copyright holders in the DESCRIPTION
   and LICENSE files.
+  
+*Added new functions common to ethnobotany

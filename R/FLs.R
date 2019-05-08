@@ -1,8 +1,6 @@
 #' Fidelity Level (FL)
 #' 
-#' Calculate the fidelity level (FL) of species uses in ethnobotany studies
-#'
-#' Allows users to calculate the fidelity level (FL) of species in ethnobotany studies. 
+#' Calculates the fidelity level (FL) of species uses in ethnobotany studies.
 #' @source Friedman, J., Yaniv, Z., Dafni, A., Palewitch, D., 1986. A preliminary classification of the healing potential of medicinal plants, based on a rational analysis of an ethnopharmacological field survey among Bedouins in the Negev Desert, Israel. Journal of Ethnopharmacology 16, 275-287. <https://www.ncbi.nlm.nih.gov/pubmed/3747566>
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).

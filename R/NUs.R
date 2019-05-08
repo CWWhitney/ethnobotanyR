@@ -1,7 +1,6 @@
 #' Number of Uses (NU)
 #'
-#' This function allows you to calculate the number of uses (NU) per species.
-#'
+#' Calculates the number of uses (NU) per species.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, number of uses
