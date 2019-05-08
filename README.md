@@ -21,14 +21,14 @@ meaningful hypotheses.
 
 ## Installation
 
-You can install the released version of ethnobotanyR from
+Install the released version of ethnobotanyR from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("ethnobotanyR")
 ```
 
-You can install the working version of ethnobotanyR from
+Install the working version of ethnobotanyR from
 [GitHub](https://github.com) with:
 
 ``` r
