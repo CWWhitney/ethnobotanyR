@@ -38,7 +38,7 @@ An example data set called `ethnobotanydata` is provided to show what the layout
 knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
 ```
 
-##`ethnobotanyR` package functions
+## `ethnobotanyR` package functions
 
 The use report `URs()` function calculates the use report (UR) for each species in the data set. 
 
