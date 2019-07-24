@@ -64,7 +64,7 @@ CIs <- function(data) {
     data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant)) *
         ncol(dplyr::select(URdata, -informant, -sp_name)))
     
-    #change sort order, arragne and round
+    #change sort order, arrange and round
     CIs <- data_Ci %>% dplyr::select(-URs) %>%
       dplyr::arrange(-CI) %>%
       dplyr::mutate(CI = round(CI, 4))
