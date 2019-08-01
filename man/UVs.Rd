@@ -4,7 +4,7 @@
 \alias{UVs}
 \title{Use Value (UV) index per species}
 \source{
-Albuquerque, U. P., R. F. P. Lucena, J. M. Monteiro, A. T. N. Florentino, and C. F. C. B. R. Almeida. 2006. Evaluating Two Quantitative Ethnobotanical Techniques. Ethnobotany Research and Applications 4:51–60. <http://hdl.handle.net/10125/237>
+Tardío, Javier, and Manuel Pardo-de-Santayana. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain)1.” Economic Botany 62, no. 1 (May 2008): 24–39. <https://doi.org/10.1007/s12231-007-9004-5>
 }
 \usage{
 UVs(data)
@@ -14,7 +14,7 @@ UVs(data)
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
 \description{
-Calculates the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
+Calculates the use value (UV) index for each species in the data set (see Tardio and Pardo-de-Santayana 2008).
 }
 \examples{
 
