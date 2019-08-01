@@ -40,7 +40,7 @@ knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the
 
 ## `ethnobotanyR` package functions
 
-The use report `URs()` function calculates the use report (UR) for each species in the data set. 
+The use report `URs()` function calculates the use report (UR) for each species in the data set (see Prance et al. 1987). 
 
 \begin{equation}
 UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
@@ -58,13 +58,13 @@ ethnobotanyR::URs(ethnobotanydata)
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
 ```
 
-The `URsum()` function calculates the sum of all ethnobotany use reports (UR) for all species in the data set.
+The `URsum()` function calculates the sum of all ethnobotany use reports (UR) for all species in the data set (see Prance et al. 1987).
 
 ```{r}
 ethnobotanyR::URsum(ethnobotanydata)
 ```
 
-The `CIs()` function is run with calculates the Cultural Importance Index (CI) for each species in the data set.
+The `CIs()` function calculates the Cultural Importance Index (CI) for each species in the data set.
 \begin{equation}
 CI_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui/N}.
 \end{equation}
@@ -110,7 +110,7 @@ $RFC_{s(max)}$ is the relative frequency of citation for the species $s$ over th
 ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RIs)
 ```
 
-The `UVs()` function calculates the use value (UV) index for each species in the data set.
+The `UVs()` function calculates the use value (UV) index for each species in the data set (see Tardio and Pardo-de-Santayana 2008).
 \begin{equation}
 UV_{s} = \sum U_i/N
 \end{equation}
@@ -147,9 +147,13 @@ ethnobotanyR::ethnoChordUser(ethnobotanydata)
 
 ## References
 
-Albuquerque, Ulysses Paulino, Patricia Muniz de Medeiros, Washington Soares Ferreira Junior, Taline Cristina da Silva, Rafael Ricardo Vasconcelos da Silva, and Thiago Goncalves-Souza. 2019. Social-Ecological Theory of Maximization: Basic Concepts and Two Initial Models. Biological Theory. <doi:10.1007/s13752-019-00316-8>.
+Albuquerque, Ulysses Paulino, Patricia Muniz de Medeiros, Washington Soares Ferreira Junior, Taline Cristina da Silva, Rafael Ricardo Vasconcelos da Silva, and Thiago Goncalves-Souza. 2019. Social-Ecological Theory of Maximization: Basic Concepts and Two Initial Models. Biological Theory. <https://doi.org/10.1007/s13752-019-00316-8>.
 
-Gaoue, Orou G., Michael A. Coe, Matthew Bond, Georgia Hart, Barnabas C. Seyler, and Heather McMillen. 2017. Theories and Major Hypotheses in Ethnobotany. Economic Botany 71: 269–287. <doi:10.1007/s12231-017-9389-8>.
+Gaoue, Orou G., Michael A. Coe, Matthew Bond, Georgia Hart, Barnabas C. Seyler, and Heather McMillen. 2017. Theories and Major Hypotheses in Ethnobotany. Economic Botany 71: 269–287. <https://doi.org/10.1007/s12231-017-9389-8>.
+
+Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
+
+Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany, 2006. <https://doi.org/10.2307/4257061>.
 
 Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <https://doi.org/10.1007/s12231-007-9004-5>.
 
