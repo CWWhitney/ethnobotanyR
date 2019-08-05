@@ -31,6 +31,7 @@
 #' 
 #' @export ethnobotanyChord
 ethnobotanyChord <- function(data) {
+  .Deprecated("ethnoChord")
     if (!requireNamespace("reshape", quietly = TRUE)) {
         stop("Package \"reshape\" needed for this function to work. Please install it.",
             call. = FALSE)
