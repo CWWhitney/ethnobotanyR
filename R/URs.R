@@ -49,7 +49,7 @@ URs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-   URdata <- data #create subset-able data
+   URdata <- data_complete #create complete subset-able data
    
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     URs <- URdata %>% dplyr::group_by(sp_name) %>%
