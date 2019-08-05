@@ -13,7 +13,7 @@ checked win-builder with `devtools::check_win_devel()`
 All is ok
 
 ## Downstream dependencies
-I have also run R CMD check `revdepcheck::revdep_check()` on downstream dependencies 
+I have also run R CMD check 'revdepcheck::revdep_check()' on downstream dependencies 
 All packages passed 
 
 ## Resubmission
