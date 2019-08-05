@@ -87,5 +87,5 @@ ethnobotanyChord <- function(data) {
     }
   }, bg.border = NA)
   
-    print("Chord diagram for each use related to each species in the data set")
+    print("Chord diagram for each use (top half) related to each species (bottom half) in the data set")
 }

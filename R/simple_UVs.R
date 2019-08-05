@@ -50,11 +50,11 @@ simple_UVs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  #create subsettable data
-  UVpsdata <- data_complete
+  UVpsdata <- data_complete #create complete subsettable data
   
   UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
-  simple_UVs <- UVpsdata %>% dplyr::group_by(sp_name) %>% 
+  simple_UVs <- UVpsdata %>% 
+    dplyr::group_by(sp_name) %>% 
       dplyr::summarize (simple_UVs = sum(UVps)/(length(unique(informant)))) %>%
       dplyr::arrange(-simple_UVs)
     

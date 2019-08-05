@@ -50,7 +50,7 @@ CIs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  URdata<- data #create subset-able data
+  URdata<- data_complete #create complete subset-able data
   
   #calculate URs
   URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
@@ -67,7 +67,7 @@ CIs <- function(data) {
     #change sort order, arrange and round
     CIs <- data_Ci %>% dplyr::select(-URs) %>%
       dplyr::arrange(-CI) %>%
-      dplyr::mutate(CI = round(CI, 4))
+      dplyr::mutate(CI = round(CI, 3))
     
-    print(as.data.frame(CIs))
+    as.data.frame(CIs)
 }

@@ -48,6 +48,5 @@ URsum <- function(data) {
   
   URsum <-  sum(dplyr::select(data, -informant, -sp_name))
   
-  print("Sum of all Use Reports (UR) for all species in the data set")
-  print(URsum)
+  URsum
 }
