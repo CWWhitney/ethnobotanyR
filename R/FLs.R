@@ -7,7 +7,7 @@
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
-#' @importFrom dplyr filter summarize select left_join group_by
+#' @importFrom dplyr filter summarize select left_join group_by slice
 #' @importFrom assertthat validate_that see_if
 #' 
 #' @keywords ethnobotany, cultural value, use report, fidelity
@@ -69,7 +69,7 @@ FLs <- function(data) {
 Ip <- melt_FLS %>% 
    dplyr::group_by(sp_name, variable) %>%
    dplyr::summarize(Ip = sum(value, na.rm = TRUE)) %>% 
-   slice(which.max(Ip))
+   dplyr::slice(which.max(Ip))
   
             
 #Bind Ip and Iu data
@@ -81,7 +81,8 @@ FLspdata <- dplyr::left_join(Iu, Ip, by = "sp_name", na.rm = TRUE)
  FLs <- FLspdata %>% dplyr::group_by(sp_name) %>%
    dplyr::rename(Primary.use = variable) %>%
    dplyr::select(-FCs, -Ip) %>%
-   dplyr::arrange(-FLs)
+   dplyr::arrange(-FLs)%>%
+   dplyr::mutate(FLs = round(FLs, 4))
   
   as.data.frame(FLs)
 }
