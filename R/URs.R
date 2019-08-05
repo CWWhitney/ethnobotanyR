@@ -1,6 +1,7 @@
 #' Use Report (UR)
 #'
-#' Calculates the use reports (UR) per secies, a common metric for ethnobotany studies.
+#' Calculates the use reports (UR) per species, a common metric for ethnobotany studies.
+#' @source Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords ethnobotany, cultural value, use report
@@ -49,12 +50,12 @@ URs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-   URdata <- data #create subset-able data
+   URdata <- data_complete #create complete subset-able data
    
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     URs <- URdata %>% dplyr::group_by(sp_name) %>%
                 dplyr::summarize (URs = sum(URps))%>%
       dplyr::arrange(-URs) 
     
-    print(as.data.frame(URs))
+    as.data.frame(URs)
 }

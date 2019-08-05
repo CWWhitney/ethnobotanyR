@@ -14,6 +14,7 @@
 #' @importFrom graphics strwidth
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
+#' @importFrom cowplot plot_grid
 #' 
 #' @keywords ethnobotany, cultural value, use report
 #'
@@ -87,5 +88,5 @@ ethnoChord <- function(data) {
     }
   }, bg.border = NA)
   
-    print("Chord diagram for each use related to each species in the data set")
+    print("Chord diagram for each use (top half) related to each species (bottom half) in the data set")
 }

@@ -3,6 +3,9 @@
 \name{FCs}
 \alias{FCs}
 \title{Frequency of Citation (FC)}
+\source{
+Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
+}
 \usage{
 FCs(data)
 }

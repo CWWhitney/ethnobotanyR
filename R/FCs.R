@@ -1,6 +1,7 @@
 #' Frequency of Citation (FC)
 #'
 #' Calculates the frequency of citation (FC) per species.
+#' @source Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, number of uses
@@ -49,7 +50,7 @@ FCs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  FCdata <- data #create subset-able data
+  FCdata <- data_complete #create complete subset-able data
   
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
   FCdata <- FCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
@@ -58,6 +59,6 @@ FCs <- function(data) {
       dplyr::summarize(FCs = sum(FCps))%>%
       dplyr::arrange(-FCs) 
     
-    print(as.data.frame(FCs))
+    as.data.frame(FCs)
 }
 

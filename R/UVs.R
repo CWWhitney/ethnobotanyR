@@ -1,7 +1,7 @@
 #' Use Value (UV) index per species
 #'
-#' Calculates the use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
-#' @source Albuquerque, U. P., R. F. P. Lucena, J. M. Monteiro, A. T. N. Florentino, and C. F. C. B. R. Almeida. 2006. Evaluating Two Quantitative Ethnobotanical Techniques. Ethnobotany Research and Applications 4:51–60. <http://hdl.handle.net/10125/237>
+#' Calculates the use value (UV) index for each species in the data set (see Tardio and Pardo-de-Santayana 2008).
+#' @source Tardio, Javier, and Manuel Pardo-de-Santayana. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain)1.” Economic Botany 62, no. 1 (May 2008): 24–39. <https://doi.org/10.1007/s12231-007-9004-5>
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @keywords quantitative ethnobotany, cultural importance
@@ -34,7 +34,7 @@ UVs <- function(data) {
          call. = FALSE)
   }
   
-  UVpsdata <- sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  URdata <- sp_name <- informant <- UVps <- UV <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -47,16 +47,30 @@ UVs <- function(data) {
   
   ## Use 'complete.cases' from stats to get to the collection of obs without NA
   data_complete<-data[stats::complete.cases(data), ]
+  
+  URdata <- data_complete #create complete subset-able data
+  
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  #create subsettable data
-  UVpsdata <- data
+  #Use-Value (UV) calculated after Tardio and Pardo-de-Santayana (2008)
   
-  UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
-    UVs <- UVpsdata %>% dplyr::group_by(sp_name) %>% 
-      dplyr::summarize (UVs = sum(UVps)/(length(unique(informant)))) %>%
-      dplyr::arrange(-UVs)
+  data_URs <- URs(URdata) #calculate URs()
+  
+  data_UV <- data_URs #create new subset-able data for UVs
+  
+  #calcualte UV
+  data_UV$UV <- data_URs$URs/sum(dplyr::count_(URdata, vars=informant)) *
+                ncol(dplyr::select(URdata, -informant, -sp_name))
+  
+  #UV differs from Ci (the CIs function) only in that 
+  #it sums UR grouping by informant (the sum of the uses cited by each informant) 
+  #then sums all these data 
+  
+  #change sort order, arrange and round
+  UVs <- data_UV %>% dplyr::select(-URs) %>%
+    dplyr::arrange(-UV) %>%
+    dplyr::mutate(UV = round(UV, 3))
     
-    print(as.data.frame(UVs))
+    as.data.frame(UVs)
 }

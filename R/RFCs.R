@@ -63,6 +63,6 @@ RFCs <- function(data) {
       dplyr::arrange(-RFCs) %>%
       dplyr::mutate(RFCs = round(RFCs, 3))
     
-    print(as.data.frame(RFCs))
+    as.data.frame(RFCs)
     }
 

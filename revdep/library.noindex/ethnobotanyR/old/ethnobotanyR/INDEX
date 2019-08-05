@@ -1,0 +1,16 @@
+CIs                     Cultural Importance index (CI)
+FCs                     Frequency of citation (FC)
+FLs                     Calculate the fidelity level (FL) of species
+                        uses in ethnobotany studies
+NUs                     Number of Uses (NU)
+RFCs                    Relative Frequency of Citation (RFC)
+RIs                     #Relative Importance Index (RI)
+Radial_plot             Radial bar plot of use reports (UR) per species
+URs                     Calculate the use reports (UR) per species
+URsum                   Sum of all Use Reports (UR) for all species
+UVs                     Use Value (UV) index per species
+ethnoChord              Create a chord diagram of ethnobotany uses and
+                        species
+ethnoChordUser          Create a chord diagram of informants and
+                        species uses
+ethnobotanydata         Ethnobotany data set.

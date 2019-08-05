@@ -1,0 +1,141 @@
+---
+title: "Quantitative ethnobotany analysis with ethnobotanyR"
+author: "Cory Whitney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quantitative ethnobotany analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+load("ethnobotanydata.rda")
+
+```
+
+# ethnobotanyR 
+<img src="ethnobotanyR.png" style="background:none; border:none; box-shadow:none;height="20%"; width="20%";">
+The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one by Tardio and Pardo-de-Santayana (2008) and another by Whitney et al. (2018). 
+
+An example data set called `ethnobotanydata` is provided to show what the layout for standard ethnobotany data should be like to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of 20 knowledge holder identifiers `informant` and one of four species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
+
+```{r, echo= FALSE}
+knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
+```
+
+##`ethnobotanyR` package functions
+
+The use report `URs()` function calculates the use report (UR) for each species in the data set. 
+\begin{equation}
+UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
+\end{equation}
+`URs()` calculates the total uses for the species by all informants (from $i_1$ to $^iN$) within each use-category for that species $(s)$. It is a count of the number of informants who mention each use-category $NC$ for the species and the sum of all uses in each use-category (from $u_1$ to $^uNC$).
+
+```{r}
+ethnobotanyR::URs(ethnobotanydata)
+```
+
+`Radial_plot()` shows these results together with a radial plot for quick assessment of the result using the `ggplot2` library.
+
+```{r, output_format = 'style="border:none"'}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
+```
+
+The `URsum()` function calculates the sum of all ethnobotany use reports (UR) for all species in the data set.
+
+```{r}
+ethnobotanyR::URsum(ethnobotanydata)
+```
+
+The `CIs()` function is run with calculates the Cultural Importance Index (CI) for each species in the data set.
+\begin{equation}
+CI_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui/N}.
+\end{equation}
+`CIs()` is essentially `URs()` divided by the number of informants to account for the diversity of uses for the species.
+
+```{r}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::CIs)
+```
+
+The `FCs()` function calculates the frequency of citation (FC) for each species in the data set. 
+\begin{equation}
+FC_s = \sum_{i=i_1}^{^iN} UR_i
+\end{equation}
+`FCs()` is the sum of informants that cite a use for the species.
+```{r}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::FCs)
+```
+
+The `NUs()` function calculates the number of uses (NU) for each species in the data set.
+\begin{equation}
+NU_s = \sum_{u=u_1}^{^uNC}
+\end{equation}
+$NC$ are the number of use categories. `NUs()` is the sum of all categories for which a species is considered useful.
+```{r}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::NUs)
+```
+
+The `RFCs()` function calculates the relative frequency of citation (RFC) for each species in the data set.
+\begin{equation}
+RFC_s = \frac{FC_s}{N} = \frac{\sum_{i=i_1}^{^iN} UR_i}{N}
+\end{equation}
+$FC_s$ is the frequency of citation for each species $s$, $UR_i$ are the use reports for all informants $i$ and $N$ is the total number of informants interviewed in the survey.
+```{r}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RFCs)
+```
+
+The `RIs()` function calculates the relative importance index (RI) for each species in the data set.
+\begin{equation}
+RI_s = \frac{RFC_{s(max)} + RNU_{s(max)}}{2} 
+\end{equation}
+$RFC_{s(max)}$ is the relative frequency of citation for the species $s$ over the maximum, $RNU_{s(max)}$ is the relative number of uses for $s$ over the maximum.
+```{r}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::RIs)
+```
+
+The `UVs()` function calculates the use value (UV) index for each species in the data set.
+\begin{equation}
+UV_{s} = \sum U_i/N
+\end{equation}
+$U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey.
+```{r}
+ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::UVs)
+```
+
+The `FLs()` function calculates the fidelity level (FL) per species in the study. It is a way of calculating the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
+
+\begin{equation}
+FL_{s} = \frac {N_{s}}{UR_{s}}
+\end{equation}
+
+where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $UR_s$ is the total number of use reports for the species (multiply FLs by 100 to get the percent FL, as it is reported in some studies).
+
+```{r}
+ethnobotanyR::FLs(ethnobotanydata)
+```
+
+##`ethnobotanyR` chord diagrams with `circlize`
+
+The following chord plots are made using functions from the `circlize` package. An example of the application of chord plots in ethnobotany is described by Whitney et al. (2018). 
+
+The `ethnoChord()` function creates a chord diagram of ethnobotany uses and species.
+```{r, fig.width=7, fig.height=7}
+ethnobotanyR::ethnoChord(ethnobotanydata)
+```
+
+The `ethnoChordUser()` function creates a chord diagram of informants and species uses for ethnobotany studies. 
+```{r, fig.width=7, fig.height=7}
+ethnobotanyR::ethnoChordUser(ethnobotanydata)
+```
+
+##References
+
+Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <https://doi.org/10.1007/s12231-007-9004-5>.
+
+Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>

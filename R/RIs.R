@@ -92,5 +92,5 @@ RIs <- function(data) {
       dplyr::select(sp_name, RIs) %>%
       dplyr::mutate(RIs = round(RIs, 3))
 
-    print(as.data.frame(RIs))
+    as.data.frame(RIs)
 }

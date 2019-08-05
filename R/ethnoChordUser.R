@@ -84,5 +84,5 @@ ethnoChordUser <- function(data) {
     }
   }, bg.border = NA)
   
-    print("Chord diagram for each use related to each informant in the data set")
+    print("Chord diagram for each use (top half) related to each informant (bottom half) in the data set")
 }

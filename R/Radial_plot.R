@@ -10,6 +10,7 @@
 #' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom assertthat validate_that see_if
 #' @importFrom ggplot2 ggplot aes geom_bar coord_polar theme_minimal geom_bar scale_y_continuous
+#' @importFrom cowplot plot_grid
 #'  
 #' @examples
 #' 
@@ -67,5 +68,5 @@ Radial_plot <- function(data, analysis) {
     ggplot2::geom_text(ggplot2::aes(label=value), position=ggplot2::position_dodge(width=0.9), vjust=-0.25)+
     ggplot2::theme(legend.position = "none") 
   
-  print(Radial_plot)
+  Radial_plot
 }
