@@ -29,8 +29,7 @@ eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 FCs(eb_data)
 
 }
-\keyword{ethnobotany,}
-\keyword{number}
-\keyword{of}
+\keyword{citation}
+\keyword{ethnobotany}
+\keyword{frequency}
 \keyword{quantitative}
-\keyword{uses}

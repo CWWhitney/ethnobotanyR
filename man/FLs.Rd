@@ -32,8 +32,8 @@ FLs(eb_data)
 
 }
 \keyword{cultural}
-\keyword{ethnobotany,}
+\keyword{ethnobotany}
 \keyword{fidelity}
-\keyword{report,}
+\keyword{report}
 \keyword{use}
-\keyword{value,}
+\keyword{value}

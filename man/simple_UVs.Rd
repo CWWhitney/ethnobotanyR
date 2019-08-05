@@ -30,6 +30,8 @@ simple_UVs(eb_data)
 
 }
 \keyword{cultural}
-\keyword{ethnobotany,}
+\keyword{ethnobotany}
 \keyword{importance}
 \keyword{quantitative}
+\keyword{use}
+\keyword{value}

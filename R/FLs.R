@@ -10,7 +10,7 @@
 #' @importFrom dplyr filter summarize select left_join group_by slice
 #' @importFrom assertthat validate_that see_if
 #' 
-#' @keywords ethnobotany, cultural value, use report, fidelity
+#' @keywords ethnobotany cultural value use report fidelity
 #'
 #' @examples
 #' 

@@ -29,7 +29,7 @@ eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 NUs(eb_data)
 
 }
-\keyword{ethnobotany,}
+\keyword{ethnobotany}
 \keyword{number}
 \keyword{of}
 \keyword{quantitative}

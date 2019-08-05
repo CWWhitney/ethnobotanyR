@@ -15,7 +15,7 @@
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
 #' 
-#' @keywords ethnobotany, cultural value, use report
+#' @keywords ethnobotany
 #'
 #' @examples
 #' 
@@ -31,7 +31,6 @@
 #' 
 #' @export ethnobotanyChord
 ethnobotanyChord <- function(data) {
-  .Deprecated("ethnoChord")
     if (!requireNamespace("reshape", quietly = TRUE)) {
         stop("Package \"reshape\" needed for this function to work. Please install it.",
             call. = FALSE)
