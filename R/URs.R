@@ -56,5 +56,5 @@ URs <- function(data) {
                 dplyr::summarize (URs = sum(URps))%>%
       dplyr::arrange(-URs) 
     
-    print(as.data.frame(URs))
+    as.data.frame(URs)
 }

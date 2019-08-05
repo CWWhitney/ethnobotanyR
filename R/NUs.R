@@ -69,5 +69,5 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
     NUs <- dplyr::select(NUdataaggr, sp_name, NUs) %>%
       dplyr::arrange(-NUs) 
     
-    print(as.data.frame(NUs))
+    as.data.frame(NUs)
 }

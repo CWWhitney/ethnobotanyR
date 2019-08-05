@@ -58,6 +58,6 @@ FCs <- function(data) {
       dplyr::summarize(FCs = sum(FCps))%>%
       dplyr::arrange(-FCs) 
     
-    print(as.data.frame(FCs))
+    as.data.frame(FCs)
 }
 
