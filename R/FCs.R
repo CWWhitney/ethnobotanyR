@@ -49,7 +49,7 @@ FCs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  FCdata <- data #create subset-able data
+  FCdata <- data_complete #create complete subset-able data
   
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
   FCdata <- FCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))

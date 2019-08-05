@@ -54,8 +54,7 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  #create subsettable data
-  NUdata <- data
+  NUdata <- data_complete #create complete subset-able data
   
   #Calculate NUs
     NUdataaggr <- stats::aggregate(dplyr::select(NUdata, -informant, -sp_name),

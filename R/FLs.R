@@ -1,6 +1,6 @@
 #' Fidelity Level (FL)
 #' 
-#' Calculates the fidelity level (FL) of species uses in ethnobotany studies.
+#' Calculates the fidelity level (FL) of species uses,  i.e. the ratio between the number of informants who independently cite the use of a species for the same major purposes (URs) and the total number of informants who mentioned the plant for any use (FCs). 
 #' @source Friedman, J., Yaniv, Z., Dafni, A., Palewitch, D., 1986. A preliminary classification of the healing potential of medicinal plants, based on a rational analysis of an ethnopharmacological field survey among Bedouins in the Negev Desert, Israel. Journal of Ethnopharmacology 16, 275-287. <https://www.ncbi.nlm.nih.gov/pubmed/3747566>
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
@@ -57,8 +57,14 @@ FLs <- function(data) {
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
   FLsdata <- data #create subset-able data
+ 
+  Ip #number who cited for same major purpose (highest URs in category)
   
+  Iu #number who mentioned for any use (FCs)
   #Melt ethnobotany data
+  
+  FLs <- Ip*100/Iu
+  
   mat<- reshape::melt(FLsdata, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(-informant) 
   
  #Calculate uses per category
@@ -73,10 +79,11 @@ FLs <- function(data) {
  #Bind data
  FLspdata <- dplyr::left_join(URspdata, URcatdata, by = "sp_name", na.rm = TRUE)
  
- #Calcualte FLs
+ #Calculate FLs
  FLspdata$FLs <- FLspdata$URcategory / FLspdata$URspecies * 100
   
- FLs <- dplyr::select(FLspdata, -URcategory, -URspecies) %>%
+ FLs <- FLspdata %>% dplyr::group_by(sp_name) %>%
+   dplyr::select(-URcategory, -URspecies) %>%
    dplyr::arrange(-FLs)
   
   print(as.data.frame(FLs))
