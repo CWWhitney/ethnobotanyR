@@ -16,6 +16,7 @@
 #' 
 #' #Use built-in ethnobotany data example
 #' FLs(ethnobotanydata)
+#' #returns the primary use category (Primary.use) and the FLs value
 #' 
 #' #Generate random dataset of three informants uses for four species
 #' eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
@@ -40,7 +41,7 @@ FLs <- function(data) {
          call. = FALSE)
   }
   
-  URspecies <- URcategory <- variable <-  value <- URspdata <- mat <- FLs <- URdata <- UR_sum <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  URspecies <- URcategory <- variable <-  value <- URspdata <- melt_FLS <- FLs <- URdata <- UR_sum <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -56,35 +57,31 @@ FLs <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  FLsdata <- data #create subset-able data
+  FLsdata <- data_complete #create subset-able data
+  
+  Iu <- FCs(FLsdata) #calculate Iu, same as FCs()
+  
+  melt_FLS<- reshape::melt(FLsdata, id=c("informant","sp_name")) %>% 
+    dplyr::filter(value >=1) %>% 
+    dplyr::select(-informant) 
+  
+#Ip <- number who cited for same major purpose (UR in highest use category (-ies))
+Ip <- melt_FLS %>% 
+   dplyr::group_by(sp_name, variable) %>%
+   dplyr::summarize(Ip = sum(value, na.rm = TRUE)) %>% 
+   slice(which.max(Ip))
+  
+            
+#Bind Ip and Iu data
+FLspdata <- dplyr::left_join(Iu, Ip, by = "sp_name", na.rm = TRUE)
  
-  Ip #number who cited for same major purpose (highest URs in category)
-  
-  Iu #number who mentioned for any use (FCs)
-  #Melt ethnobotany data
-  
-  FLs <- Ip*100/Iu
-  
-  mat<- reshape::melt(FLsdata, id=c("informant","sp_name")) %>% dplyr::filter(value >=1) %>% dplyr::select(-informant) 
-  
- #Calculate uses per category
- URcatdata <- mat %>% dplyr::group_by(sp_name, variable) %>%
-   dplyr::summarize(URcategory = sum(value, na.rm = TRUE)) 
-      
- #Calculate uses per species        
- URspdata <- mat %>%
-   dplyr::group_by(sp_name) %>%
-   dplyr::summarize(URspecies = sum(value, na.rm = TRUE))
- 
- #Bind data
- FLspdata <- dplyr::left_join(URspdata, URcatdata, by = "sp_name", na.rm = TRUE)
- 
- #Calculate FLs
- FLspdata$FLs <- FLspdata$URcategory / FLspdata$URspecies * 100
+ #Calculate FLs = Ip *100 / Iu
+ FLspdata$FLs <- FLspdata$Ip * 100 / FLspdata$FCs 
   
  FLs <- FLspdata %>% dplyr::group_by(sp_name) %>%
-   dplyr::select(-URcategory, -URspecies) %>%
+   dplyr::rename(Primary.use = variable) %>%
+   dplyr::select(-FCs, -Ip) %>%
    dplyr::arrange(-FLs)
   
-  print(as.data.frame(FLs))
+  as.data.frame(FLs)
 }
