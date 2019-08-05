@@ -33,7 +33,7 @@ CVe <- function(data) {
          call. = FALSE)
   }
   
-  CI <- CVe <- URdata  <- data_Ci <- data_URs <- URps <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  CVe <- FCs <- UR_UN_FC <- CVe <- URdata  <- data_Ci <- data_URs <- URps <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #add error stops with validate_that
   assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
@@ -49,27 +49,28 @@ CVe <- function(data) {
   #message about complete cases
   assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
   
-  URdata <- data #create subset-able data
+  URdata <- data_complete #create complete subset-able data
   
   #calcualte Use Reports per species 
   #same as function URs()
-  URs(URdata)
+  URS <- URs(URdata)
   
   #Uce is the total number of uses reported for ethnospecies e 
   #same as function NUs()
-  NUs<-NUs(URdata)
+  NUS<-NUs(URdata)
   #divided by the potential uses of an ethnospecies in the study
-  NUs$Uce <- NUs$NUs/ncol(dplyr::select(URdata, -informant, -sp_name))
+  NUS$Uce <- NUS$NUs/ncol(dplyr::select(URdata, -informant, -sp_name))
   
   #Ice expresses the number of participants who 
   #listed the ethnospecies e as useful
   #Same as function FCs()
-  FCs<-FCs(URdata)
+  FCS<-FCs(URdata)
+  
   #divided by the total number of people (n) 
-  FCs$Ice <- FCs$FCs/sum(dplyr::count_(URdata, vars=informant))
+  FCS$Ice <- FCS$FCs/sum(dplyr::count_(URdata, vars=informant))
   
   #bind the three data sets 
-  UR_UN_FC <- dplyr::bind_cols(NUs, URs, FCs)
+  UR_UN_FC <- dplyr::bind_cols(NUS, URS, FCS)
   
   #IUce expresses the number of participants who mentioned 
   #each use of the ethnospecies e (also URs)
@@ -82,5 +83,5 @@ CVe <- function(data) {
   CVe <- dplyr::select(UR_UN_FC, sp_name, CVe) %>%
     dplyr::arrange(-CVe) 
   
-  print(as.data.frame(CVe))
+  as.data.frame(CVe)
 }
