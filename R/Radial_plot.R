@@ -4,7 +4,7 @@
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.
-#' @keywords ethnobotany, cultural value, use report
+#' @keywords ethnobotany visualuzation radial bar plot
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter summarize select left_join group_by 

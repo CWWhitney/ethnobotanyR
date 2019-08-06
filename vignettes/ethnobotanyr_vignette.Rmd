@@ -182,7 +182,7 @@ ethnobotanyR::FLs(ethnobotanydata)
 
 Divide FLs by 100 to get the percent FL, as it is reported in some studies.
 
-# Visualize `ethnobotanyR` results
+## Visualize `ethnobotanyR` results
 
 The `Radial_plot` function shows these results as a radial bar plot for quick assessment of the result using the `ggplot2` library.
 

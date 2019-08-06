@@ -16,7 +16,7 @@
 #' @importFrom assertthat see_if
 #' @importFrom cowplot plot_grid
 #' 
-#' @keywords ethnobotany, cultural value, use report
+#' @keywords quantitative ethnobotany cultural value use report chord diagram
 #'
 #' @examples
 #' 

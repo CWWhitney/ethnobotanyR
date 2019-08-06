@@ -30,7 +30,6 @@ URsum(eb_data)
 
 }
 \keyword{ethnobotany}
-\keyword{ethnobotany,}
 \keyword{quantitative}
-\keyword{report,}
+\keyword{report}
 \keyword{use}

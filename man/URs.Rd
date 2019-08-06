@@ -30,7 +30,8 @@ URs(eb_data)
 
 }
 \keyword{cultural}
-\keyword{ethnobotany,}
+\keyword{ethnobotany}
+\keyword{quantitative}
 \keyword{report}
 \keyword{use}
-\keyword{value,}
+\keyword{value}

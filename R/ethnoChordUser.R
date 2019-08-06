@@ -12,7 +12,7 @@
 #' @importFrom graphics strwidth
 #' @importFrom assertthat validate_that see_if
 #' 
-#' @keywords ethnobotany, cultural value, use report
+#' @keywords quantitative ethnobotany cultural value use report chord diagram
 #'
 #' @examples
 #' 

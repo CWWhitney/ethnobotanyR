@@ -15,7 +15,7 @@
 #' @importFrom assertthat validate_that
 #' @importFrom assertthat see_if
 #' 
-#' @keywords ethnobotany, cultural value, use report
+#' @keywords ethnobotany
 #'
 #' @examples
 #' 

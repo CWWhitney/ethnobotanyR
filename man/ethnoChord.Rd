@@ -29,8 +29,11 @@ eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 ethnoChord(eb_data)
 
 }
+\keyword{chord}
 \keyword{cultural}
-\keyword{ethnobotany,}
+\keyword{diagram}
+\keyword{ethnobotany}
+\keyword{quantitative}
 \keyword{report}
 \keyword{use}
-\keyword{value,}
+\keyword{value}
