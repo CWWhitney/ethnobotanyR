@@ -1,0 +1,46 @@
+---
+title: "Suggested workflow using ethnobotanyR"
+author: "Cory Whitney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ethnobotany workflow using ethnobotanyR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# ethnobotanyR 
+
+<p align="center">
+<img src="ethnobotanyR.png" height="256" style="background:none; border:none; box-shadow:none;">
+</p>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pbapply)
+library(Taxonstand)
+```
+
+## Addressing issues of relevance to communities
+
+Ideally the work that we do will have direct relevance to the communities that are involved. It is far better for development related work to be done with, rather than about, communities. These are often people who are faced with uncertain decisions about how to manage natural resources. Our work should, ideally, be aimed at helping to give some clarity for these decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in human ecology and ethnobotany can help to make these trade-offs celar and help to support decisions that have the best outcomes for society and the natural world.
+
+### More on theoretical approaches
+
+Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful hypotheses. 
+
+## Getting Species names right
+
+Plant species nmes are changing all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are split and merged. These changes are most accurately, and most timely, dispalyed on The Plant List (TPL). The R package Taxonstand connects to The Plant List <http://www.theplantlist.org/> and can can run a check on a .csv based list of species names against the TPL database.
+
+```{r bryophytes_head, warning=FALSE}
+data(bryophytes)
+selected_data <- dplyr::select(bryophytes, Full.name)
+head(selected_data)
+```
+
+```{r corrected_bryophytes_head, warning=FALSE}
+corrected_bryophytes_data <- Taxonstand::TPL(bryophytes)
+selected_corrected_data <- dplyr::select(corrected_bryophytes_data, New.Genus, New.Species, New.Authority)
+head(selected_corrected_data)
+```
