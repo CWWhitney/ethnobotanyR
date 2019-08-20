@@ -17,23 +17,23 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(ethnobotanyR)
-library(pbapply)
-library(Taxonstand)
-library(vegan)
-library(tidyr)
-library(purrr)
 library(broom)
 library(dplyr)
+library(ethnobotanyR)
+library(magrittr)
+library(pbapply)
+library(purrr)
 library(stringr)
-
+library(Taxonstand)
+library(tidyr)
+library(vegan)
 ```
 
 ## Addressing issues of relevance to communities
 
 Ideally the work that we do will have direct relevance to the communities that are involved. It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Our work should, ideally, be aimed at helping to give some clarity for these decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
 
-We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany, which are helpful in formulating research with communities. 
+We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. 
 
 ## Getting Species names right
 
@@ -44,35 +44,35 @@ Plant species names are changing all the time. As botanists learn more about the
 ```{r bryophytes_head, echo= FALSE}
 data(bryophytes)
 
-knitr::kable(head(bryophytes$Full.name), caption = "First six rows of Taxonstand's bryophytes species list")
+ bryophytes <- bryophytes %>% 
+  head(6)
+
+knitr::kable(bryophytes$Full.name, caption = "First six rows of Taxonstand's bryophytes species list")
 ```
 
 We run the `TPL` function on just the species names `Full.name` in Taxonstand's `bryophytes` data, i.e. Taxonstand::TPL(bryophytes$Full.name).
 
-```{r TPL_check_bryophytes, echo= FALSE}
+```{r TPL_check_bryophytes, echo= FALSE, warning=FALSE}
+
+#select only head (ease processing speed)
+
 corrected_bryophytes_data <- Taxonstand::TPL(bryophytes$Full.name)
 
 selected_corrected_data <- dplyr::select(corrected_bryophytes_data, New.Genus, New.Species, New.Authority)
 
-head(selected_corrected_data)
-knitr::kable(head(selected_corrected_data), caption = "First six rows of corrections of Taxonstand's bryophytes species list with Genus species and authority")
+knitr::kable(selected_corrected_data, caption = "First six rows of corrections of Taxonstand's bryophytes species list with Genus species and authority")
 ```
 
 
 ## Testing various hypotheses in ethnobotany
 
-1. Are the plant uses assigned random or do they follow reliable patters across users?
-1. Is the network of herbal shops in Santa Marta robust to losses of traditional knowledge about for the treatment of lifestyle diseases or are certain uses reliant on singls shops. 
+Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany, which are helpful in formulating useful research questions. 
 
 ### DCA analysis
 
 Detrended correspondence analysis (DCA) can be used for multivariate data like the standard ethnobotany data presented in `ethnobotanydata`. DCA can be performed using the `decorana()` function in the `vegan` package in R.
 
 ```{r }
-library(vegan)
-library(magrittr)
-library(dplyr)
-
 #remove rows with zero rowsums
 ethno_data_complete <- ethnobotanydata %>%  
   dplyr::select(-informant, -sp_name) %>% 
@@ -85,7 +85,7 @@ ethno_data_complete <- ethnobotanydata %>%
 
 Ordination results are shown with `summary(ord)`. Scores are extracted with `scores`. Vegan's plot function automatically shows the scores.
 
-```{r }
+```{r plot_ord, fig.width=7, fig.height=7}
 #Plot ordination results
 plot(ord)
 ```
@@ -132,7 +132,7 @@ var_exp
 
 Plot the variance explained and the cumulative variance explained to see trends across components.
 
-```{r plot_pca}
+```{r plot_pca, fig.width=7, fig.height=7}
 var_exp %>% 
   dplyr::rename(
     `Variance Explained` = var_exp,
