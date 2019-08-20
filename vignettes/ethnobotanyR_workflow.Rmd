@@ -17,30 +17,135 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(ethnobotanyR)
 library(pbapply)
 library(Taxonstand)
+library(vegan)
+library(tidyr)
+library(purrr)
+library(broom)
+library(dplyr)
+library(stringr)
+
 ```
 
 ## Addressing issues of relevance to communities
 
-Ideally the work that we do will have direct relevance to the communities that are involved. It is far better for development related work to be done with, rather than about, communities. These are often people who are faced with uncertain decisions about how to manage natural resources. Our work should, ideally, be aimed at helping to give some clarity for these decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in human ecology and ethnobotany can help to make these trade-offs celar and help to support decisions that have the best outcomes for society and the natural world.
+Ideally the work that we do will have direct relevance to the communities that are involved. It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Our work should, ideally, be aimed at helping to give some clarity for these decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
 
-### More on theoretical approaches
-
-Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful hypotheses. 
+We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany, which are helpful in formulating research with communities. 
 
 ## Getting Species names right
 
-Plant species nmes are changing all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are split and merged. These changes are most accurately, and most timely, dispalyed on The Plant List (TPL). The R package Taxonstand connects to The Plant List <http://www.theplantlist.org/> and can can run a check on a .csv based list of species names against the TPL database.
+Another, possibly equally important part of ethnobotany, is that we are good practitioners. This means attaining as much as possible a mastery of the tools needed for the job. A large part of the work of ethnobotany is identification of species.
 
-```{r bryophytes_head, warning=FALSE}
+Plant species names are changing all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are often split or merged. These changes are most accurately, and most timely, dispalyed on The Plant List <http://www.theplantlist.org/>. Among the many other functions, the R package Taxonstand can cross-check .csv based lists of species names against the database. Here is an example using just the species names `Full.name` in Taxonstand's `bryophytes` data.
+
+```{r bryophytes_head, echo= FALSE}
 data(bryophytes)
-selected_data <- dplyr::select(bryophytes, Full.name)
-head(selected_data)
+
+knitr::kable(head(bryophytes$Full.name), caption = "First six rows of Taxonstand's bryophytes species list")
 ```
 
-```{r corrected_bryophytes_head, warning=FALSE}
-corrected_bryophytes_data <- Taxonstand::TPL(bryophytes)
+We run the `TPL` function on just the species names `Full.name` in Taxonstand's `bryophytes` data, i.e. Taxonstand::TPL(bryophytes$Full.name).
+
+```{r TPL_check_bryophytes, echo= FALSE}
+corrected_bryophytes_data <- Taxonstand::TPL(bryophytes$Full.name)
+
 selected_corrected_data <- dplyr::select(corrected_bryophytes_data, New.Genus, New.Species, New.Authority)
+
 head(selected_corrected_data)
+knitr::kable(head(selected_corrected_data), caption = "First six rows of corrections of Taxonstand's bryophytes species list with Genus species and authority")
+```
+
+
+## Testing various hypotheses in ethnobotany
+
+1. Are the plant uses assigned random or do they follow reliable patters across users?
+1. Is the network of herbal shops in Santa Marta robust to losses of traditional knowledge about for the treatment of lifestyle diseases or are certain uses reliant on singls shops. 
+
+### DCA analysis
+
+Detrended correspondence analysis (DCA) can be used for multivariate data like the standard ethnobotany data presented in `ethnobotanydata`. DCA can be performed using the `decorana()` function in the `vegan` package in R.
+
+```{r }
+library(vegan)
+library(magrittr)
+library(dplyr)
+
+#remove rows with zero rowsums
+ethno_data_complete <- ethnobotanydata %>%  
+  dplyr::select(-informant, -sp_name) %>% 
+    dplyr::filter_all(any_vars(. != 0))
+
+ ord <- vegan::decorana(ethno_data_complete) #This saves ordination results in ord:
+
+ ord
+```
+
+Ordination results are shown with `summary(ord)`. Scores are extracted with `scores`. Vegan's plot function automatically shows the scores.
+
+```{r }
+#Plot ordination results
+plot(ord)
+```
+
+## PCA 
+
+PCA analysis using the `tidyverse` and `broom` packages using the `nest()` function along with the `mutate()` and `map` combo to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
+
+```{r nesting}
+nested_ethno_pca <- ethnobotanydata %>% 
+  tidyr::nest() %>% 
+  dplyr::mutate(pca = purrr::map(data, ~ stats::prcomp(.x %>% 
+        dplyr::select(-informant, -sp_name), 
+        center = TRUE, scale = TRUE)),
+         pca_augmented = map2(pca, data, ~broom::augment(.x, data = .y)))
+
+nested_ethno_pca
+```
+
+For model evaluation we check to see how much variance is explained by each principal component. This will tell you how many of the components you need to look at when analyzing the results. To do this, you can use the data in the `pca_augmented` column of our `nested_ethno_pca` tibble along with some `dplyr` functions.
+
+```{r variance_check}
+
+var_exp_tidy <- nested_ethno_pca %>% 
+  tidyr::unnest(pca_augmented) %>% 
+  dplyr::summarize_at(.vars = vars(contains("PC")), .funs = funs(var)) %>% 
+  tidyr::gather(key = pc, value = variance) %>% 
+  dplyr::mutate(var_exp = variance/sum(variance),
+         cum_var_exp = cumsum(var_exp),
+         pc = stringr::str_replace(pc, ".fitted", ""))
+
+var_exp_tidy
+```
+
+The `nrow(var_exp_tidy)` principle components selected explain `sum(var_exp_tidy$var_exp)`% of variance. As a general rule the first few principal components explain much of the variation. To keep the analysis within reasonable bounds it makes sense to select the first four principle components.
+
+```{r select_components}
+
+var_exp <- var_exp_tidy %>% 
+  head(4)
+
+var_exp
+```
+
+Plot the variance explained and the cumulative variance explained to see trends across components.
+
+```{r plot_pca}
+var_exp %>% 
+  dplyr::rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %>% 
+  tidyr::gather(key = key, value = value, `Variance Explained`:`Cumulative Variance Explained`) %>% 
+  ggplot2::ggplot(ggplot2::aes(pc, value, group = key)) + 
+  ggplot2::geom_point() + 
+  ggplot2::geom_line() + 
+  ggplot2::facet_wrap(~key, scales = "free_y") +
+  ggplot2::theme_minimal() +
+  ggplot2::lims(y = c(0, 1)) +
+  ggplot2::labs(y = "Variance",
+       title = "Variance explained by each principal component")
+
 ```
