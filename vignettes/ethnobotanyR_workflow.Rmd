@@ -66,11 +66,13 @@ knitr::kable(selected_corrected_data, caption = "First six rows of corrections o
 
 ## Testing various hypotheses in ethnobotany
 
-Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany, which are helpful in formulating useful research questions. 
+Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany, which are helpful in formulating useful research questions. The DCA and PCA may be useful for exploratory analysis of ethnobotany data but shiould be used with cauthion and within the confines of the predetermined research aims and objectives.
 
-### DCA analysis
+### Detrended correspondence analysis (DCA)
 
-Detrended correspondence analysis (DCA) can be used for multivariate data like the standard ethnobotany data presented in `ethnobotanydata`. DCA can be performed using the `decorana()` function in the `vegan` package in R.
+Detrended correspondence analysis (DCA) can be used to find the main factors or 'gradients' in large and sparse community datasets. This can be a useful tool for assessing important informant-species-use associations in ethnobotany. Here we use the  dataset presented in `ethnobotanydata` to perform DCA using the `decorana()` function in the `vegan` package in R. 
+
+The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded).
 
 ```{r }
 #remove rows with zero rowsums
@@ -78,21 +80,21 @@ ethno_data_complete <- ethnobotanydata %>%
   dplyr::select(-informant, -sp_name) %>% 
     dplyr::filter_all(any_vars(. != 0))
 
- ord <- vegan::decorana(ethno_data_complete) #This saves ordination results in ord:
+ ethno_ordination <- vegan::decorana(ethno_data_complete) #This saves ordination results in ord:
 
- ord
+ ethno_ordination
 ```
 
 Ordination results are shown with `summary(ord)`. Scores are extracted with `scores`. Vegan's plot function automatically shows the scores.
 
 ```{r plot_ord, fig.width=7, fig.height=7}
 #Plot ordination results
-plot(ord)
+plot(ethno_ordination)
 ```
 
-## PCA 
+## Principal component analysis (PCA)
 
-PCA analysis using the `tidyverse` and `broom` packages using the `nest()` function along with the `mutate()` and `map` combo to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
+Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `tidyverse` and `broom` packages using the `nest()` function along with the `mutate()` and `map` combo to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
 
 ```{r nesting}
 nested_ethno_pca <- ethnobotanydata %>% 
