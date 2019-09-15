@@ -2,7 +2,7 @@
 % Please edit documentation in R/Radial_plot.R
 \name{Radial_plot}
 \alias{Radial_plot}
-\title{Radial bar plot of use reports (UR) per species}
+\title{Radial bar plot of ethnobotany indices}
 \usage{
 Radial_plot(data, analysis)
 }
@@ -12,20 +12,33 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 
 \item{analysis}{is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.}
 }
-\description{
-Creates a radial bar plot of use reports (UR) per species based on the `UR function`.
+\value{
+Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
 }
+\description{
+Creates a radial bar plot of ethnobotany indices in ethnobotanyR package using the ggplot2 library <https://ggplot2.tidyverse.org/>.
+}
+\section{Warning}{
+
+
+Identification for informants and species must be listed by the names 'informant' and 'sp_name'respectively in the data set.
+The rest of the columns should all represent seperate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+}
+
 \examples{
 
 #Use built-in ethnobotany data example and Frequency of Citation function FCs()
+
 Radial_plot(ethnobotanydata, analysis = FCs)
 
 #Generate random dataset of three informants uses for four species
+
 eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
-eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
-eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
-Radial_plot(data = eb_data, analysis = FCs)
+eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+ 
+Radial_plot(data = eb_data, analysis = URs)
 
 }
 \keyword{bar}
