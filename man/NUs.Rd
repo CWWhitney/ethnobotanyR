@@ -13,19 +13,32 @@ NUs(data)
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
+\value{
+Data frame of species and number of uses (NU) values.
+}
 \description{
 Calculates the number of uses (NU) per species.
 }
+\section{Warning}{
+
+
+Identification for informants and species must be listed by the names 'informant' and 'sp_name'respectively in the data set.
+The rest of the columns should all represent seperate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+}
+
 \examples{
 
 #Use built-in ethnobotany data example
+
 NUs(ethnobotanydata)
 
 #Generate random dataset of three informants uses for four species
+
 eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
 eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+
 NUs(eb_data)
 
 }

@@ -10,21 +10,33 @@ Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. “Cultural, Practical, a
 CVe(data)
 }
 \arguments{
-\item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.}
+\item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of ethnospecies names respectively.}
+}
+\value{
+Data frame of ethnospecies and Cultural Value (CVe) values.
 }
 \description{
 Calculates the Cultural Value (CVe) per ethnospecies.
 }
+\section{Warning}{
+
+
+Identification for informants and ethnospecies must be listed by the names 'informant' and 'sp_name' respectively in the data set.
+The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+}
+
 \examples{
 
 #Use built-in ethnobotany data example
 CVe(ethnobotanydata)
 
 #Generate random dataset of three informants uses for four species
+
 eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
-eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
-eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+
 CVe(eb_data)
 
 }

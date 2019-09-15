@@ -7,25 +7,38 @@
 #' 
 #' @keywords quantitative ethnobotany cultural importance use value
 #'
-#' @importFrom magrittr %>%
-#' @importFrom dplyr filter summarize select left_join group_by 
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @return Data frame of species and simplified use value (UV) index values.
 #'
+#' @section Warning:
+#' 
+#' Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
+#' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+#' 
+#' @importFrom dplyr filter summarize select left_join group_by 
+#' @importFrom magrittr %>%
+#' 
 #' @examples
 #'
 #' #Use built-in ethnobotany data example
 #' simple_UVs(ethnobotanydata)
 #' 
 #' #Generate random dataset of three informants uses for four species
+#' 
 #' eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 #' names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
-#' eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
-#' eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+#' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' 
 #' simple_UVs(eb_data)
 #' 
 #'@export simple_UVs
+#'
 simple_UVs <- function(data) {
+  
+  #Add error stops ####
+  {
+    #Check that packages are loaded
+    {
     if (!requireNamespace("dplyr", quietly = TRUE)) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.", 
             call. = FALSE)
@@ -34,30 +47,32 @@ simple_UVs <- function(data) {
     stop("Package \"magrittr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
+    }# end package check
+    
+    ## Check that use categories are greater than zero
+    if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
+      warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
+      data<-data[stats::complete.cases(data), ]
+    }
+    
+    ## Use 'complete.cases' from stats to get to the collection of obs without NA
+    if (any(is.na(data))) {
+      warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
+      data<-data[stats::complete.cases(data), ]
+    }
+  } #end error stops
   
+  # Set the variables to NULL first, appeasing R CMD check
   UVpsdata <- sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
-  #add error stops with validate_that
-  assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
-  assertthat::validate_that("sp_name" %in% colnames(data), msg = "The required column called \"sp_name\" is missing from your data. Add it.")
-  
-  assertthat::validate_that(is.factor(data$informant), msg = "The \"informant\" is not a factor variable. Transform it.")
-  assertthat::validate_that(is.factor(data$sp_name), msg = "The \"sp_name\" is not a factor variable. Transform it.")
-  
-  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-  
-  ## Use 'complete.cases' from stats to get to the collection of obs without NA
-  data_complete<-data[stats::complete.cases(data), ]
-  #message about complete cases
-  assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-  
-  UVpsdata <- data_complete #create complete subsettable data
+  UVpsdata <- data #create complete subsettable data
   
   UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
   simple_UVs <- UVpsdata %>% 
     dplyr::group_by(sp_name) %>% 
       dplyr::summarize (simple_UVs = sum(UVps)/(length(unique(informant)))) %>%
-      dplyr::arrange(-simple_UVs)
+      dplyr::arrange(-simple_UVs)%>%
+    dplyr::mutate(simple_UVs = round(simple_UVs, 3))
     
     as.data.frame(simple_UVs)
 }

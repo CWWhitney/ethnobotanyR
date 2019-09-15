@@ -13,6 +13,9 @@ FCs(data)
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 }
+\value{
+Data frame of species and frequency of citation (FC) values.
+}
 \description{
 Calculates the frequency of citation (FC) per species.
 }
