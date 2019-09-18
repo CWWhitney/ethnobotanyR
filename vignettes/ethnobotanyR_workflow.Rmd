@@ -3,6 +3,7 @@ title: "Suggested workflow using ethnobotanyR"
 author: "Cory Whitney"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: references/Ethnobotany.bib
 vignette: >
   %\VignetteIndexEntry{Ethnobotany workflow using ethnobotanyR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -33,13 +34,15 @@ library(vegan)
 
 ## Addressing issues of relevance to communities
 
-Ideally the work that we do will have direct relevance to the communities that are involved. It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Our work should, ideally, be aimed at helping to give some clarity for these decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
+Ideally the work that we do in ethnobotany will have direct relevance to the human and natural communities that are involved in the research. It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Well formulated research agendas should aim to provide clarity for relevant and timely decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
 
 We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. 
 
+In addition to working closely with communities and generating quality research questions, another, possibly equally important part of ethnobotany, is that we are good practitioners. This means attaining as much as possible a mastery of the tools needed for the job.
+
 ## Impact pathway 
 
-Building a causal model of the problem at hand can be useful when working together with communities to define meaningful research questions. The decision will take the form of a causal decision impact pathway. Here is a simplified example of the effect of allowing for forest use (i.e. active practice of ethnobotany uses) on the conservation of a forest given the risk of overextraction and the possible benefit of conservation actions on the part of the users. This can be plotted with the `igraph` library.
+Applying docalculus to impact pathways is a new revolutionary way to allow for calculating the causal effects of interventions [@pearlBookWhyNew2018]. Building a causal model of the problem at hand can be useful when working together with communities to define meaningful research questions. The decision will take the form of a causal decision impact pathway [@tikkaIdentifyingCausalEffects2017]. Here is a simplified example of the effect of allowing for forest use (i.e. active practice of ethnobotany uses) on the conservation of a forest given the risk of overextraction and the possible benefit of conservation actions on the part of the users. This can be plotted with the `igraph` library [@igraph].
 
 ```{r plot_conservation_decision, fig.width=7, fig.height=7}
 #decision impact pathway
@@ -53,7 +56,7 @@ conservation_decision <- igraph::graph.formula(UF -+  CA, #use_forests -+ conser
 plot(conservation_decision)
 ```
 
-The `causal.effect()` function of the `causalimpact` library uses the doCalculus methods to generate a formula for the causal impact pathway. This model can be fed with observed values, ethnobotany surveys, focus group discussions and interviews.
+The `causal.effect()` function of the `causaleffect` library uses the doCalculus methods to generate a formula for the causal impact pathway [@causaleffect]. This model can be fed with observed values, ethnobotany surveys, focus group discussions and interviews.
 
 ```{r}
 causaleffect_model <- causaleffect::causal.effect(y = "C", x = "UF", z = NULL, G = conservation_decision, expr = TRUE)
@@ -68,13 +71,15 @@ $P_{C}(UF) = \sum_{CA,OE}P(C|UF,CA,OE)*P(OE|UF)P(CA|UF)$
 
 ## Testing various hypotheses in ethnobotany
 
-Users are highly encouraged to read the theory papers of Albuquerque et al. (2019) and Gaoue et al. (2017). Both papers offer helpful guidance to understanding theoretical approaches in ethnobotany, which are helpful in formulating useful research questions. The DCA and PCA may be useful for exploratory analysis of ethnobotany data but should be used with caution and within the confines of the predetermined research aims and objectives.
+Users are highly encouraged to read the papers on Ethnobotany Theory [@gaoueTheoriesMajorHypotheses2017] and Social Ecological Theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. These papers offer helpful guidance to understanding theoretical approaches and formulating useful research questions. 
+
+Annalyses such as Detrended correspondence analysis (DCA) and Principal component analysis (PCA) may be useful for exploratory analysis of ethnobotany data. Such analyses should be used with caution and within the confines of the predetermined research aims and objectives.
 
 ### Detrended correspondence analysis (DCA)
 
-Detrended correspondence analysis (DCA) can be used to find the main factors or 'gradients' in large and sparse community datasets. This can be a useful tool for assessing important informant-species-use associations in ethnobotany. Here we use the  dataset presented in `ethnobotanydata` to perform DCA using the `decorana()` function in the `vegan` package in R. 
+Detrended correspondence analysis (DCA) can be used to find the main factors or 'gradients' in large and sparse community datasets. This can be a useful tool for assessing important informant-species-use associations in ethnobotany. Here we use the  dataset presented in `ethnobotanydata` to perform DCA using the `decorana()` function in the `vegan` package [@vegan]. 
 
-The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded).
+The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded). This can be done quickly using the `select()` and `filter_all()` functions of the `dplyr` package [@dplyr].
 
 ```{r }
 #remove rows with zero rowsums
@@ -88,7 +93,7 @@ ethno_data_complete <- ethnobotanydata %>%
  ethno_ordination
 ```
 
-Ordination results are shown with `summary(ord)`. Scores are extracted with `scores`. Vegan's plot function automatically shows the scores.
+Ordination results can be shown with the command `summary()` and the argument for the named ordination, i.e. summary(ethno_ordination in our case). Likewise, ordination scores can be extracted with `scores()`. Calling the `plot()` function on the ordination results will plot the scores from the ordination.
 
 ```{r plot_ord, fig.width=7, fig.height=7}
 #Plot ordination results
@@ -97,7 +102,7 @@ plot(ethno_ordination)
 
 ## Principal component analysis (PCA)
 
-Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `tidyverse` and `broom` packages using the `nest()` function along with the `mutate()` and `map` combo to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
+Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `broom` [@broom], `tidyr` [@tidyr] and `purrr` [@purrr] packages using the `nest()` function along with the `mutate()` and `map()` combo to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
 
 ```{r nesting}
 nested_ethno_pca <- ethnobotanydata %>% 
@@ -125,7 +130,7 @@ var_exp_tidy <- nested_ethno_pca %>%
 var_exp_tidy
 ```
 
-The `nrow(var_exp_tidy)` principle components selected explain `sum(var_exp_tidy$var_exp)`% of variance. As a general rule the first few principal components explain much of the variation. To keep the analysis within reasonable bounds it makes sense to select the first four principle components.
+The `nrow(var_exp_tidy)` principle components selected explain `sum(var_exp_tidy$var_exp)`% of variance. As a general rule the first few principal components explain much of the variation. To keep the analysis within reasonable bounds it makes sense to select the first four principle components (this choice may change according to the analysis).
 
 ```{r select_components}
 
@@ -157,11 +162,9 @@ var_exp %>%
 
 ## Getting Species names right
 
-Another, possibly equally important part of ethnobotany, is that we are good practitioners. This means attaining as much as possible a mastery of the tools needed for the job. A large part of the work of ethnobotany is identification of species.
+A large part of the work of ethnobotany is identification of species. Plant species names change all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are often split or merged. These changes are most accurately, and most timely, dispalyed on The Plant List <http://www.theplantlist.org/> maintained by the Missouri Botanical Garden. 
 
-Plant species names are changing all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are often split or merged. These changes are most accurately, and most timely, dispalyed on The Plant List <http://www.theplantlist.org/> maintained by the Missouri Botanical Garden. 
-
-Among the many other functions, the R package Taxonstand can cross-check .csv based lists of species names against the database. Here is an example using just the species names `Full.name` in Taxonstand's `bryophytes` data.
+Among the many other functions, the R package Taxonstand can cross-check .csv based lists of species names against the database [@Taxonstand]. Here is an example using just the species names `Full.name` in Taxonstand's `bryophytes` data.
 
 ```{r bryophytes_head, echo= FALSE}
 data(bryophytes)
@@ -186,21 +189,5 @@ knitr::kable(selected_corrected_data, caption = "First six rows of corrections o
 ```
 
 ## References
-
-Albuquerque, Ulysses Paulino, Patricia Muniz de Medeiros, Washington Soares Ferreira Junior, Taline Cristina da Silva, Rafael Ricardo Vasconcelos da Silva, and Thiago Goncalves-Souza. “Social-Ecological Theory of Maximization: Basic Concepts and Two Initial Models.” Biological Theory, February 11, 2019. <https://doi.org/10.1007/s13752-019-00316-8>.
-
-Albuquerque, Ulysses P., Reinaldo FP Lucena, Julio M. Monteiro, Alissandra TN Florentino, and Cecília de Fatima CBR Almeida. “Evaluating Two Quantitative Ethnobotanical Techniques.” Ethnobotany Research and Applications 4 (2006): 51–60. <http://hdl.handle.net/10125/237>.
-
-Friedman, J., Z. Yaniv, A. Dafni, and D. Palewitch. “A Preliminary Classification of the Healing Potential of Medicinal Plants, Based on a Rational Analysis of an Ethnopharmacological Field Survey among Bedouins in the Negev Desert, Israel.” Journal of Ethnopharmacology 16, no. 2–3 (June 1986): 275–87.
-
-Gaoue, Orou G., Michael A. Coe, Matthew Bond, Georgia Hart, Barnabas C. Seyler, and Heather McMillen. “Theories and Major Hypotheses in Ethnobotany.” Economic Botany 71, no. 3 (September 2017): 269–87. <https://doi.org/10.1007/s12231-017-9389-8>.
-
-Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
-
-Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany, 2006.
-
-Tardio, Javier, and Manuel Pardo-de-Santayana. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain)1.” Economic Botany 62, no. 1 (May 2008): 24–39. <https://doi.org/10.1007/s12231-007-9004-5>.
-
-Whitney, Cory W., Joseph Bahati, and J. Gebauer. “Ethnobotany and Agrobiodiversity; Valuation of Plants in the Homegardens of Southwestern Uganda.” Ethnobiology Letters 9, no. 2 (2018): 90–100. <https://doi.org/10.14237/ebl.9.2.2018.503>.
 
 
