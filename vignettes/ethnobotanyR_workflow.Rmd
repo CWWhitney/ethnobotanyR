@@ -38,11 +38,13 @@ Ideally the work that we do in ethnobotany will have direct relevance to the hum
 
 We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. 
 
-In addition to working closely with communities and generating quality research questions, another, possibly equally important part of ethnobotany, is that we are good practitioners. This means attaining as much as possible a mastery of the tools needed for the job.
+In addition to working closely with communities and generating quality research questions, another, possibly equally important part of ethnobotany is that we are good practitioners. This means attaining as much as possible a mastery of the tools needed for the job. This workflow gives a general overview of one possible process for an ethnobotany study and the tools that may be needed.
 
 ## Impact pathway 
 
-Applying docalculus to impact pathways is a new revolutionary way to allow for calculating the causal effects of interventions [@pearlBookWhyNew2018]. Building a causal model of the problem at hand can be useful when working together with communities to define meaningful research questions. The decision will take the form of a causal decision impact pathway [@tikkaIdentifyingCausalEffects2017]. Here is a simplified example of the effect of allowing for forest use (i.e. active practice of ethnobotany uses) on the conservation of a forest given the risk of overextraction and the possible benefit of conservation actions on the part of the users. This can be plotted with the `igraph` library [@igraph].
+Applying docalculus to impact pathways is a new revolutionary way to allow for calculating the causal effects of interventions [@pearlBookWhyNew2018]. Building a causal model of the problem at hand can be useful when working together with communities to define meaningful research questions. Through collaborative and iterative processes of logical explainations about relationships [@whitneyDecisionAnalysisMethods2018] the decision can take the form of a causal decision impact pathway. Such a pathway can be used for generation of a mathematical formula for calclating possible intervention outcomes [@tikkaIdentifyingCausalEffects2017]. 
+
+The example below is a simplified hypothetical analysis of the effect of allowing for forest use (i.e. active practice of ethnobotany uses) on the conservation of a forest given the risk of overextraction and the possible benefit of conservation actions on the part of the users. This can be plotted with the `igraph` package [@igraph].
 
 ```{r plot_conservation_decision, fig.width=7, fig.height=7}
 #decision impact pathway
@@ -56,7 +58,7 @@ conservation_decision <- igraph::graph.formula(UF -+  CA, #use_forests -+ conser
 plot(conservation_decision)
 ```
 
-The `causal.effect()` function of the `causaleffect` library uses the doCalculus methods to generate a formula for the causal impact pathway [@causaleffect]. This model can be fed with observed values, ethnobotany surveys, focus group discussions and interviews.
+The `causal.effect()` function of the `causaleffect` package uses the doCalculus methods to generate a formula for the causal impact pathway [@causaleffect]. This model can be fed with observed values, ethnobotany surveys, focus group discussions and interviews.
 
 ```{r}
 causaleffect_model <- causaleffect::causal.effect(y = "C", x = "UF", z = NULL, G = conservation_decision, expr = TRUE)
@@ -71,7 +73,7 @@ $P_{C}(UF) = \sum_{CA,OE}P(C|UF,CA,OE)*P(OE|UF)P(CA|UF)$
 
 ## Testing various hypotheses in ethnobotany
 
-Users are highly encouraged to read the papers on Ethnobotany Theory [@gaoueTheoriesMajorHypotheses2017] and Social Ecological Theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. These papers offer helpful guidance to understanding theoretical approaches and formulating useful research questions. 
+Users are highly encouraged to familiarize themselves wth ethnobotany theory [@gaoueTheoriesMajorHypotheses2017] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theorhetical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions. 
 
 Annalyses such as Detrended correspondence analysis (DCA) and Principal component analysis (PCA) may be useful for exploratory analysis of ethnobotany data. Such analyses should be used with caution and within the confines of the predetermined research aims and objectives.
 
@@ -79,12 +81,13 @@ Annalyses such as Detrended correspondence analysis (DCA) and Principal componen
 
 Detrended correspondence analysis (DCA) can be used to find the main factors or 'gradients' in large and sparse community datasets. This can be a useful tool for assessing important informant-species-use associations in ethnobotany. Here we use the  dataset presented in `ethnobotanydata` to perform DCA using the `decorana()` function in the `vegan` package [@vegan]. 
 
-The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded). This can be done quickly using the `select()` and `filter_all()` functions of the `dplyr` package [@dplyr].
+The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded). This can be done quickly using the `select()` and `filter_all()` functions of the `dplyr` package [@dplyr] and pipe `%>%` functions of the `magrittr` package [@magrittr].
 
 ```{r }
 #remove rows with zero rowsums
 ethno_data_complete <- ethnobotanydata %>%  
   dplyr::select(-informant, -sp_name) %>% 
+  dplyr::filter_all(any_vars(!is.na(.)))%>%
     dplyr::filter_all(any_vars(. != 0))
 
  ethno_ordination <- vegan::decorana(ethno_data_complete) #This saves ordination results
@@ -115,13 +118,13 @@ nested_ethno_pca <- ethnobotanydata %>%
 nested_ethno_pca
 ```
 
-For PCA model evaluation we can check to see how much variance is explained by each principal component. This tells us how many of the components would be reasonable to assess when analyzing the results. To do this, we can use the data in the `pca_augmented` column of our `nested_ethno_pca` tibble along with some `dplyr` functions.
+For PCA model evaluation we can check to see how much variance is explained by each principal component. This tells us how many of the components would be reasonable to assess when analyzing the results. To do this, we can use the data in the `pca_augmented` column of our `nested_ethno_pca` tibble along with `dplyr` [@dplyr] and `magrittr` [@magrittr] functions.
 
 ```{r variance_check}
 
 var_exp_tidy <- nested_ethno_pca %>% 
   tidyr::unnest(pca_augmented) %>% 
-  dplyr::summarize_at(.vars = vars(contains("PC")), .funs = funs(var)) %>% 
+  dplyr::summarize_at(.vars = vars(contains("PC")), .funs = tibble::lst(var)) %>% 
   tidyr::gather(key = pc, value = variance) %>% 
   dplyr::mutate(var_exp = variance/sum(variance),
          cum_var_exp = cumsum(var_exp),
@@ -162,7 +165,7 @@ var_exp %>%
 
 ## Getting Species names right
 
-A large part of the work of ethnobotany is identification of species. Plant species names change all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are often split or merged. These changes are most accurately, and most timely, dispalyed on The Plant List <http://www.theplantlist.org/> maintained by the Missouri Botanical Garden. 
+A large part of the work of ethnobotany is identification of species. Plant species names change all the time. As botanists learn more about the diversity of plant life the taxonomic record becomes more clear and different species groups are often split or merged. These changes are most accurately, and most timely, dispalyed on The Plant List (TPL <http://www.theplantlist.org/>) maintained by the Missouri Botanical Garden. 
 
 Among the many other functions, the R package Taxonstand can cross-check .csv based lists of species names against the database [@Taxonstand]. Here is an example using just the species names `Full.name` in Taxonstand's `bryophytes` data.
 
@@ -175,7 +178,7 @@ data(bryophytes)
 knitr::kable(bryophytes_short$Full.name, caption = "First six rows of Taxonstand's bryophytes species list")
 ```
 
-We run the `TPL()` function on just the species names `Full.name` in Taxonstand's bryophytes data, i.e. Taxonstand::TPL(bryophytes$Full.name).
+We run the `TPL()` function on just the species names `Full.name` in Taxonstand's bryophytes data, i.e. Taxonstand::TPL(bryophytes$Full.name). The use of this package requires a good internet connection (over 700 kb/second) to connect to the TPL server.
 
 ```{r TPL_check_bryophytes, echo= FALSE, warning=FALSE}
 
@@ -189,5 +192,4 @@ knitr::kable(selected_corrected_data, caption = "First six rows of corrections o
 ```
 
 ## References
-
 
