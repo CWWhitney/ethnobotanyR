@@ -34,7 +34,7 @@ library(vegan)
 
 ## Addressing issues of relevance to communities
 
-Ideally the work that we do in ethnobotany will have direct relevance to the human and natural communities that are involved in the research. It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Well formulated research agendas should aim to provide clarity for relevant and timely decisions. Trade-offs have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
+It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Ideally the research that we do in ethnobotany should aim to have direct relevance to the human and natural communities that are involved. Well formulated research agendas in ethnobotany are thos ehtta seek to provide clarity for relevant and timely decisions. Trade-offs often have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
 
 We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. 
 
@@ -69,8 +69,19 @@ causaleffect_model <- causaleffect::causal.effect(y = "C", x = "UF", z = NULL, G
 cat(causaleffect_model)
 ```
 
-$P_{C}(UF) = \sum_{CA,OE}P(C|UF,CA,OE)*P(OE|UF)P(CA|UF)$
+$P_{C}(UF) = \sum_{CA,OE}*P(C|UF,CA,OE)*P(OE|UF)*P(CA|UF)$
 
+```{r}
+#priors use brms!
+CA <- 0.5 #conservation_action,
+OE <- 0.5 #overextraction,
+ProbCgivenUF_CAandOE <- 0.7
+ProbOEgivenUF <- 0.1
+ProbCAgivenUF <- 0.9
+
+sum(CA,OE)*ProbCgivenUF_CAandOE*ProbOEgivenUF*ProbCAgivenUF
+  
+```
 ## Testing various hypotheses in ethnobotany
 
 Users are highly encouraged to familiarize themselves wth ethnobotany theory [@gaoueTheoriesMajorHypotheses2017] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theorhetical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions. 
@@ -105,7 +116,7 @@ plot(ethno_ordination)
 
 ## Principal component analysis (PCA)
 
-Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `broom` [@broom], `tidyr` [@tidyr] and `purrr` [@purrr] packages using the `nest()` function along with the `mutate()` and `map()` combo to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
+Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `broom` [@broom], `tidyr` [@tidyr] and `purrr` [@purrr] packages using the `nest()` function along with the `mutate()` and `map()` functions to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
 
 ```{r nesting}
 nested_ethno_pca <- ethnobotanydata %>% 
