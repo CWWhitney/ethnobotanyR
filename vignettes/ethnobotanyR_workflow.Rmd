@@ -18,70 +18,29 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(causaleffect)
 library(broom)
 library(dplyr)
 library(ethnobotanyR)
-library(igraph)
 library(magrittr)
 library(pbapply)
 library(purrr)
 library(stringr)
 library(Taxonstand)
+library(tibble)
 library(tidyr)
+library(tidyselect)
 library(vegan)
 ```
 
 ## Addressing issues of relevance to communities
 
-It is far better for development related work to be done with, rather than about, communities. Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Ideally the research that we do in ethnobotany should aim to have direct relevance to the human and natural communities that are involved. Well formulated research agendas in ethnobotany are thos ehtta seek to provide clarity for relevant and timely decisions. Trade-offs often have to be made between the natural world and human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. 
+Ethnobotany work often concerns people who are faced with uncertain decisions about how to manage natural resources. Trade-offs often have to be made between benefits for the natural world and for human development. These trade-offs should be discussed and the detriments to either human society or ecology should be mitigated. Our work in ethnobotany can help to make these trade-offs clear and help to support decision making so that it has the best outcomes for society and the natural world. Ideally the research that we do in ethnobotany should aim to have direct relevance to the human and natural communities that are involved. Well formulated research agendas in ethnobotany are those that seek to provide clarity for relevant and timely decisions and have been generated together with local people. We can better serve the world if our ethnobotany work is done with, rather than about, local communities. 
 
-We should do our work so that it serves local communities. The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. 
+The best way to make sure that our work is of direct relevance to communities is to start our process with local people, rather than developing our research agenda at our desks we should do it cooperatively with the broad interests of local communities in mind. 
 
 In addition to working closely with communities and generating quality research questions, another, possibly equally important part of ethnobotany is that we are good practitioners. This means attaining as much as possible a mastery of the tools needed for the job. This workflow gives a general overview of one possible process for an ethnobotany study and the tools that may be needed.
 
-## Impact pathway 
 
-Applying docalculus to impact pathways is a new revolutionary way to allow for calculating the causal effects of interventions [@pearlBookWhyNew2018]. Building a causal model of the problem at hand can be useful when working together with communities to define meaningful research questions. Through collaborative and iterative processes of logical explainations about relationships [@whitneyDecisionAnalysisMethods2018] the decision can take the form of a causal decision impact pathway. Such a pathway can be used for generation of a mathematical formula for calclating possible intervention outcomes [@tikkaIdentifyingCausalEffects2017]. 
-
-The example below is a simplified hypothetical analysis of the effect of allowing for forest use (i.e. active practice of ethnobotany uses) on the conservation of a forest given the risk of overextraction and the possible benefit of conservation actions on the part of the users. This can be plotted with the `igraph` package [@igraph].
-
-```{r plot_conservation_decision, fig.width=7, fig.height=7}
-#decision impact pathway
-
-conservation_decision <- igraph::graph.formula(UF -+  CA, #use_forests -+ conservation_action,
-                                    UF -+  OE, #use_forests -+ overextraction,
-                                    OE -+  C, #overextraction -+ conservation,
-                                    CA -+  C, #conservation_action -+ conservation,
-                   simplify = FALSE)
-
-plot(conservation_decision)
-```
-
-The `causal.effect()` function of the `causaleffect` package uses the doCalculus methods to generate a formula for the causal impact pathway [@causaleffect]. This model can be fed with observed values, ethnobotany surveys, focus group discussions and interviews.
-
-```{r}
-causaleffect_model <- causaleffect::causal.effect(y = "C", x = "UF", z = NULL, G = conservation_decision, expr = TRUE)
-```
-
-```{r get_formula, include=FALSE}
-#Concatenate and Print model
-cat(causaleffect_model)
-```
-
-$P_{C}(UF) = \sum_{CA,OE}*P(C|UF,CA,OE)*P(OE|UF)*P(CA|UF)$
-
-```{r}
-#priors use brms!
-CA <- 0.5 #conservation_action,
-OE <- 0.5 #overextraction,
-ProbCgivenUF_CAandOE <- 0.7
-ProbOEgivenUF <- 0.1
-ProbCAgivenUF <- 0.9
-
-sum(CA,OE)*ProbCgivenUF_CAandOE*ProbOEgivenUF*ProbCAgivenUF
-  
-```
 ## Testing various hypotheses in ethnobotany
 
 Users are highly encouraged to familiarize themselves wth ethnobotany theory [@gaoueTheoriesMajorHypotheses2017] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theorhetical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions. 
@@ -107,7 +66,7 @@ ethno_data_complete <- ethnobotanydata %>%
  ethno_ordination
 ```
 
-Ordination results can be shown with the command `summary()` and the argument for the named ordination, i.e. summary(ethno_ordination in our case). Likewise, ordination scores can be extracted with `scores()`. Calling the `plot()` function on the ordination results will plot the scores from the ordination.
+Ordination results can be shown with the command `summary()` and the argument for the named ordination, i.e. 'summary(ethno_ordination)' in our case. Likewise, ordination scores can be extracted with `scores()`. Calling the `plot()` function on the ordination results will plot the scores from the ordination.
 
 ```{r plot_ord, fig.width=7, fig.height=7}
 #Plot ordination results
@@ -151,12 +110,11 @@ The `nrow(var_exp_tidy)` principle components selected explain `sum(var_exp_tidy
 var_exp <- var_exp_tidy %>% 
   head(4)
 
-var_exp
 ```
 
 Plot the variance explained and the cumulative variance explained to see trends across components.
 
-```{r plot_pca, fig.width=7, fig.height=7}
+```{r plot_pca, fig.width=7, fig.height=3}
 var_exp %>% 
   dplyr::rename(
     `Variance Explained` = var_exp,
