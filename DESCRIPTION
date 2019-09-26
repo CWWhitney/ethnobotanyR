@@ -21,14 +21,14 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     broom, 
-    causaleffect,
-    igraph,
     knitr,
     pbapply,
     purrr,
     rmarkdown, 
     Taxonstand, 
+    tibble,
     tidyr,
+    tidyselect,
     stringr,
     vegan
 VignetteBuilder: knitr
