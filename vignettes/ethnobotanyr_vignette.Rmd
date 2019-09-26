@@ -121,7 +121,7 @@ ethnobotanyR::RFCs(ethnobotanydata)
 The `RIs()` function calculates the relative importance index (RI) for each species in the data set.
 
 \begin{equation}
-RI_s = \frac{RFC_{s(max)} + RNU_{s(max)}}{2} 
+RI_s = \frac{RFC_{s(max)}+RNU_{s(max)}}{2} 
 \end{equation}
 
 $RFC_{s(max)}$ is the relative frequency of citation for the species $s$ over the maximum, $RNU_{s(max)}$ is the relative number of uses for $s$ over the maximum [see @tardioCulturalImportanceIndices2008].
