@@ -23,12 +23,7 @@ Suggests:
     broom, 
     knitr,
     pbapply,
-    purrr,
     rmarkdown, 
-    Taxonstand, 
-    tibble,
     tidyr,
-    tidyselect,
-    stringr,
-    vegan
+    stringr
 VignetteBuilder: knitr

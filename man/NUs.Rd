@@ -22,8 +22,8 @@ Calculates the number of uses (NU) per species.
 \section{Warning}{
 
 
-Identification for informants and species must be listed by the names 'informant' and 'sp_name'respectively in the data set.
-The rest of the columns should all represent seperate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
+The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 }
 
 \examples{
