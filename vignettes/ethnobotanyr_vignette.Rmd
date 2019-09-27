@@ -79,7 +79,7 @@ ethnobotanyR::CIs(ethnobotanydata)
 The `FCs()` function calculates the frequency of citation (FC) for each species in the data set. 
 
 \begin{equation}
-FC_s = \sum_{i=i_1}^{^iN} UR_i
+FC_s = \sum_{i=i_1}^{^iN}{UR_i}
 \end{equation}
 
 `FCs()` is the sum of informants that cite a use for the species [see @pranceQuantitativeEthnobotanyCase1987].
@@ -207,7 +207,6 @@ cowplot::plot_grid(URs_plot, NUs_plot, FCs_plot, CIs_plot,
     align="hv",
     label_size = 12)
 ```
-
 
 ## `ethnobotanyR` chord diagrams with `circlize`
 
