@@ -28,3 +28,4 @@ This is a resubmission. In this version I have:
 *Included the CVe() from Reyes-Garcia et al. (2006).
 *Removed the ethnobotanyChord() function and dissagregated it into ethnoChord() and ethnoChordUser() functions to allow for plotting simple circos plots of the uses and users per species.
 *Removed assertthat functions in favor of standard if() stop() solutions
+*Added packrat

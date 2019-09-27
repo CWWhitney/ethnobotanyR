@@ -148,8 +148,8 @@ Requires: R6, ggplot2, htmltools, jsonlite, lazyeval, shiny
 
 Package: curl
 Source: CRAN
-Version: 4.1
-Hash: 0b172291139633093430b6005ff5f788
+Version: 4.2
+Hash: 3d7392b36f838a538683f98e580f35dd
 
 Package: desc
 Source: CRAN
