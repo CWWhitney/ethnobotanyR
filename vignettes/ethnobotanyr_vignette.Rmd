@@ -30,7 +30,7 @@ load("ethnobotanydata.rda")
 </p>
 
 
-The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one on cultural importance indices [@tardioCulturalImportanceIndices2008] and another on agrobiodiversity valuation [@whitneyEthnobotanyAgrobiodiversityValuation2018]. The goal is to provide an easy-to-use platform for ethnobotanists to calculate quantitative ethnobotany indices. Users are highly encouraged to familiarize themselves with ethnobotany theory [@gaoueTheoriesMajorHypotheses2017] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theorhetical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions.
+The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one on cultural importance indices [@tardioCulturalImportanceIndices2008] and another on agrobiodiversity valuation [@whitneyEthnobotanyAgrobiodiversityValuation2018]. The goal is to provide an easy-to-use platform for ethnobotanists to calculate quantitative ethnobotany indices. Users are highly encouraged to familiarize themselves with ethnobotany theory [@gaoue2017; @albuquerqueEthnobotanyOneConcept2010] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theorhetical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions.
 
 An example data set called `ethnobotanydata` is provided to show what the layout for standard ethnobotany data should be formatted to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
 
@@ -150,17 +150,17 @@ The `simple_UVs()` function calculates the simplified use value (UV) index for e
 UV_{s} = \sum U_i/N
 \end{equation}
 
-$U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey [see @albuquerqueEvaluatingTwoQuantitative2006].
+$U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey [see @albuquerque2006].
 
 ### Cultural Value (CVe) for ethnospecies 
 
-The `CVe()` function calculates the cultural value (CVe) for ethnospecies. The index is one of three proposed for assessing the cultural, practical and economic dimensions (ethno) species importance. Reyes-Garcia et al. (2006) suggest several more indices but $CV_e$ is the most commonly used from that study.
+The `CVe()` function calculates the cultural value (CVe) for ethnospecies. The index is one of three proposed for assessing the cultural, practical and economic dimensions (ethno) species importance. Reyes-Garcia et al. (2006) suggest several more indices but $CV_e$ is the most commonly used from that study [@ReyesGarcia2006].
 
 \begin{equation}
 CV_{e} = {Uc_{e}}  \cdot{IC_{e}}  \cdot \sum {IUc_{e}}
 \end{equation}
 
-Where $UC_e$ is the number of uses reported for ethnospecies $e$ divided by all potential uses of an ethnospecies considered in the study. $Ic_e$ expresses the number of informants who listed the ethnospecies $e$ as useful divided by the total number of informants. $IUc_e$ expresses the number of informants who mentioned each use of the ethnospecies $e$ divided by the total number of informants (see Reyes-Garcia et al. 2006).
+Where $UC_e$ is the number of uses reported for ethnospecies $e$ divided by all potential uses of an ethnospecies considered in the study. $Ic_e$ expresses the number of informants who listed the ethnospecies $e$ as useful divided by the total number of informants. $IUc_e$ expresses the number of informants who mentioned each use of the ethnospecies $e$ divided by the total number of informants [see @ReyesGarcia2006].
 
 ```{r CVe}
 ethnobotanyR::CVe(ethnobotanydata)
