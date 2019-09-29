@@ -28,17 +28,9 @@ knitr::include_graphics('vignettes/ethnobotanyR.png')
 
 ## Installation
 
-Install the released version of ethnobotanyR from [CRAN](https://CRAN.R-project.org) with:
+Install the released version of ethnobotanyR from [CRAN](https://CRAN.R-project.org) with `install.packages("ethnobotanyR")`.
 
-``` r
-install.packages("ethnobotanyR")
-```
-
-Install the working version of ethnobotanyR from [GitHub](https://github.com) with:
-
-``` r
-devtools::install_github(“CWWhitney/ethnobotanyR”)
-```
+Install the working version of ethnobotanyR from [GitHub](https://github.com) with `devtools::install_github(“CWWhitney/ethnobotanyR”)`.
 
 Read more in [Quantitative ethnobotany analysis with ethnobotanyR](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html)
 

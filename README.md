@@ -23,18 +23,12 @@ and developing meaningful hypotheses.
 ## Installation
 
 Install the released version of ethnobotanyR from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("ethnobotanyR")
-```
+[CRAN](https://CRAN.R-project.org) with
+`install.packages("ethnobotanyR")`.
 
 Install the working version of ethnobotanyR from
-[GitHub](https://github.com) with:
-
-``` r
-devtools::install_github(“CWWhitney/ethnobotanyR”)
-```
+[GitHub](https://github.com) with
+`devtools::install_github(“CWWhitney/ethnobotanyR”)`.
 
 Read more in [Quantitative ethnobotany analysis with
 ethnobotanyR](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html)
@@ -45,12 +39,12 @@ Albuquerque, Ulysses Paulino, Patricia Muniz de Medeiros, Washington
 Soares Ferreira Junior, Taline Cristina da Silva, Rafael Ricardo
 Vasconcelos da Silva, and Thiago Goncalves-Souza. 2019.
 Social-Ecological Theory of Maximization: Basic Concepts and Two Initial
-Models. Biological Theory. <https://doi.org/10.1007/s13752-019-00316-8>.
+Models. Biological Theory. <doi:10.1007/s13752-019-00316-8>.
 
 Gaoue, Orou G., Michael A. Coe, Matthew Bond, Georgia Hart, Barnabas C.
 Seyler, and Heather McMillen. 2017. Theories and Major Hypotheses in
 Ethnobotany. Economic Botany 71: 269–287.
-<https://doi.org/10.1007/s12231-017-9389-8>.
+<doi:10.1007/s12231-017-9389-8>.
 
 Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance
 Indices: A Comparative Analysis Based on the Useful Wild Plants of
