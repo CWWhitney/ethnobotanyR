@@ -3,12 +3,18 @@
 \name{FCs}
 \alias{FCs}
 \title{Frequency of Citation (FC)}
+\source{
+Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
+}
 \usage{
 FCs(data)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
+}
+\value{
+Data frame of species and frequency of citation (FC) values.
 }
 \description{
 Calculates the frequency of citation (FC) per species.
@@ -26,8 +32,7 @@ eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 FCs(eb_data)
 
 }
-\keyword{ethnobotany,}
-\keyword{number}
-\keyword{of}
+\keyword{citation}
+\keyword{ethnobotany}
+\keyword{frequency}
 \keyword{quantitative}
-\keyword{uses}

@@ -1,14 +1,16 @@
 #' Frequency of Citation (FC)
 #'
 #' Calculates the frequency of citation (FC) per species.
+#' @source Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
-#' @keywords quantitative ethnobotany, number of uses
 #' 
-#' @importFrom magrittr %>%
+#' @keywords quantitative ethnobotany frequency citation
+#' 
+#' @return Data frame of species and frequency of citation (FC) values.
+#' 
 #' @importFrom dplyr filter summarize select left_join group_by 
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
+#' @importFrom magrittr %>%
 #' 
 #' @examples
 #' 
@@ -23,7 +25,13 @@
 #' FCs(eb_data)
 #'
 #'@export FCs
+#'
 FCs <- function(data) {
+  
+  #Add error stops ####
+  {
+    #Check that packages are loaded
+    {
     if (!requireNamespace("dplyr", quietly = TRUE)) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
@@ -31,25 +39,26 @@ FCs <- function(data) {
   if (!requireNamespace("magrittr", quietly = TRUE)) {
     stop("Package \"magrittr\" needed for this function to work. Please install it.",
          call. = FALSE)
+    }
+  }# end package check
+
+  ## Check that use categories are greater than zero
+  if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
+    warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
+    data<-data[stats::complete.cases(data), ]
   }
-  
+
+  ## Use 'complete.cases' from stats to get to the collection of obs without NA
+  if (any(is.na(data))) {
+    warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
+    data<-data[stats::complete.cases(data), ]
+  }
+      } #end error stops
+
+  # Set the variables to NULL first, appeasing R CMD check
   FCps <- sp_name <- informant <- FCdata <- FCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
-  #add error stops with validate_that
-  assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
-  assertthat::validate_that("sp_name" %in% colnames(data), msg = "The required column called \"sp_name\" is missing from your data. Add it.")
-  
-  assertthat::validate_that(is.factor(data$informant), msg = "The \"informant\" is not a factor variable. Transform it.")
-  assertthat::validate_that(is.factor(data$sp_name), msg = "The \"sp_name\" is not a factor variable. Transform it.")
-  
-  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-  
-  ## Use 'complete.cases' from stats to get to the collection of obs without NA
-  data_complete<-data[stats::complete.cases(data), ]
-  #message about complete cases
-  assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-  
-  FCdata <- data #create subset-able data
+  FCdata <- data #create complete subset-able data
   
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
   FCdata <- FCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
@@ -58,6 +67,6 @@ FCs <- function(data) {
       dplyr::summarize(FCs = sum(FCps))%>%
       dplyr::arrange(-FCs) 
     
-    print(as.data.frame(FCs))
+    as.data.frame(FCs)
 }
 

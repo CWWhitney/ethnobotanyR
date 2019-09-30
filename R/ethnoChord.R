@@ -1,21 +1,25 @@
 #' Chord diagram of ethnobotany uses and species
 #'
-#' Creates a chord diagram of species and uses for ethnobotany studies.
+#' Creates a simple chord diagram of species and uses for ethnobotany studies. For more on the circlize package see Zuguang Gu's 'Circular Visualization in R' <https://jokergoo.github.io/circlize_book/book/>
 #' @source Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
+#' @keywords quantitative ethnobotany cultural value use report chord diagram 
+#' 
+#' @return Chord diagram figure for each use by 'informant' (top half) related to each 'sp_name' (bottom half) in the data set. 
+#' To change variable names try using the dplyr rename function.
+#' 
+#' @section Warning:
+#' 
+#' Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
+#' The rest of the columns represent the identified ethnobotany use categories. These data should be populated with counts of uses per person (should be 0 or 1 values).
+#' 
+#' @importFrom circlize chordDiagram circos.text get.cell.meta.data
+#' @importFrom dplyr filter rename select 
+#' @importFrom graphics strwidth
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
-#' @importFrom dplyr filter select 
-#' @importFrom circlize chordDiagram
-#' @importFrom circlize circos.text 
-#' @importFrom circlize get.cell.meta.data
-#' @importFrom graphics strwidth
-#' @importFrom assertthat validate_that
-#' @importFrom assertthat see_if
-#' 
-#' @keywords ethnobotany, cultural value, use report
 #'
 #' @examples
 #' 
@@ -23,52 +27,59 @@
 #' ethnoChord(ethnobotanydata)
 #' 
 #' #Generate random dataset of three informants uses for four species
+#' 
 #' eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 #' names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
-#' eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
-#' eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+#' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' 
 #' ethnoChord(eb_data)
 #' 
 #' @export ethnoChord
+#' 
 ethnoChord <- function(data) {
-    if (!requireNamespace("reshape", quietly = TRUE)) {
+  
+  #Add error stops ####
+  {
+  #Check that packages are loaded
+    {
+  if (!requireNamespace("reshape", quietly = TRUE)) {
         stop("Package \"reshape\" needed for this function to work. Please install it.",
             call. = FALSE)
-    }
-   if (!requireNamespace("circlize", quietly = TRUE)) {
+  }
+  
+  if (!requireNamespace("circlize", quietly = TRUE)) {
      stop("Package \"circlize\" needed for this function to work. Please install it.",
           call. = FALSE)
-   }
+  }
+  
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
+  
   if (!requireNamespace("magrittr", quietly = TRUE)) {
     stop("Package \"magrittr\" needed for this function to work. Please install it.",
          call. = FALSE)
-  }
+  }    
+    }# end package loading check
   
-  sp_name <- informant <- value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check
+  # Use 'complete.cases' from stats to get to the collection of obs without NA
   
-  #add error stops with validate_that
-  assertthat::validate_that("informant" %in% colnames(data), msg = "The required column called \"informant\" is missing from your data. Add it.")
-  assertthat::validate_that("sp_name" %in% colnames(data), msg = "The required column called \"sp_name\" is missing from your data. Add it.")
+    if (any(is.na(data))) {
+      warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
+    data<-data[stats::complete.cases(data), ]
+    }
+  }# end error stops
   
-  assertthat::validate_that(is.factor(data$informant), msg = "The \"informant\" is not a factor variable. Transform it.")
-  assertthat::validate_that(is.factor(data$sp_name), msg = "The \"sp_name\" is not a factor variable. Transform it.")
+  # Set the variables to NULL first, appeasing R CMD check
+  sp_name <- informant <- value <- strwidth <- NULL 
   
-  assertthat::validate_that(all(sum(dplyr::select(data, -informant, -sp_name)>0)) , msg = "The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-  
-  ## Use 'complete.cases' from stats to get to the collection of obs without NA
-  data_complete<-data[stats::complete.cases(data), ]
-  #message about complete cases
-  assertthat::see_if(length(data_complete) == length(data), msg = "Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-  
-  #Melt ethnobotany data
+  # Melt ethnobotany data
   mat <- reshape::melt(data, id=c("informant","sp_name")) %>% dplyr::filter(value >=1)%>%
    dplyr::arrange(dplyr::desc(informant)) %>%  dplyr::arrange(dplyr::desc(sp_name)) %>% dplyr::select(2:3)
   
-  #Create chord plot
+  # Create chord plot ####
   
   circlize::chordDiagram(mat, annotationTrack = "grid", 
                          preAllocateTracks = list(track.height = max(graphics::strwidth(unlist(dimnames(mat))))))
@@ -86,6 +97,5 @@ ethnoChord <- function(data) {
                             niceFacing = TRUE, adj = c(0, 0.5), col = "black")
     }
   }, bg.border = NA)
-  
-    print("Chord diagram for each use related to each species in the data set")
+
 }
