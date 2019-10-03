@@ -3,6 +3,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^cran-comments.md
+^ethnobotanyR-manual.tex
 
 
 

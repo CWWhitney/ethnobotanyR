@@ -77,8 +77,8 @@ CIs <- function(data) {
     data_Ci <- data_URs
     
     #calcualte CI (UR/N)
-    data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant)) *
-        ncol(dplyr::select(URdata, -informant, -sp_name)))
+    data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant))) #*
+        #ncol(dplyr::select(URdata, -informant, -sp_name, -URps)))
     
     #change sort order, arrange and round
     CIs <- data_Ci %>% dplyr::select(-URs) %>%
