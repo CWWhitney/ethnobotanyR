@@ -4,7 +4,7 @@
 \alias{simple_UVs}
 \title{Use Value (UV) index per species}
 \source{
-Albuquerque, U. P., R. F. P. Lucena, J. M. Monteiro, A. T. N. Florentino, and C. F. C. B. R. Almeida. 2006. Evaluating Two Quantitative Ethnobotanical Techniques. Ethnobotany Research and Applications 4:51–60. <http://hdl.handle.net/10125/237>
+Albuquerque, Ulysses P., Reinaldo FP Lucena, Julio M.Monteiro, Alissandra TN Florentino, and Cecilia de Fatima CBR Almeida. 2006. “Evaluating Two Quantitative Ethnobotanical Techniques.” Ethnobotany Research and Applications 4: 51–60.
 }
 \usage{
 simple_UVs(data)
@@ -41,9 +41,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 simple_UVs(eb_data)
 
 }
-\keyword{cultural}
-\keyword{ethnobotany}
-\keyword{importance}
-\keyword{quantitative}
-\keyword{use}
-\keyword{value}
+\keyword{arith}
+\keyword{logic}
+\keyword{math}
+\keyword{methods}
+\keyword{misc}
+\keyword{survey}

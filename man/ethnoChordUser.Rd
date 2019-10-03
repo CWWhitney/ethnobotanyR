@@ -4,7 +4,7 @@
 \alias{ethnoChordUser}
 \title{Chord diagram of informants and species uses}
 \source{
-Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
+Whitney, Cory W., Joseph Bahati, and J. Gebauer. 2018. “Ethnobotany and Agrobiodiversity; Valuation of Plants in the Homegardens of Southwestern Uganda.” Ethnobiology Letters 9 (2): 90–100.
 }
 \usage{
 ethnoChordUser(data)
@@ -46,30 +46,31 @@ ethnoChordUser(eb_data)
 \keyword{@return}
 \keyword{Chord}
 \keyword{To}
+\keyword{arith}
 \keyword{change}
-\keyword{chord}
-\keyword{cultural}
 \keyword{data}
 \keyword{diagram}
 \keyword{dplyr}
 \keyword{each}
-\keyword{ethnobotany}
 \keyword{figure}
 \keyword{for}
 \keyword{function.}
+\keyword{graphs}
 \keyword{half)}
 \keyword{in}
+\keyword{logic}
+\keyword{math}
+\keyword{methods}
+\keyword{misc}
 \keyword{names}
 \keyword{per}
-\keyword{quantitative}
 \keyword{related}
 \keyword{rename}
-\keyword{report}
 \keyword{set.}
+\keyword{survey}
 \keyword{the}
 \keyword{to}
 \keyword{try}
 \keyword{use}
 \keyword{using}
-\keyword{value}
 \keyword{variable}

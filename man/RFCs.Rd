@@ -4,7 +4,7 @@
 \alias{RFCs}
 \title{Relative Frequency of Citation (RFC)}
 \source{
-Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <https://doi.org/10.1007/s12231-007-9004-5>
+Tardio, Javier, and Manuel Pardo-de-Santayana. 2008. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1.” Economic Botany 62 (1): 24–39.
 }
 \usage{
 RFCs(data)
@@ -41,8 +41,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 RFCs(eb_data)
 
 }
-\keyword{citation}
-\keyword{ethnobotany}
-\keyword{frequency}
-\keyword{quantitative}
-\keyword{relative}
+\keyword{arith}
+\keyword{logic}
+\keyword{math}
+\keyword{methods}
+\keyword{misc}
+\keyword{survey}

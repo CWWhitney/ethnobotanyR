@@ -4,7 +4,7 @@
 \alias{ethnobotanyChord}
 \title{Chord diagram of informants and species uses}
 \source{
-Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
+Whitney, Cory W., Joseph Bahati, and J. Gebauer. 2018. “Ethnobotany and Agrobiodiversity; Valuation of Plants in the Homegardens of Southwestern Uganda.” Ethnobiology Letters 9 (2): 90–100.
 }
 \usage{
 ethnobotanyChord(data)
@@ -19,8 +19,8 @@ Creates a chord diagram of informants and species uses for ethnobotany studies. 
 \section{Warning}{
 
 
-Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
-The rest of the columns represent the identified ethnobotany use categories. These data should be populated with counts of uses per person (should be 0 or 1 values).
+ethnobotanyChord is deprecated. Use ethnoChord() 
+and ethnoChordUser() functions instead.
 }
 
 \examples{
@@ -47,29 +47,24 @@ ethnobotanyChord(eb_data)
 \keyword{Chord}
 \keyword{To}
 \keyword{change}
-\keyword{chord}
-\keyword{cultural}
 \keyword{data}
 \keyword{diagram}
 \keyword{dplyr}
 \keyword{each}
-\keyword{ethnobotany}
 \keyword{figure}
 \keyword{for}
 \keyword{function.}
 \keyword{half)}
 \keyword{in}
+\keyword{internal}
 \keyword{names}
 \keyword{per}
-\keyword{quantitative}
 \keyword{related}
 \keyword{rename}
-\keyword{report}
 \keyword{set.}
 \keyword{the}
 \keyword{to}
 \keyword{try}
 \keyword{use}
 \keyword{using}
-\keyword{value}
 \keyword{variable}

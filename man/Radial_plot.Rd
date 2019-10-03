@@ -41,8 +41,10 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 Radial_plot(data = eb_data, analysis = URs)
 
 }
-\keyword{bar}
-\keyword{ethnobotany}
-\keyword{plot}
-\keyword{radial}
-\keyword{visualuzation}
+\keyword{arith}
+\keyword{graphs}
+\keyword{logic}
+\keyword{math}
+\keyword{methods}
+\keyword{misc}
+\keyword{survey}

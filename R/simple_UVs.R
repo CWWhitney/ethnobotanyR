@@ -1,11 +1,11 @@
 #' Use Value (UV) index per species
 #'
 #' Calculates the simplified use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
-#' @source Albuquerque, U. P., R. F. P. Lucena, J. M. Monteiro, A. T. N. Florentino, and C. F. C. B. R. Almeida. 2006. Evaluating Two Quantitative Ethnobotanical Techniques. Ethnobotany Research and Applications 4:51–60. <http://hdl.handle.net/10125/237>
+#' @source Albuquerque, Ulysses P., Reinaldo FP Lucena, Julio M.Monteiro, Alissandra TN Florentino, and Cecilia de Fatima CBR Almeida. 2006. “Evaluating Two Quantitative Ethnobotanical Techniques.” Ethnobotany Research and Applications 4: 51–60.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
-#' @keywords quantitative ethnobotany cultural importance use value
+#' @keywords arith math logic methods misc survey
 #'
 #' @return Data frame of species and simplified use value (UV) index values.
 #'
@@ -36,8 +36,7 @@
 simple_UVs <- function(data) {
   
   #Add error stops ####
-  {
-    #Check that packages are loaded
+  #Check that packages are loaded
     {
     if (!requireNamespace("dplyr", quietly = TRUE)) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.", 
@@ -59,8 +58,7 @@ simple_UVs <- function(data) {
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
       data<-data[stats::complete.cases(data), ]
-    }
-  } #end error stops
+    } #end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   UVpsdata <- sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check

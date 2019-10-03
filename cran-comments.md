@@ -26,8 +26,9 @@ This is a resubmission. In this version I have:
 
 *Added new functions for quantitative assessment
 *Updated UVs() following Tardio and Pardo-de-Santayana (2008)
+*Updated the CIs() following Tardio and Pardo-de-Santayana (2008)
 *created simple_UVs() to calculate a simple UVs cf. Albuquerque et al. (2006).
 *Added fidelity level per species FLs() from Friedman et al. (1986).
 *Included the CVe() from Reyes-Garcia et al. (2006).
-*Removed the ethnobotanyChord() function and dissagregated it into ethnoChord() and ethnoChordUser() functions to allow for plotting simple circos plots of the uses and users per species.
+*ethnobotanyChord() is deprecated and dissagregated into ethnoChord() and ethnoChordUser() functions to allow for plotting simple circos plots of the uses and users per species.
 *Removed assertthat functions in favor of standard if() stop() solutions

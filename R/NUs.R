@@ -1,11 +1,11 @@
 #' Number of Uses (NU)
 #'
 #' Calculates the number of uses (NU) per species.
-#' @source Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
+#' @source Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
-#' @keywords quantitative ethnobotany number of uses
+#' @keywords arith math logic methods misc survey
 #' 
 #' @return Data frame of species and number of uses (NU) values.
 #' 
@@ -36,8 +36,7 @@
 NUs <- function(data) {
   
   #Add error stops ####
-  {
-    #Check that packages are loaded
+  #Check that packages are loaded
     {
   if (!requireNamespace("stats", quietly = TRUE)) {
     stop("Package \"stats\" needed for this function to work. Please install it.",
@@ -63,8 +62,7 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
       data<-data[stats::complete.cases(data), ]
-    }
-  } #end error stops
+    }#end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   NUdata <- NUdataaggr <- NUs <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check

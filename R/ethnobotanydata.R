@@ -6,7 +6,7 @@
 #' The other 10 columns are the identified ethnobotany use categories.
 #' The data is populated with counts of uses per person (0 and 1 values).
 #'
-#' @keywords ethnobotany datasets
+#' @keywords misc survey
 #' 
 #' @docType data
 #'

@@ -1,10 +1,10 @@
 #' Cultural Value of ethnospecies (CVe)
 #'
 #' Calculates the Cultural Value (CVe) per ethnospecies.
-#' @source Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany, 2006. <https://doi.org/10.2307/4257061>
+#' @source Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. 2006. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of ethnospecies names respectively.
 #' 
-#' @keywords quantitative ethnobotany cultural importance
+#' @keywords arith math logic methods misc survey
 #' 
 #' @return Data frame of ethnospecies and Cultural Value (CVe) values.
 #'
@@ -13,7 +13,7 @@
 #' Identification for informants and ethnospecies must be listed by the names 'informant' and 'sp_name' respectively in the data set.
 #' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 #' 
-#' @importFrom dplyr filter summarize select left_join group_by arrange bind_cols mutate
+#' @importFrom dplyr filter select group_by arrange bind_cols mutate
 #' @importFrom magrittr %>%
 #' 
 #' 
@@ -36,7 +36,6 @@
 CVe <- function(data) {
   
   #Add error stops ####
-  {
     #Check that packages are loaded
     {
   if (!requireNamespace("dplyr", quietly = TRUE)) {
@@ -59,8 +58,7 @@ CVe <- function(data) {
   if (any(is.na(data))) {
     warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
     data<-data[stats::complete.cases(data), ]
-  }
-    } #end error stops
+   } #end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   CVe <- FCs <- UR_UN_FC <- CVe <- URdata  <- data_Ci <- data_URs <- URps <- sp_name <- informant <- NULL 

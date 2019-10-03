@@ -1,11 +1,11 @@
 #' Cultural Importance index (CI)
 #'
 #' Calculates the Cultural Importance Index (CI) per species.
-#' @source Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <https://doi.org/10.1007/s12231-007-9004-5>
+#' @source Tardio, Javier, and Manuel Pardo-de-Santayana. 2008. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1.” Economic Botany 62 (1): 24–39.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per informant (should be 0 or 1 values).
 #' 
-#' @keywords quantitative ethnobotany cultural importance
+#' @keywords arith math logic methods misc survey
 #' 
 #' @return Data frame of species and Cultural Importance Index (CI) values.
 #'
@@ -37,7 +37,6 @@
 CIs <- function(data) {
   
   #Add error stops ####
-  {
     #Check that packages are loaded
     {
     if (!requireNamespace("dplyr", quietly = TRUE)) {
@@ -60,8 +59,7 @@ CIs <- function(data) {
   if (any(is.na(data))) {
     warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
     data<-data[stats::complete.cases(data), ]
-  }
-      } #end error stops
+  } #end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   CI <- CIs <- URdata  <- data_Ci <- data_URs <- URps <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
