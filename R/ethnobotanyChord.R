@@ -1,11 +1,11 @@
 #' Chord diagram of informants and species uses
 #'
 #' Creates a chord diagram of informants and species uses for ethnobotany studies. For more on the circlize package see Zuguang Gu's 'Circular Visualization in R' <https://jokergoo.github.io/circlize_book/book/>
-#' @source Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
+#' @source Whitney, Cory W., Joseph Bahati, and J. Gebauer. 2018. “Ethnobotany and Agrobiodiversity; Valuation of Plants in the Homegardens of Southwestern Uganda.” Ethnobiology Letters 9 (2): 90–100. 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
-#' @keywords quantitative ethnobotany cultural value use report chord diagram
+#' @keywords graphs arith math logic methods misc survey
 #' 
 #' #' @return Chord diagram figure for each use per 'sp_name' (top half) related to each 'informant' (bottom half) in the data set. 
 #' To change variable names try using the dplyr rename function.
@@ -40,8 +40,7 @@
 ethnobotanyChord <- function(data) {
   
   # Add error stops ####
-  {
-    # Check that packages are loaded
+  # Check that packages are loaded
     {
       if (!requireNamespace("reshape", quietly = TRUE)) {
         stop("Package \"reshape\" needed for this function to work. Please install it.",
@@ -66,8 +65,7 @@ ethnobotanyChord <- function(data) {
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
       data<-data[stats::complete.cases(data), ]
-    }
-  } # end error stops
+    } # end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   mat <- sp_name <- informant <- value <- strwidth <- NULL # Setting the variables to NULL first, appeasing R CMD check

@@ -30,5 +30,5 @@ column 2 'sp_name' lists the names or id's of species
 The other 10 columns are the identified ethnobotany use categories.
 The data is populated with counts of uses per person (0 and 1 values).
 }
-\keyword{datasets}
-\keyword{ethnobotany}
+\keyword{misc}
+\keyword{survey}

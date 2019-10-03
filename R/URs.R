@@ -1,11 +1,11 @@
 #' Use Report (UR)
 #'
 #' Calculates the use reports (UR) per species, a common metric for ethnobotany studies.
-#' @source Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
+#' @source Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
-#' @keywords ethnobotany quantitative cultural value use report
+#' @keywords arith math logic methods misc survey
 #'
 #' @return Data frame of species and use reports (UR) values.
 #' 
@@ -36,8 +36,7 @@
 URs <- function(data) {
   
   #Add error stops ####
-  {
-    #Check that packages are loaded
+  #Check that packages are loaded
     {
     if (!requireNamespace("dplyr", quietly = TRUE)) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.",
@@ -46,8 +45,7 @@ URs <- function(data) {
   if (!requireNamespace("magrittr", quietly = TRUE)) {
     stop("Package \"magrittr\" needed for this function to work. Please install it.",
          call. = FALSE)
-  }
-    }# end package check
+  }# end package check
     
     ## Check that use categories are greater than zero
     if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){

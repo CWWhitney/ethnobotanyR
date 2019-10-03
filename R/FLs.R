@@ -1,7 +1,7 @@
 #' Fidelity Level (FL)
 #' 
 #' Calculates the fidelity level (FL) of species uses,  i.e. the ratio between the number of informants who independently cite the use of a species for the same major purposes (URs) and the total number of informants who mentioned the plant for any use (FCs). 
-#' @source Friedman, J., Yaniv, Z., Dafni, A., Palewitch, D., 1986. A preliminary classification of the healing potential of medicinal plants, based on a rational analysis of an ethnopharmacological field survey among Bedouins in the Negev Desert, Israel. Journal of Ethnopharmacology 16, 275-287. 
+#' @source Friedman, J., Z. Yaniv, A. Dafni, and D. Palewitch. 1986. “A Preliminary Classification of the Healing Potential of Medicinal Plants, Based on a Rational Analysis of an Ethnopharmacological Field Survey Among Bedouins in the Negev Desert, Israel.” Journal of Ethnopharmacology 16 (2-3): 275–87.
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
@@ -9,7 +9,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
 #' 
-#' @keywords ethnobotany cultural value use report fidelity
+#' @keywords arith math logic methods misc survey
 #'
 #' @return Data frame of species and fidelity level (FL) values.
 #'
@@ -38,8 +38,7 @@
 FLs <- function(data) {
   
   #Add error stops ####
-  {
-    #Check that packages are loaded
+   #Check that packages are loaded
     {
   if (!requireNamespace("reshape", quietly = TRUE)) {
     stop("Package \"reshape\" needed for this function to work. Please install it.",
@@ -65,8 +64,7 @@ FLs <- function(data) {
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
       data<-data[stats::complete.cases(data), ]
-    }
-  } #end error stops
+    } #end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   URspecies <- URcategory <- variable <-  value <- URspdata <- melt_FLS <- FLs <- URdata <- UR_sum <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check

@@ -4,7 +4,7 @@
 \alias{CVe}
 \title{Cultural Value of ethnospecies (CVe)}
 \source{
-Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany, 2006. <https://doi.org/10.2307/4257061>
+Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. 2006. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany.
 }
 \usage{
 CVe(data)
@@ -40,7 +40,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 CVe(eb_data)
 
 }
-\keyword{cultural}
-\keyword{ethnobotany}
-\keyword{importance}
-\keyword{quantitative}
+\keyword{arith}
+\keyword{logic}
+\keyword{math}
+\keyword{methods}
+\keyword{misc}
+\keyword{survey}

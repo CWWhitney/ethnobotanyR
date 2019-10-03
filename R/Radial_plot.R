@@ -5,7 +5,7 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.
 #' 
-#' @keywords ethnobotany visualuzation radial bar plot
+#' @keywords graphs arith math logic methods misc survey
 #'
 #' @return Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
 #' 
@@ -39,8 +39,7 @@
 Radial_plot <- function(data, analysis) {
   
   #Add error stops ####
-  {
-    #Check that packages are loaded
+  #Check that packages are loaded
     {
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package \"dplyr\" needed for this function to work. Please install it.",
@@ -62,8 +61,7 @@ Radial_plot <- function(data, analysis) {
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
       data<-data[stats::complete.cases(data), ]
-    }
-  } #end error stops
+    }#end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check

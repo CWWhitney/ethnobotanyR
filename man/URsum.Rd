@@ -4,7 +4,7 @@
 \alias{URsum}
 \title{Sum of all Use Reports (UR) for all species}
 \source{
-Prance, G. T., W. Baleé, B. M. Boom, and R. L. Carneiro. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1, no. 4 (1987): 296–310.
+Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
 }
 \usage{
 URsum(data)
@@ -41,7 +41,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 URsum(eb_data)
 
 }
-\keyword{ethnobotany}
-\keyword{quantitative}
-\keyword{report}
-\keyword{use}
+\keyword{arith}
+\keyword{logic}
+\keyword{math}
+\keyword{methods}
+\keyword{misc}
+\keyword{survey}

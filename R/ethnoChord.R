@@ -5,7 +5,7 @@
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
-#' @keywords quantitative ethnobotany cultural value use report chord diagram 
+#' @keywords graphs arith math logic methods misc survey
 #' 
 #' @return Chord diagram figure for each use by 'informant' (top half) related to each 'sp_name' (bottom half) in the data set. 
 #' To change variable names try using the dplyr rename function.
@@ -40,7 +40,6 @@
 ethnoChord <- function(data) {
   
   #Add error stops ####
-  {
   #Check that packages are loaded
     {
   if (!requireNamespace("reshape", quietly = TRUE)) {
@@ -69,8 +68,7 @@ ethnoChord <- function(data) {
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
     data<-data[stats::complete.cases(data), ]
-    }
-  }# end error stops
+    }# end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
   sp_name <- informant <- value <- strwidth <- NULL 
