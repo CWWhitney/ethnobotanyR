@@ -12,5 +12,5 @@ Now includes the CVe() from Reyes-Garcia et al. (2006).
 
 The ethnobotanyChord() function is now dissaggregated into ethnoChord() and ethnoChordUser() functions to allow for plotting simple circos plots of the uses and users per species. 
 
+<<<<<<< HEAD
 The CIs() function is updated to reflect the simpler URs/N calculation following Tardio and Pardo-de-Santayana (2008).
-
