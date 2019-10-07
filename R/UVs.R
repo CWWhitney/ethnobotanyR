@@ -74,8 +74,7 @@ UVs <- function(data) {
   data_UV <- data_URs #create new subset-able data for UVs
   
   #calcualte UV
-  data_UV$UV <- data_URs$URs/sum(dplyr::count_(URdata, vars=informant)) *
-                ncol(dplyr::select(URdata, -informant, -sp_name))
+  data_UV$UV <- data_URs$URs/sum(dplyr::count_(URdata, vars=informant)) 
   
   #UV differs from Ci (the CIs function) only in that 
   #it sums UR grouping by informant (the sum of the uses cited by each informant) 
