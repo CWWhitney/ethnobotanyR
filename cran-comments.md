@@ -30,4 +30,4 @@ This is a resubmission. In this version I have:
 *created simple_UVs() to calculate a simple UVs cf. Albuquerque et al. (2006).
 *Added fidelity level per species FLs() from Friedman et al. (1986).
 *Included the CVe() from Reyes-Garcia et al. (2006).
-*ethnobotanyChord() is deprecated and dissagregated into ethnoChord() and ethnoChordUser() functions to allow for plotting simple circos plots of the uses and users per species.
+*replaced ethnobotanyChord() with ethnoChord() with a 'by' option to allow for plotting simple circos plots of uses by species and informants.
