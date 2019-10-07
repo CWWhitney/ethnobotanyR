@@ -219,11 +219,6 @@ The `ethnoChord()` function creates a chord diagram of ethnobotany uses and spec
 ethnobotanyR::ethnoChord(ethnobotanydata)
 ```
 
-The `ethnoChordUser()` function creates a chord diagram of informants and species uses for ethnobotany studies. 
-
-```{r, fig.width=7, fig.height=7}
-ethnobotanyR::ethnoChordUser(ethnobotanydata)
-```
 
 ## References
 
