@@ -215,8 +215,15 @@ cowplot::plot_grid(URs_plot, NUs_plot, FCs_plot, CIs_plot,
 The following chord plots are made using functions from the `circlize` package [@circlize]. An example of the application of chord plots in ethnobotany is described in a study on agrobiodiversity in Uganda [@whitneyEthnobotanyAgrobiodiversityValuation2018]. 
 
 The `ethnoChord()` function creates a chord diagram of ethnobotany uses and species.
+
 ```{r, fig.width=7, fig.height=7}
-ethnobotanyR::ethnoChord(ethnobotanydata)
+Chord_sp <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "sp_name")
+```
+
+The `ethnoChord()` function can also be used to create a chord diagram of ethnobotany uses and informants.
+
+```{r, fig.width=7, fig.height=7}
+Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
 ```
 
 
