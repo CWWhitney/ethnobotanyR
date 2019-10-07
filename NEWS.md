@@ -10,7 +10,6 @@ Fidelity level per species FLs() from Friedman et al. (1986) is added.
 
 Now includes the CVe() from Reyes-Garcia et al. (2006).
 
-The ethnobotanyChord() function is now dissaggregated into ethnoChord() and ethnoChordUser() functions to allow for plotting simple circos plots of the uses and users per species. 
+The ethnobotanyChord() function is now replaced with ethnoChord(), which includes a 'by' parameter to allow for plotting simple circos plots of uses by species and informants.
 
-<<<<<<< HEAD
 The CIs() function is updated to reflect the simpler URs/N calculation following Tardio and Pardo-de-Santayana (2008).
