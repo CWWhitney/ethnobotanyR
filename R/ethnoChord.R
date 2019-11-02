@@ -77,8 +77,8 @@ ethnoChord <- function(data, by = "sp_name") {
   # Melt ethnobotany data
   mat <- reshape::melt(data, id=c("informant","sp_name")) %>% 
     dplyr::filter(value >=1)%>%
-   dplyr::arrange(dplyr::desc(informant)) %>%  
-    dplyr::arrange(dplyr::desc(sp_name)) %>% 
+    #dplyr::arrange(by) %>%  
+    dplyr::arrange(variable) %>% 
     dplyr::select(by, variable)
   
   # Create chord plot ####
