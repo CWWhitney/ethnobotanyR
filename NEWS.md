@@ -1,6 +1,6 @@
 # ethnobotanyR News
 
-ethnobotanyR 0.1.6 is a patch:
+ethnobotanyR 0.1.5.99999 is a patch:
 
 Updated UVs() following Tardio and Pardo-de-Santayana (2008)
 
