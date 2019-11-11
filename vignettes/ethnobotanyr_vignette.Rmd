@@ -23,12 +23,7 @@ load("ethnobotanydata.rda")
 
 ```
 
-# ethnobotanyR 
-
-<p align="center">
-<img src="ethnobotanyR.png" height="256" style="background:none; border:none; box-shadow:none;">
-</p>
-
+<img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
 
 The `ethnobotanyR` package can be used to calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one on cultural importance indices [@tardioCulturalImportanceIndices2008] and another on agrobiodiversity valuation [@whitneyEthnobotanyAgrobiodiversityValuation2018]. The goal is to provide an easy-to-use platform for ethnobotanists to calculate quantitative ethnobotany indices. Users are highly encouraged to familiarize themselves with ethnobotany theory [@gaoue2017; @albuquerqueEthnobotanyOneConcept2010] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theorhetical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions.
 
