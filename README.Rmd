@@ -23,7 +23,12 @@ knitr::opts_chunk$set(
 
 # ethnobotanyR
 
+
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for ethnobotanists to calculate quantitative ethnobotany indices. It closely follows [Tardio and Pardo-de-Santayana (2008)]((doi.org/10.1007/s12231-007-9004-5)) and [Whitney et al. (2018)](doi.org/10.14237/ebl.9.2.2018.503). 
+
+
+Users of `ethnobotanyR` may find it useful to read the background papers and books on ethnobotany theory. In particular [Albuquerque et al. (2019)](doi.org/10.1007/s13752-019-00316-8) and [Gaoue et al. (2017)](doi.org/10.1007/s12231-017-9389-8) offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful hypotheses. 
+
 
 |   Quick Links  |
 |:-------|
@@ -31,7 +36,6 @@ The goal of `ethnobotanyR` is to provide an easy-to-use platform for ethnobotani
 | [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
 | [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
 
-Users of `ethnobotanyR` may find it useful to read the backgroud papers and books on ethnobotany theory. In particular [Albuquerque et al. (2019)](doi.org/10.1007/s13752-019-00316-8) and [Gaoue et al. (2017)](doi.org/10.1007/s12231-017-9389-8) offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful hypotheses. 
 
 ## Installation
 
