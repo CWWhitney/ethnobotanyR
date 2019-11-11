@@ -28,11 +28,17 @@ to understanding theoretical approaches in ethnobotany and developing
 meaningful
 hypotheses.
 
+<!-- Links: start -->
+
 | Quick Links                                                                                                                                               |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [**Installation**](https://github.com/CWWhitney/ethnobotanyR#Installation)                                                                                |
 | [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR)                                                                                       |
 | [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki)                                                                                   |
+
+<!-- Links: end -->
 
 ## Installation
 

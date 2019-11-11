@@ -29,12 +29,15 @@ The goal of `ethnobotanyR` is to provide an easy-to-use platform for ethnobotani
 
 Users of `ethnobotanyR` may find it useful to read the background papers and books on ethnobotany theory. In particular [Albuquerque et al. (2019)](doi.org/10.1007/s13752-019-00316-8) and [Gaoue et al. (2017)](doi.org/10.1007/s12231-017-9389-8) offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful hypotheses. 
 
-
+<!-- Links: start -->
 |   Quick Links  |
 |:-------|
 | [**Installation**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
 | [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
 | [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki) |
+<!-- Links: end -->
 
 
 ## Installation
