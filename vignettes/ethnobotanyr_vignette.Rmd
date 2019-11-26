@@ -10,6 +10,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<!-- Spelling -->
+<!-- The ABC √ option (upper right on the Rmarkdown console)-->
+
+<!-- Grammar -->
+<!-- devtools::install_github("ropenscilabs/gramr") -->
+<!-- run_grammar_checker("vignettes/ethnobotanyr_vignette.rmd”) -->
+
+<!-- Print pdf version -->
+<!-- rmarkdown::render("vignettes/ethnobotanyr_vignette.Rmd", output_format = "pdf_document") -->
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
