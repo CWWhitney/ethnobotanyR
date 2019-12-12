@@ -1,11 +1,14 @@
 Package: ethnobotanyR
 Type: Package
 Title: Calculate Quantitative Ethnobotany Indices
+Description: An implementation of the quantitative ethnobotany indices in R. The goal is to provide an easy-to-use platform for ethnobotanists to assess the cultural significance of plant species based on informant consensus. The package closely follows the paper by Tardio and Pardo-de-Santayana (2008). Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <doi:10.1007/s12231-007-9004-5>.
 Version: 0.1.5.99999
-Author: Cory Whitney
-Maintainer: Cory Whitney <whitney.cory@gmail.com>
+Authors@R: c( 
+    person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre")),
+    person("Aye", "Mon Mon", email = "ayemyamon@mail.kib.ac.cn", role = "ctb"),
+    person("Ehouman", "Evans", email = " ehoumanevans@gmail.com", role = "ctb")
+    )
 Date: 2019-11-05
-Description: Calculate common quantitative ethnobotany indices to assess the cultural significance of plant species based on informant consensus. The package closely follows the paper by Tardio and Pardo-de-Santayana (2008). Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <doi:10.1007/s12231-007-9004-5>.
 Depends: R (>= 3.0)
 Imports:
     circlize,
@@ -16,6 +19,7 @@ Imports:
     magrittr
 License: GPL
 URL:	https://CRAN.R-project.org/package=ethnobotanyR
+BugReports: https://github.com/CWWhitney/ethnobotanyR/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

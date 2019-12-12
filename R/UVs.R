@@ -73,12 +73,11 @@ UVs <- function(data) {
   
   data_UV <- data_URs #create new subset-able data for UVs
   
-  #calcualte UV
-  data_UV$UV <- data_URs$URs/sum(dplyr::count_(URdata, vars=informant)) 
-  
   #UV differs from Ci (the CIs function) only in that 
   #it sums UR grouping by informant (the sum of the uses cited by each informant) 
   #then sums all these data 
+  #calcualte UV, c.f.. calcualte CI (UR/N)
+  data_UV$UV <- data_URs$URs/(length(unique(URdata$informant)))
   
   #change sort order, arrange and round
   UVs <- data_UV %>% dplyr::select(-URs) %>%

@@ -66,17 +66,13 @@ CIs <- function(data) {
   
   URdata <- data #create complete subset-able data
   
-  #calculate URs
-  URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
-    data_URs <- URdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize (URs = sum(URps))
+  data_URs <- URs(URdata) #calculate URs()
     
     #create new subset-able data
     data_Ci <- data_URs
     
     #calcualte CI (UR/N)
-    data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant))) #*
-        #ncol(dplyr::select(URdata, -informant, -sp_name, -URps)))
+    data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant)))
     
     #change sort order, arrange and round
     CIs <- data_Ci %>% dplyr::select(-URs) %>%
