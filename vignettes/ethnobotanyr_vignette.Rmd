@@ -1,7 +1,6 @@
 ---
 title: "Quantitative ethnobotany analysis with ethnobotanyR"
 author: "Cory Whitney"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: references/Ethnobotany.bib
 vignette: >

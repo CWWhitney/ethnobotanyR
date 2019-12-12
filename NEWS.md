@@ -6,7 +6,7 @@ Updated UVs() following Tardio and Pardo-de-Santayana (2008)
 
 simple_UVs() now calculates a simple UVs cf. Albuquerque et al. (2006).
 
-Fidelity level per species FLs() from Friedman et al. (1986) is added.
+Fidelity level per species FLs() from Friedman et al. (1986) is now included for all uses (without the  max Ip "dplyr::slice(which.max(Ip))").
 
 Now includes the CVe() from Reyes-Garcia et al. (2006).
 
