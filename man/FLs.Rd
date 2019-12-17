@@ -17,7 +17,7 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 Data frame of species and fidelity level (FL) values.
 }
 \description{
-Calculates the fidelity level (FL) of species uses,  i.e. the ratio between the number of informants who independently cite the use of a species for the same major purposes (URs) and the total number of informants who mentioned the plant for any use (FCs).
+Calculates the fidelity level (FL) of the various uses of a species,  i.e. the ratio between the number of informants who independently cite the use of a species for the same purposes (URs) and the total number of informants who mentioned the plant for any use (FCs).
 }
 \section{Warning}{
 

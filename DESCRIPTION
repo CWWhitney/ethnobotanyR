@@ -5,7 +5,7 @@ Description: An implementation of the quantitative ethnobotany indices in R. The
 Version: 0.1.5.99999
 Authors@R: c( 
     person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre")),
-    person("Ehouman", "Evans", email = " ehoumanevans@gmail.com", role = "ctb")
+    person("Ehouman", "Evans", email = "ehoumanevans@gmail.com", role = "ctb")
     )
 Date: 2019-11-05
 Depends: R (>= 3.0)
