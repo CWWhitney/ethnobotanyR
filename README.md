@@ -26,7 +26,7 @@ al. (2019)](doi.org/10.1007/s13752-019-00316-8) and [Gaoue et
 al. (2017)](doi.org/10.1007/s12231-017-9389-8) offer helpful guidance
 to understanding theoretical approaches in ethnobotany and developing
 meaningful
-hypotheses.
+research questions.
 
 <!-- Links: start -->
 
