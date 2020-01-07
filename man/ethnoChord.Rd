@@ -20,7 +20,7 @@ Chord diagram figure for each use by 'informant' (top half) related to each 'sp_
 To change variable names try using the dplyr rename function.
 }
 \description{
-Creates a simple chord diagram of species and uses for ethnobotany studies. For more on the circlize package see Zuguang Gu's 'Circular Visualization in R' <https://jokergoo.github.io/circlize_book/book/>
+Creates a simple chord diagram of species and uses for ethnobotany studies. For more on the circlize package see Zuguang Gu's 'Circular Visualization in R' \url{https://jokergoo.github.io/circlize_book/book/}
 }
 \section{Warning}{
 
