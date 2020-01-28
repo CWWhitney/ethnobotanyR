@@ -26,7 +26,9 @@ knitr::opts_chunk$set(
 )
 
 load("ethnobotanydata.rda")
-
+library(ggplot2)
+library(ggridges)
+library(ethnobotanyR)
 # in case of rendering issues render with 
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
 
@@ -44,15 +46,16 @@ Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()
 knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
 ```
 
+
 ## `ethnobotanyR` package functions
 
-The use report `URs()` function calculates the use report (UR) for each species in the data set. 
+### Use Report (UR) per species
+
+The use report `URs()` is the most basic ethnobotany calculation. The function calculates the use report (UR) for each species in the data set. 
 
 \begin{equation}
 UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
 \end{equation}
-
-### Use Report (UR) per species
 
 `URs()` calculates the total uses for the species by all informants (from $i_1$ to $^iN$) within each use-category for that species $(s)$. It is a count of the number of informants who mention each use-category $NC$ for the species and the sum of all uses in each use-category (from $u_1$ to $^uNC$) [see @pranceQuantitativeEthnobotanyCase1987].
 
@@ -230,6 +233,154 @@ The `ethnoChord()` function can also be used to create a chord diagram of ethnob
 Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
 ```
 
+### Confidence in responses
+
+The `ethno_bayes_consensus` function is inspired by AnthroTools package [@AnthroTools]. It gives a measure of the probability that informant citations for a given use are correct [see @oravecz2014; @romney1986]. 
+
+The inputs to the function are informant responses to the use category for each plant, an estimate of informant's competence with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
+
+Depending on the size of the data this function can return a rather large set of probabilities. Our example data `ethnobotanydata` returns a data frame with `r nrow(ethnobotanyR::ethno_bayes_consensus(ethnobotanydata, competence=0.5, prior = -1))` rows and `r ncol(ethnobotanyR::ethno_bayes_consensus(ethnobotanydata, competence=0.5, prior = -1))` columns.
+
+One way to do a simple visualization of these probabilities is with the the `dplyr` `filter` function [@dplyr] to subset to a single species and create a ridge plot. 
+
+```{r }
+ethno_sp_a <- dplyr::filter(ethnobotanydata, sp_name == "sp_a")
+```
+
+Calculate the number of answers with `URsum`. 
+
+```{r}
+answers = URsum(ethno_sp_a)
+```
+
+Generate prior probabilities for all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1). The probability table should have the same number of columns as uses in the ethnobotany data and same number of rows as there are possible answers for the consensus.
+
+```{r}
+#bayesdata <- dplyr::select(ethno_sp_a, -sp_name, - informant)
+bayesdata <- dplyr::select(ethnobotanydata, -sp_name, - informant)
+answers <- 2
+
+```
+
+We can use this to create an uninformative prior about the answers. This gives a 50% chance for use or no use.
+
+```{r}
+    ethno_sp_a_prior <- matrix(1/answers, answers, ncol(bayesdata))
+```
+
+It is also possible to build the probability table manually using `prop.table` [@R-base] if there is a preference about where the higher probability should be for the various answers.
+
+Here we use `dplyr` `recode` to reset the informant name factor varible as numeric [@dplyr]. This way we can set a prior for the informants skill for the `competence` input. Assuming that informants have a varying degree of skill that we can assign as a prior for the likelihood that their answers are correct for `sp_a`.
+
+```{r }
+ethno_compet_sp_a <- dplyr::recode(ethno_sp_a$informant, 
+inform_a = 0.9,inform_b = 0.5,inform_c = 0.5,
+inform_d = 0.9, inform_e = 0.9, inform_f = 0.5,
+inform_g = 0.7,inform_h = 0.5,inform_i = 0.9,
+inform_j= 0.9, inform_eight = 0.9,inform_five = 0.6,
+inform_four = 0.5,inform_nine = 0.9, 
+inform_one = 0.5, inform_seven = 0.5,
+inform_six= 0.9, inform_ten = 0.9, 
+inform_three = 0.9, inform_two = 0.5)
+```
+
+Run the `ethno_bayes_consensus` function on the subset data of `sp_a`. 
+
+```{r function, include=FALSE}
+ethno_bayes_consensus <-
+  function(data, answers, competence, prior=-1){
+    
+    #Add error stops ####
+    #Check that packages are loaded
+    {
+      if (!requireNamespace("dplyr", quietly = TRUE)) {
+        stop("Package \"dplyr\" needed for this function to work. Please install it.", 
+             call. = FALSE)
+      }
+      if (!requireNamespace("magrittr", quietly = TRUE)) {
+        stop("Package \"magrittr\" needed for this function to work. Please install it.",
+             call. = FALSE)
+      }
+    }# end package check
+    
+    ## Check that use categories are greater than zero
+    if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
+      warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
+      data<-data[stats::complete.cases(data), ]
+    }
+    
+    ## Use 'complete.cases' from stats to get to the collection of obs without NA
+    if (any(is.na(data))) {
+      warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
+      data<-data[stats::complete.cases(data), ]
+    } #end error stops
+    
+    # Set the variables to NULL first, appeasing R CMD check
+    sp_name <- informant <- UVps <- NULL 
+    
+    #create a subsettable numeric data frame
+    bayesdata <- dplyr::select(data, -informant, -sp_name)
+    
+    if (prior == -1) {
+      prior <- matrix(1/answers, answers, ncol(bayesdata))
+    }
+    if ( !all(abs(colSums(prior) -1)<0.001) ){
+      stop('Your prior for every question should add up to 1.')    
+    }
+    
+    if ( !all(prior>=0) ){
+      stop('For this to work your prior needs to assign non-negative probability to all possible outcomes.')    
+    }
+    
+    if ( ncol(prior)!=ncol(bayesdata) || nrow(prior)!=answers){
+      stop('Something is wrong with the prior. Different number of rows or columns than the data.')    
+    }  
+    
+    # generate a probability matrix
+    bayes_consensus <- matrix(0, answers, ncol(bayesdata))
+    # move column names from the ethnobotany data
+    colnames(bayes_consensus) <- colnames(bayesdata)
+    # rownames continue for each possible answer
+    rownames(bayes_consensus) <- c(1:answers)
+    # calculate prior chance of consensus
+    prior_of_consensus <- (1*competence) * (answers-1) / answers
+    # calculate prior chance of non consensus
+    prior_non_consensus <- 1-prior_of_consensus
+    # for loops to calculate bayes consensus equation
+    for (consensus in 1:ncol(bayesdata)) {
+      for (non_consensus in 1:answers) {
+        bayes_consensus[non_consensus,consensus] <- prod(ifelse(test = bayesdata[,consensus] == non_consensus, 
+          yes = prior_non_consensus, no = prior_of_consensus) )      
+      }
+      bayes_consensus[,consensus] <- bayes_consensus[,consensus] * prior[,consensus]    
+      bayes_consensus[,consensus] <- bayes_consensus[,consensus] / sum(bayes_consensus[,consensus])    
+    }  
+    return(bayes_consensus)
+  }
+
+```
+
+```{r}
+
+p <- ethno_bayes_consensus(ethno_sp_a, answers = 2, competence = ethno_compet_sp_a, prior = ethno_sp_a_prior)
+```
+
+Create a data frame and melt for the plotting functions.
+
+```{r fig.width=7, fig.height=7}
+p_dat<-as.data.frame(p)
+p_melt<-reshape::melt(p_dat)
+```
+
+Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
+
+```{r fig.width=7, fig.height=7}
+ggplot2::ggplot(p_melt, aes(x = value, 
+                y = variable, fill = variable)) +
+                geom_density_ridges() +
+                theme_ridges() + 
+                theme(legend.position = "none")
+```
 
 ## References
 
