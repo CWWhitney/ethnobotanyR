@@ -3,11 +3,8 @@
 \name{simple_UVs}
 \alias{simple_UVs}
 \title{Use Value (UV) index per species}
-\source{
-Albuquerque, Ulysses P., Reinaldo FP Lucena, Julio M.Monteiro, Alissandra TN Florentino, and Cecilia de Fatima CBR Almeida. 2006. “Evaluating Two Quantitative Ethnobotanical Techniques.” Ethnobotany Research and Applications 4: 51–60.
-}
 \usage{
-simple_UVs(data)
+simple_UVs(ethnobotanydata)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
@@ -40,6 +37,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
 simple_UVs(eb_data)
 
+}
+\references{
+Albuquerque, Ulysses P., Reinaldo FP Lucena, Julio M.Monteiro, Alissandra TN Florentino, and Cecilia de Fatima CBR Almeida. 2006. “Evaluating Two Quantitative Ethnobotanical Techniques.” Ethnobotany Research and Applications 4: 51–60.
 }
 \keyword{arith}
 \keyword{logic}
