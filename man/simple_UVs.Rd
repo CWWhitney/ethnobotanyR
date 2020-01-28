@@ -4,7 +4,7 @@
 \alias{simple_UVs}
 \title{Use Value (UV) index per species}
 \usage{
-simple_UVs(ethnobotanydata)
+simple_UVs(data)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.

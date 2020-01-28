@@ -1,7 +1,11 @@
 #' Fidelity Level (FL)
 #' 
 #' Calculates the fidelity level (FL) of the various uses of a species,  i.e. the ratio between the number of informants who independently cite the use of a species for the same purposes (URs) and the total number of informants who mentioned the plant for any use (FCs). 
-#' @source Friedman, J., Z. Yaniv, A. Dafni, and D. Palewitch. 1986. “A Preliminary Classification of the Healing Potential of Medicinal Plants, Based on a Rational Analysis of an Ethnopharmacological Field Survey Among Bedouins in the Negev Desert, Israel.” Journal of Ethnopharmacology 16 (2-3): 275–87.
+#' @usage FLs(data)
+#' 
+#' @references  
+#' Friedman, J., Z. Yaniv, A. Dafni, and D. Palewitch. 1986. “A Preliminary Classification of the Healing Potential of Medicinal Plants, Based on a Rational Analysis of an Ethnopharmacological Field Survey Among Bedouins in the Negev Desert, Israel.” Journal of Ethnopharmacology 16 (2-3): 275–87.
+#' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 

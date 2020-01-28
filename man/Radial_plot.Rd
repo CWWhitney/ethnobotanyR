@@ -16,7 +16,7 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
 }
 \description{
-Creates a radial bar plot of ethnobotany indices in ethnobotanyR package using the ggplot2 library <https://ggplot2.tidyverse.org/>.
+Creates a radial bar plot of ethnobotany indices in ethnobotanyR package using the ggplot2 library \url{https://ggplot2.tidyverse.org/}.
 }
 \section{Warning}{
 
@@ -40,6 +40,11 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
  
 Radial_plot(data = eb_data, analysis = URs)
 
+}
+\references{
+Wickham, Hadley. “Reshaping Data with the Reshape Package.” Journal of Statistical Software 21, no. 12 (2007): 1–20.
+
+Wickham, Hadley. ggplot2: Elegant Graphics for Data Analysis. Springer, 2016.
 }
 \keyword{arith}
 \keyword{graphs}

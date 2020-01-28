@@ -1,7 +1,13 @@
 #' Chord diagram of ethnobotany uses and species
 #'
 #' Creates a simple chord diagram of species and uses for ethnobotany studies. For more on the circlize package see Zuguang Gu's 'Circular Visualization in R' \url{https://jokergoo.github.io/circlize_book/book/}
-#' @source Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
+#' @usage ethnoChord(data, by)
+#' 
+#' @references  
+#' Gu, Zuguang, Lei Gu, Roland Eils, Matthias Schlesner, and Benedikt Brors. “Circlize Implements and Enhances Circular Visualization in R.” Bioinformatics, 2014, 393.
+#' @references  
+#' Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. \url{https://doi.org/10.14237/ebl.9.2.2018.503}
+#' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param by indicates the variable that should be mapped to the bottom of the chord diagram. This automatically defaults to the column referring to the species (by = "sp_name")

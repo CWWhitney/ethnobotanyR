@@ -1,17 +1,19 @@
-#' The confidence we can have in the answers in the ethnobotany data with ethno_bayes_consensus.
+#' Gives a measure of the confidence we can have in the answers in the ethnobotany data.
 #'
-#' Determine the probability that informant citations for a given use are 'correct' given informant responses to the use category for each plant, an estimate of each person's confidence_in_answers with this plant and use, and the number of possible answers about this plant use.
-#' @usage ethno_bayes_consensus(ethnobotanydata, answers = 2, confidence_in_answers = 0.5, prior = -1)
+#' Determine the probability that informant citations for a given use are 'correct' given informant responses to the use category for each plant, an estimate of each person's prior_for_answers with this plant and use, and the number of possible answers about this plant use.
+#' @usage ethno_bayes_consensus(data, answers = 2, prior_for_answers, prior=-1)
+#' 
 #' @references 
 #' Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. http://doi.org/10.1177/1525822X13520280 
 #' @references 
 #' Romney, A. K., Weller, S. C., & Batchelder, W. H. (1986). Culture as Consensus: A Theory of Culture and Informant Accuracy. American Anthropologist, 88(2), 313-338.
 #' @references 
 #' Alastair Jamieson Lane and Benjamin Grant Purzycki (2016), AnthroTools: Some custom tools for anthropology.
+#' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
-#' @param answers The number of answers available for each question. These are set to '2' becuase the way the package works at the moment users can have either a '1' or a '0' in teh table. It is however, possible to have more. 
-#' @param confidence_in_answers A list containing numbers between zero and 1 representing the probability that a given data set of uses from an interview has a generalizable correct answer about the use.
+#' @param answers The number of answers available for each question. These are set to '2' because the way the package works at the moment users can have either a '1' or a '0' in the table. It is however, possible to have more. 
+#' @param prior_for_answers A matrix representing the probability of a given use being more likely. If not provided the function assumes a uniform distribution across uses.
 #' @param prior a prior distribution of probabilities over all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1).
 #' 
 #' @keywords bayes bayesian ethnobotany consensus arith math logic methods misc survey
@@ -24,13 +26,13 @@
 #' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 #' 
 #' @importFrom dplyr filter summarize select left_join group_by 
-#' @importFrom magrittr %>%
+#' @importFrom ggridges geom_density_ridges theme_ridges
 #' 
 #' @examples
 #' 
 #' #Use built-in ethnobotany data example
-#' #assign a non-informative prior to confidence_in_answers with 'confidence_in_answers=0.5'
-#' ethno_bayes_consensus(ethnobotanydata, answers = 2, confidence_in_answers = 0.5, prior = -1)
+#' #assign a non-informative prior to prior_for_answers with 'prior_for_answers=0.5'
+#' ethno_bayes_consensus(ethnobotanydata, answers = 2, prior_for_answers = 0.5, prior = -1)
 #' 
 #' #Generate random dataset of three informants uses for four species
 #' 
@@ -39,25 +41,21 @@
 #' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 #' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 #' 
-#' #assign a non-informative prior to confidence_in_answers
-#' eb_confidence_in_answers <- rep(0.5, len = nrow(eb_data))
+#' #assign a non-informative prior to prior_for_answers
+#' eb_prior_for_answers <- rep(0.5, len = nrow(eb_data))
 #' 
-#' ethno_bayes_consensus(eb_data, answers = 5, confidence_in_answers = eb_confidence_in_answers)
+#' ethno_bayes_consensus(eb_data, answers = 5, prior_for_answers = eb_prior_for_answers)
 #' 
 #' @export ethno_bayes_consensus
 #' 
 ethno_bayes_consensus <-
-  function(data, answers = 2, confidence_in_answers, prior=-1){
+  function(data, answers = 2, prior_for_answers, prior=-1){
     
     #Add error stops ####
     #Check that packages are loaded
     {
       if (!requireNamespace("dplyr", quietly = TRUE)) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.", 
-             call. = FALSE)
-      }
-      if (!requireNamespace("magrittr", quietly = TRUE)) {
-        stop("Package \"magrittr\" needed for this function to work. Please install it.",
              call. = FALSE)
       }
     }# end package check
@@ -72,28 +70,30 @@ ethno_bayes_consensus <-
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
       data<-data[stats::complete.cases(data), ]
-    } #end error stops
+    } 
     
-    # Set the variables to NULL first, appeasing R CMD check
+    # Set variables to NULL before use, appeasing R CMD check
     sp_name <- informant <- UVps <- NULL 
     
     #create a subsettable numeric data frame
     bayesdata <- dplyr::select(data, -informant, -sp_name)
     
+    
     if (prior == -1) {
       prior <- matrix(1/answers, answers, ncol(bayesdata))
     }
-    if ( !all(abs(colSums(prior) -1)<0.001) ){
-      stop('Your prior for every question should add up to 1.')    
-    }
-    
+     if ( !all(abs(colSums(prior) -1)<0.001) ){
+       warning('Your prior for every question should add up to 1.')
+     }
+
     if ( !all(prior>=0) ){
       stop('For this to work your prior needs to assign non-negative probability to all possible outcomes.')    
     }
     
     if ( ncol(prior)!=ncol(bayesdata) || nrow(prior)!=answers){
       stop('Something is wrong with the prior. It may have a different number of rows or columns than the data.')    
-    }  
+    }  #end error stops
+    
     
     # generate a probability matrix
     bayes_consensus <- matrix(0, answers, ncol(bayesdata))
@@ -102,7 +102,7 @@ ethno_bayes_consensus <-
     # rownames continue for each possible answer
     rownames(bayes_consensus) <- c(1:answers)
     # calculate prior chance of consensus
-    prior_of_consensus <- (1*confidence_in_answers) * (answers-1) / answers
+    prior_of_consensus <- (1-prior_for_answers) * (answers-1) / answers
     # calculate prior chance of non consensus
     prior_non_consensus <- 1-prior_of_consensus
     # for loops to calculate bayes consensus equation

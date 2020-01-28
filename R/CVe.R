@@ -1,7 +1,11 @@
 #' Cultural Value of ethnospecies (CVe)
 #'
 #' Calculates the Cultural Value (CVe) per ethnospecies.
-#' @source Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. 2006. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany.
+#' @usage CVe(data)
+#'  
+#' @references 
+#' Reyes-Garcia, V., T. Huanca, V. Vadez, and W. Leonard. 2006. “Cultural, Practical, and Economic Value of Wild Plants: A Quantitative Study in the Bolivian Amazon.” Economic Botany.
+#' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of ethnospecies names respectively.
 #' 
 #' @keywords arith math logic methods misc survey

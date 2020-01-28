@@ -3,9 +3,6 @@
 \name{UVs}
 \alias{UVs}
 \title{Use Value (UV) index per species}
-\source{
-Tardio, Javier, and Manuel Pardo-de-Santayana. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain)1.” Economic Botany 62, no. 1 (May 2008): 24–39. <https://doi.org/10.1007/s12231-007-9004-5>
-}
 \usage{
 UVs(data)
 }
@@ -40,6 +37,9 @@ eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
 UVs(eb_data)
 
+}
+\references{
+Tardio, Javier, and Manuel Pardo-de-Santayana. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain)1.” Economic Botany 62, no. 1 (May 2008): 24–39. <https://doi.org/10.1007/s12231-007-9004-5>
 }
 \keyword{cultural}
 \keyword{ethnobotany}

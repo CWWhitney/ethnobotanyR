@@ -3,9 +3,6 @@
 \name{URs}
 \alias{URs}
 \title{Use Report (UR)}
-\source{
-Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
-}
 \usage{
 URs(data)
 }
@@ -40,6 +37,11 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
 URs(eb_data)
 
+}
+\references{
+Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
+
+Whitney, Cory W., J. Gebauer, and M. Anderson. “A Survey of Wild Collection and Cultivation of Indigenous Species in Iceland.” Human Ecology 40, no. 5 (2012): 781–87. https://doi.org/10.1007/s10745-012-9517-0.
 }
 \keyword{arith}
 \keyword{logic}

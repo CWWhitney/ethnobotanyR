@@ -3,9 +3,6 @@
 \name{FCs}
 \alias{FCs}
 \title{Frequency of Citation (FC)}
-\source{
-Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
-}
 \usage{
 FCs(data)
 }
@@ -31,6 +28,9 @@ eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 FCs(eb_data)
 
+}
+\references{
+Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
 }
 \keyword{arith}
 \keyword{logic}

@@ -3,11 +3,8 @@
 \name{ethnoChord}
 \alias{ethnoChord}
 \title{Chord diagram of ethnobotany uses and species}
-\source{
-Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. <https://doi.org/10.14237/ebl.9.2.2018.503>
-}
 \usage{
-ethnoChord(data, by = "sp_name")
+ethnoChord(data, by)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
@@ -43,6 +40,11 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
 ethnoChord(eb_data)
 
+}
+\references{
+Gu, Zuguang, Lei Gu, Roland Eils, Matthias Schlesner, and Benedikt Brors. “Circlize Implements and Enhances Circular Visualization in R.” Bioinformatics, 2014, 393.
+
+Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. \url{https://doi.org/10.14237/ebl.9.2.2018.503}
 }
 \keyword{arith}
 \keyword{graphs}

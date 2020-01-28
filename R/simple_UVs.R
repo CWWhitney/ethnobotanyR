@@ -1,7 +1,7 @@
 #' Use Value (UV) index per species
 #'
 #' Calculates the simplified use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
-#' @usage simple_UVs(ethnobotanydata)
+#' @usage simple_UVs(data)
 #' 
 #' @references 
 #' Albuquerque, Ulysses P., Reinaldo FP Lucena, Julio M.Monteiro, Alissandra TN Florentino, and Cecilia de Fatima CBR Almeida. 2006. “Evaluating Two Quantitative Ethnobotanical Techniques.” Ethnobotany Research and Applications 4: 51–60.

@@ -1,6 +1,6 @@
 # ethnobotanyR News
 
-ethnobotanyR 0.1.5.99999 is a patch:
+ethnobotanyR 0.1.6 is a patch:
 
 Updated UVs() following Tardio and Pardo-de-Santayana (2008)
 
@@ -13,3 +13,5 @@ Now includes the CVe() from Reyes-Garcia et al. (2006).
 The ethnobotanyChord() function is now replaced with ethnoChord(), which includes a 'by' parameter to allow for plotting simple circos plots of uses by species and informants.
 
 The CIs() function is updated to reflect the simpler URs/N calculation following Tardio and Pardo-de-Santayana (2008).
+
+The ethno_bayes_consensus() function to offer a Bayesian consensus (soft evidence) of the confidence we can have in the answers in the ethnobotany data.

@@ -3,9 +3,6 @@
 \name{RFCs}
 \alias{RFCs}
 \title{Relative Frequency of Citation (RFC)}
-\source{
-Tardio, Javier, and Manuel Pardo-de-Santayana. 2008. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1.” Economic Botany 62 (1): 24–39.
-}
 \usage{
 RFCs(data)
 }
@@ -40,6 +37,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
 RFCs(eb_data)
 
+}
+\references{
+Tardio, Javier, and Manuel Pardo-de-Santayana. 2008. “Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1.” Economic Botany 62 (1): 24–39.
 }
 \keyword{arith}
 \keyword{logic}

@@ -1,6 +1,13 @@
 #' Radial bar plot of ethnobotany indices
 #'
-#' Creates a radial bar plot of ethnobotany indices in ethnobotanyR package using the ggplot2 library <https://ggplot2.tidyverse.org/>.
+#' Creates a radial bar plot of ethnobotany indices in ethnobotanyR package using the ggplot2 library \url{https://ggplot2.tidyverse.org/}.
+#' @references 
+#' Wickham, Hadley. “Reshaping Data with the Reshape Package.” Journal of Statistical Software 21, no. 12 (2007): 1–20.
+#' @references 
+#' Wickham, Hadley. ggplot2: Elegant Graphics for Data Analysis. Springer, 2016.
+#' 
+#' @usage Radial_plot(data, analysis)
+#' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.
