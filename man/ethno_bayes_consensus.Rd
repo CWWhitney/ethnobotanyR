@@ -4,15 +4,15 @@
 \alias{ethno_bayes_consensus}
 \title{The confidence we can have in the answers in the ethnobotany data with ethno_bayes_consensus.}
 \usage{
-ethno_bayes_consensus(ethnobotanydata, answers = 5, competence = 0.5, prior = -1)
+ethno_bayes_consensus(ethnobotanydata, answers = 2, confidence_in_answers = 0.5, prior = -1)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 
-\item{answers}{The total number of answers available in each question.}
+\item{answers}{The number of answers available for each question. These are set to '2' becuase the way the package works at the moment users can have either a '1' or a '0' in teh table. It is however, possible to have more.}
 
-\item{competence}{A list containing numbers between zero and 1 representing the bayes_consensus that a given individual is giving a generalizable correct answer about the use.}
+\item{confidence_in_answers}{A list containing numbers between zero and 1 representing the probability that a given data set of uses from an interview has a generalizable correct answer about the use.}
 
 \item{prior}{a prior distribution of probabilities over all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1).}
 }
@@ -20,7 +20,7 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 A matrix, where columns represent plant use categories and rows represent responses per person and plant (matching the data). Each value represents the bayes_consensus that an answer was 'correct' for a particular use, within the cultural consensus framework.
 }
 \description{
-Determine the probability that informant citations for a given use are 'correct' given informant responses to the use category for each plant, an estimate of each person's competence with this plant and use, and the number of possible answers about this plant use.
+Determine the probability that informant citations for a given use are 'correct' given informant responses to the use category for each plant, an estimate of each person's confidence_in_answers with this plant and use, and the number of possible answers about this plant use.
 }
 \section{Warning}{
 
@@ -32,8 +32,8 @@ The rest of the columns should all represent separate identified ethnobotany use
 \examples{
 
 #Use built-in ethnobotany data example
-#assign a non-informative prior to competence with 'competence=0.5'
-ethno_bayes_consensus(ethnobotanydata, answers = 5, competence = 0.5, prior = -1)
+#assign a non-informative prior to confidence_in_answers with 'confidence_in_answers=0.5'
+ethno_bayes_consensus(ethnobotanydata, answers = 2, confidence_in_answers = 0.5, prior = -1)
 
 #Generate random dataset of three informants uses for four species
 
@@ -42,10 +42,10 @@ names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")
 eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
-#assign a non-informative prior to competence
-eb_competence <- rep(0.5, len = nrow(eb_data))
+#assign a non-informative prior to confidence_in_answers
+eb_confidence_in_answers <- rep(0.5, len = nrow(eb_data))
 
-ethno_bayes_consensus(eb_data, answers = 5, competence = eb_competence)
+ethno_bayes_consensus(eb_data, answers = 5, confidence_in_answers = eb_confidence_in_answers)
 
 }
 \references{
