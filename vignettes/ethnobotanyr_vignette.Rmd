@@ -194,13 +194,34 @@ Divide FLs by 100 to get the percent FL, as it is reported in some studies.
 
 ## Visualize `ethnobotanyR` results
 
-The `Radial_plot` function shows these results as a radial bar plot for quick assessment of the result using the `ggplot2` library.
+The indices are probably too narrow a tool for a proper assessment but they can be a useful entry way into understanding some aspects human and nature interactions. They are a way to quantify intangible factors of how human communities interact with the world. They could come in handy for other more holistic assessments and analyses. For example running the results of the `ethno_boot` function over various plant uses. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
+```{r ethno_boot_histograms}
+Use_1_boot <- ethno_boot(ethnobotanydata$Use_1, statistic = mean, n1 = 1000, n2 = 100)
 
-```{r, fig.width=7, fig.height=7}
-ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
+Use_2_boot <- ethno_boot(ethnobotanydata$Use_2, statistic = mean, n1 = 1000, n2 = 100)
+
+Use_3_boot <- ethno_boot(ethnobotanydata$Use_3, statistic = mean, n1 = 1000, n2 = 100)
 ```
 
-The `cowplot` package [@cowplot] can also be used with `Radial_plot` to show several indices together for easy comparison.
+Create a data frame and use the `reshape` `melt` function to create a useful data set for the `ggplot2` plotting functions.
+```{r fig.width=7, fig.height=7}
+boot_data <- data.frame(Use_1_boot, Use_2_boot, Use_3_boot)
+
+ethno_boot_melt <- reshape::melt(boot_data)
+```
+
+Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
+```{r plot_boot_ridges, fig.width=7, fig.height=4}
+ggplot2::ggplot(ethno_boot_melt, aes(x = value, 
+                y = variable, fill = variable)) +
+                ggridges::geom_density_ridges() +
+                ggridges::theme_ridges() + 
+                theme(legend.position = "none") +
+                labs(y= "", x = "Example Bayesian bootstraps of three use categores")
+```
+
+
+For quick assessments of differences between indices use the `Radial_plot` function to show ethnobtoanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@cowplot] can useful for comparing several `Radial_plot` results for easy comparison across indices.
 
 ```{r, fig.width=7, fig.height=7}
 URs_plot <- ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
@@ -246,7 +267,7 @@ Depending on the size of the data this function can return a rather large set of
 ethno_sp_a <- dplyr::filter(ethnobotanydata, sp_name == "sp_a")
 ```
 
-Generate prior probabilities for all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1). The probability table should have the same number of columns as uses in the ethnobotany data and same number of rows as there are possible answers for the consensus.
+Generate prior probabilities for all answers as a matrix. If this is not provided the function assumes a uniform distribution `(prior = -1)`. The probability table should have the same number of columns as uses in the provided ethnobotany data and the same number of rows as there are possible answers for the consensus.
 
 First we set the number of possible answers to '2'. This means informants can either agree it is 'used' or 'not used'.
 ```{r answers}
@@ -270,7 +291,6 @@ ethno_compet_sp_a <- dplyr::recode(ethno_sp_a$informant,
 ```
 
 Run the `ethno_bayes_consensus` function on the subset data of `sp_a`. 
-
 ```{r ethno_sp_a_bayes}
 ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a, 
                     answers = 2,
@@ -285,17 +305,18 @@ heatmap(ethno_sp_a_bayes)
 
 Here the '1' and '2' represent 'use' and 'no use' (y-axis). The colors are the probabilities (darker is greater). The `hclust` for these is not very informative since there are only 2. However, the `hclust` for the various uses (x-axis) might be helpful in thinking about how the strength of the information about different use categories for `sp_a` are grouped together. 
 
-### Confidence in richer response data
+### Richer response data
 
-Users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different 'food' uses but this is just one category). Let's say that the theoretical maximum number of use reports in one category, for one species by one informant is 10. It may be useful to work with these richer datasets for the bayes consensus analysis. The `ggplot2` and `ggridges` libraries can be used to plot the data as smooth histograms. Here we generate some ethnobotany data with up to 10 citations in a single use category for a species by one informant.
+Users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different 'food' uses but this is just one category). Let's say that the theoretical maximum number of use reports in one category, for one species by one informant is 10. It may be useful to work with these richer datasets for the Bayes consensus analysis. The `ggplot2` and `ggridges` libraries can be used to plot the data as smooth histograms. Here we generate some ethnobotany data with up to 10 citations in a single use category for a species by one informant.
 ```{r ethno_sp_a_rich}
-ethno_sp_a_rich <- data.frame(replicate(4,sample(0:10,20,rep=TRUE)))
+set.seed(123) #make random number reproducible
+ethno_sp_a_rich <- data.frame(replicate(3,sample(0:10,20,rep=TRUE)))
   names(ethno_sp_a_rich) <- 
   gsub(x = names(ethno_sp_a_rich), 
   pattern = "X", replacement = "Use_")  
   ethno_sp_a_rich$informant <- sample(c('User_1', 'User_2'), 
   20, replace=TRUE)
-  ethno_sp_a_rich$sp_name <- sample(c('sp_1', 'sp_2'), 
+  ethno_sp_a_rich$sp_name <- sample(c('sp_a'), 
   20, replace=TRUE)
 ```
 
@@ -322,13 +343,16 @@ ethno_sp_a_bayes_melt <- reshape::melt(ethno_sp_a_bayes_dat)
 ```
 
 Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
-```{r fig.width=7, fig.height=7}
+```{r fig.width=7, fig.height=4}
 ggplot2::ggplot(ethno_sp_a_bayes_melt, aes(x = value, 
                 y = variable, fill = variable)) +
                 ggridges::geom_density_ridges() +
                 ggridges::theme_ridges() + 
-                theme(legend.position = "none")
+                theme(legend.position = "none")+
+                labs(y= "", x = "Example ethno_bayes_consensus of use categores for sp_a")
 ```
+
+Visualizing the variation in outcomes can be useful for assessing the amount of confidence we have in the cultural use of the plant across categories. 
 
 ## References
 

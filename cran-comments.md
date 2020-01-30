@@ -34,3 +34,4 @@ This is a resubmission. In this version I have:
 *Included the CVe() from Reyes-Garcia et al. (2006).
 *replaced ethnobotanyChord() with ethnoChord() with a 'by' option to allow for plotting simple circos plots of uses by species and informants.
 *Added a bayesian consensus 'ethno_bayes_consensus' function to offer a measure of the confidence we can have in the answers in the ethnobotany data.
+*Added a function to perform a bayesian bootstrap 'ethno_boot' for ethnobotany data
