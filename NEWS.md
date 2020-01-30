@@ -14,4 +14,6 @@ The ethnobotanyChord() function is now replaced with ethnoChord(), which include
 
 The CIs() function is updated to reflect the simpler URs/N calculation following Tardio and Pardo-de-Santayana (2008).
 
-The ethno_bayes_consensus() function to offer a Bayesian consensus (soft evidence) of the confidence we can have in the answers in the ethnobotany data.
+The ethno_bayes_consensus() function offers a Bayesian consensus (soft evidence) of the confidence we can have in the answers in the ethnobotany data. It is inspired by Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory.
+
+The ethno_boot() function make a bootstrap analyses of ethnobotany indices. It creates a non-parametric bootstrap as a Bayesian Model and is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. It is inspired (heavily) by Rasmus Bååth's “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015.
