@@ -15,7 +15,7 @@ Status](http://www.r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https://
 # ethnobotanyR
 
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for
-ethnobotanists to calculate quantitative ethnobotany indices. It closely
+ethnobotanists to work with quantitative ethnobotany assessments. It closely
 follows [Tardio and Pardo-de-Santayana
 (2008)](https://doi.org/10.1007/s12231-007-9004-5) and [Whitney et
 al. (2018)](https://doi.org/10.14237/ebl.9.2.2018.503).
@@ -25,8 +25,7 @@ and books on ethnobotany theory. In particular [Albuquerque et
 al. (2019)](https://doi.org/10.1007/s13752-019-00316-8) and [Gaoue et
 al. (2017)](https://doi.org/10.1007/s12231-017-9389-8) offer helpful guidance
 to understanding theoretical approaches in ethnobotany and developing
-meaningful
-hypotheses.
+meaningful research questions.
 
 <!-- Links: start -->
 
