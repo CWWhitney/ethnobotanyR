@@ -29,6 +29,14 @@ Identification for informants and species must be listed by the names 'informant
 The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 }
 
+\section{Application}{
+
+
+ethnobotanyR users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different ‘food’ uses but this is just one category). 
+Most quantitative ethnobotany tools are not equpied for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
+This function and the bayes_boot function may be useful to work with these richer datasets for the Bayes consensus analysis.
+}
+
 \examples{
 
 #Use built-in ethnobotany data example
@@ -49,15 +57,15 @@ ethno_bayes_consensus(eb_data, answers = 5, prior_for_answers = eb_prior_for_ans
 
 }
 \references{
-Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. http://doi.org/10.1177/1525822X13520280
+Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. \url{http://doi.org/10.1177/1525822X13520280}
 
 Romney, A. K., Weller, S. C., & Batchelder, W. H. (1986). Culture as Consensus: A Theory of Culture and Informant Accuracy. American Anthropologist, 88(2), 313-338.
 
 Alastair Jamieson Lane and Benjamin Grant Purzycki (2016), AnthroTools: Some custom tools for anthropology.
 }
+\keyword{Bayes}
+\keyword{Bayesian}
 \keyword{arith}
-\keyword{bayes}
-\keyword{bayesian}
 \keyword{consensus}
 \keyword{ethnobotany}
 \keyword{logic}

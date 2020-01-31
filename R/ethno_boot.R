@@ -15,14 +15,18 @@
 #' @param weight_arg If the statistic function includes a named argument for the weights this can be specified here.
 #' @param ... Further arguments passed on to the statistic function.
 #' 
-#' @keywords graphs arith math logic methods misc survey Bayes
+#' @keywords Bayes Bayesian graphs arith math logic methods misc survey
 #'
-#' @return Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
+#' @return Bayesian bootstrap of chosen ethnobotany indices in ethnobotanyR package.
 #' 
-#' @section Warning:
+#' @section Application:
 #' 
-#' Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
-#' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+#'  This function was inspired by Rasmus Bååth's “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
+#'  In order to understand the various possible applications of this function for ethnobotany analyses it is important to read through that work. 
+#' 
+#'  ethnobotanyR users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different ‘food’ uses but this is just one category). 
+#'  Most quantitative ethnobotany tools are not equpied for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
+#'  This function and the ethno_bayes_consensus function may be useful to work with these richer datasets for the Bayes consensus analysis.
 #'  
 #' @importFrom stats rexp complete.cases
 #'  

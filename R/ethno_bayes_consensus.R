@@ -4,7 +4,7 @@
 #' @usage ethno_bayes_consensus(data, answers = 2, prior_for_answers, prior=-1)
 #' 
 #' @references 
-#' Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. http://doi.org/10.1177/1525822X13520280 
+#' Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. \url{http://doi.org/10.1177/1525822X13520280} 
 #' @references 
 #' Romney, A. K., Weller, S. C., & Batchelder, W. H. (1986). Culture as Consensus: A Theory of Culture and Informant Accuracy. American Anthropologist, 88(2), 313-338.
 #' @references 
@@ -16,7 +16,7 @@
 #' @param prior_for_answers A matrix representing the probability of a given use being more likely. If not provided the function assumes a uniform distribution across uses.
 #' @param prior a prior distribution of probabilities over all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1).
 #' 
-#' @keywords bayes bayesian ethnobotany consensus arith math logic methods misc survey
+#' @keywords Bayes Bayesian ethnobotany consensus arith math logic methods misc survey
 #' 
 #' @return A matrix, where columns represent plant use categories and rows represent responses per person and plant (matching the data). Each value represents the bayes_consensus that an answer was 'correct' for a particular use, within the cultural consensus framework.
 #' 
@@ -24,6 +24,12 @@
 #' 
 #' Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
 #' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
+#' 
+#' @section Application:
+#' 
+#' ethnobotanyR users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different ‘food’ uses but this is just one category). 
+#' Most quantitative ethnobotany tools are not equpied for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
+#' This function and the bayes_boot function may be useful to work with these richer datasets for the Bayes consensus analysis.
 #' 
 #' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom ggridges geom_density_ridges theme_ridges
