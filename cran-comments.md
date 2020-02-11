@@ -1,7 +1,7 @@
 devtools::release()
 
 ## Test environments
-* local OS Mojave 10.14.6, R.Version R 3.6.1 
+* local OS Mojave 10.14.6, R.Version R 3.6.2 
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs
