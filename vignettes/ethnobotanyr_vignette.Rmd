@@ -217,7 +217,7 @@ ggplot2::ggplot(ethno_boot_melt, aes(x = value,
                 ggridges::geom_density_ridges() +
                 ggridges::theme_ridges() + 
                 theme(legend.position = "none") +
-                labs(y= "", x = "Example Bayesian bootstraps of three use categores")
+                labs(y= "", x = "Example Bayesian bootstraps of three use categories")
 ```
 
 
@@ -349,7 +349,7 @@ ggplot2::ggplot(ethno_sp_a_bayes_melt, aes(x = value,
                 ggridges::geom_density_ridges() +
                 ggridges::theme_ridges() + 
                 theme(legend.position = "none")+
-                labs(y= "", x = "Example ethno_bayes_consensus of use categores for sp_a")
+                labs(y= "", x = "Example ethno_bayes_consensus of use categories for sp_a")
 ```
 
 Visualizing the variation in outcomes can be useful for assessing the amount of confidence we have in the cultural use of the plant across categories. 

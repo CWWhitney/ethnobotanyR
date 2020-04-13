@@ -33,7 +33,7 @@ The rest of the columns should all represent separate identified ethnobotany use
 
 
 ethnobotanyR users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different ‘food’ uses but this is just one category). 
-Most quantitative ethnobotany tools are not equpied for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
+Most quantitative ethnobotany tools are not equiped for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
 This function and the bayes_boot function may be useful to work with these richer datasets for the Bayes consensus analysis.
 }
 

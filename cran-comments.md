@@ -1,7 +1,7 @@
 devtools::release()
 
 ## Test environments
-* local OS Mojave 10.14.6, R.Version R 3.6.2 
+* local OS Catalina 10.15.3, R.Version R 3.6.3 
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs
@@ -27,11 +27,3 @@ All packages passed
 This is a resubmission. In this version I have:
 
 *Added new functions for quantitative assessment
-*Updated UVs() following Tardio and Pardo-de-Santayana (2008)
-*Updated the CIs() following Tardio and Pardo-de-Santayana (2008)
-*created simple_UVs() to calculate a simple UVs cf. Albuquerque et al. (2006).
-*Added fidelity level per species FLs() from Friedman et al. (1986).
-*Included the CVe() from Reyes-Garcia et al. (2006).
-*replaced ethnobotanyChord() with ethnoChord() with a 'by' option to allow for plotting simple circos plots of uses by species and informants.
-*Added a bayesian consensus 'ethno_bayes_consensus' function to offer a measure of the confidence we can have in the answers in the ethnobotany data.
-*Added a function to perform a bayesian bootstrap 'ethno_boot' for ethnobotany data
