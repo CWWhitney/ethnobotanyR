@@ -21,7 +21,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
 #' @importFrom ggalluvial StatStratum geom_stratum geom_alluvium
-#' @importFrom ggplot2 aes ggplot geom_text scale_x_continuous coord_flip 
+#' @importFrom ggplot2 aes ggplot geom_text scale_x_continuous  
 #'
 #' @examples
 #' 
@@ -73,39 +73,39 @@ ethno_alluvial <- function(data) {
     data<-data[stats::complete.cases(data), ]
   }# end error stops
   
-  # Set the variables to NULL first, appeasing R CMD check
-  informant <- sp_name <- variable <- value <- strwidth <- NULL 
+  # Set the variables to NULL first, appeasing R CMD check and CRAN
+  plot_data <- shaped_data <- Use <- Species <- Expert <- informant <- sp_name <- variable <- value <- strwidth <- NULL 
   
   # Melt ethnobotany data
-  mat <- reshape::melt(data, id=c("informant","sp_name")) %>% 
-    dplyr::filter(value >=1)%>%
-   # dplyr::rename("use" = "variable") %>%  
-    dplyr::arrange(variable) 
+  shaped_data <- reshape::melt(data, id=c("informant","sp_name")) %>% 
+    dplyr::filter(value >=1)
+  
+  plot_data <-  shaped_data %>% 
+    dplyr::rename(
+                  "Expert" = "informant",
+                  "Species" = "sp_name",
+                  "Use" = "variable") %>%  
+    dplyr::arrange(Use) 
   
   # Create alluvial plot ####
   
+  #correct internal assignment for stat = "stratum"
   StatStratum <- ggalluvial::StatStratum
   
-  ggplot2::ggplot(as.data.frame(mat),
-         aes(
-           y = value,
-           axis1 = sp_name,
-           axis3 = variable
-         )) +
-    ggalluvial::geom_alluvium(
-      aes(fill = sp_name),
-      width = 0,
-      knot.pos = 0,
-      reverse = FALSE
-    ) +
-    ggplot2::guides(fill = FALSE) +
-    ggalluvial::geom_stratum(width = 1 / 8, reverse = FALSE) +
-    ggplot2::geom_text(stat = "stratum",
-              infer.label = TRUE,
-              reverse = FALSE) +
-    ggplot2::scale_x_continuous(breaks = 1:2,
-                       labels = c("sp_name", "use")) +
-    ggplot2::theme_minimal() +
-    ggplot2::coord_flip() 
+  ggplot2::ggplot(as.data.frame(plot_data),
+                  ggplot2::aes(y = value, 
+                               axis1 = Species, 
+                               axis2 = Use, 
+                               axis3 = Expert)) +
+    #geom_alluvium to make the sankey diagram
+    ggalluvial::geom_alluvium(aes(fill = Species), show.legend = FALSE) +
+    ggalluvial::geom_stratum(alpha = 0, color = "grey") + 
+    # fill the whole graph with the sankey
+    ggplot2::scale_x_discrete(limits = c("Species", "Use", "Expert"), 
+                              expand = c(0.01,0.02)) +
+    ggplot2::geom_text(stat = "stratum", size = 3, infer.label = TRUE) +
+    #label y-axis
+    ggplot2::labs(y= "Use Reports") +
+    ggplot2::theme_minimal()
   
 }

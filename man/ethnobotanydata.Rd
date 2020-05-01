@@ -4,7 +4,8 @@
 \name{ethnobotanydata}
 \alias{ethnobotanydata}
 \title{Ethnobotany data set.}
-\format{A data frame with 80 rows and 12 variables:
+\format{
+A data frame with 80 rows and 12 variables:
 \describe{
   \item{informant}{anonymized id's of 20 knowledge holders}
   \item{sp_name}{id's of four species}
@@ -19,7 +20,8 @@
   \item{Use_9}{one of the categorized uses of species, 0 and 1 values}
   \item{Use_10}{one of the categorized uses of species, 0 and 1 values}
   ...
-}}
+}
+}
 \usage{
 ethnobotanydata
 }

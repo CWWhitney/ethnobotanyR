@@ -26,7 +26,9 @@ knitr::opts_chunk$set(
 )
 
 load("ethnobotanydata.rda")
+library(dplyr)
 library(ethnobotanyR)
+library(ggalluvial)
 library(ggplot2)
 library(ggridges)
 library(magrittr)
@@ -255,11 +257,19 @@ The `ethnoChord()` function can also be used to create a chord diagram of ethnob
 Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
 ```
 
+## `ethnobotanyR` flow diagrams with `ggalluvial`
+
+The `ethno_alluvial()` function use the `ggplot2` extension `ggalluvial` to make flow diagrams. This offers a way to visualize frequency distributions across uses, experts and use categories. 
+
+```{r, fig.width=7, fig.height=7}
+ethnobotanyR::ethno_alluvial(ethnobotanydata)
+```
+
 ### Confidence in responses
 
 The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oravecz2014; @romney1986]. 
 
-The inputs to the function are informant responses to the use category for each plant, an estimate of informant's prior_for_answers with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
+The inputs to the function are informant responses to the use category for each plant, an estimate of informant's \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
 
 Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function`filter`  [@dplyr] to subset to a single species and create a ridge plot. 
 
