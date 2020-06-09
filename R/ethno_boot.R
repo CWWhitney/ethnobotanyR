@@ -1,6 +1,6 @@
 #' Bootstrap analyses of ethnobotany indices
 #'
-#' Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chose statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
+#' Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
 #' @references 
 #' Bååth, Rasmus. “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
 #' 
@@ -10,7 +10,7 @@
 #' @param data Can be either a vector, matrix or a data.frame.
 #' @param statistic A function that accepts data as its first argument and possibly the weights as its second, if use_weights is TRUE. Should return a numeric vector.
 #' @param n1 The size of the bootstrap sample.
-#' @param n2 The sample size used to calculate the statistic each bootstrap draw.
+#' @param n2 The sample size used to calculate the statistic for each bootstrap draw.
 #' @param use_weights TRUE or FALSE about whether the statistic function accepts a weight argument or should be calculated using resampled data.
 #' @param weight_arg If the statistic function includes a named argument for the weights this can be specified here.
 #' @param ... Further arguments passed on to the statistic function.

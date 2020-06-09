@@ -196,34 +196,7 @@ Divide FLs by 100 to get the percent FL, as it is reported in some studies.
 
 ## Visualize `ethnobotanyR` results
 
-The indices are probably too narrow a tool for a proper assessment but they can be a useful entry way into understanding some aspects human and nature interactions. They are a way to quantify intangible factors of how human communities interact with the world. They could come in handy for other more holistic assessments and analyses. For example running the results of the `ethno_boot` function over various plant uses. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
-```{r ethno_boot_histograms}
-Use_1_boot <- ethno_boot(ethnobotanydata$Use_1, statistic = mean, n1 = 1000, n2 = 100)
-
-Use_2_boot <- ethno_boot(ethnobotanydata$Use_2, statistic = mean, n1 = 1000, n2 = 100)
-
-Use_3_boot <- ethno_boot(ethnobotanydata$Use_3, statistic = mean, n1 = 1000, n2 = 100)
-```
-
-Create a data frame and use the `reshape` `melt` function to create a useful data set for the `ggplot2` plotting functions.
-```{r fig.width=7, fig.height=7}
-boot_data <- data.frame(Use_1_boot, Use_2_boot, Use_3_boot)
-
-ethno_boot_melt <- reshape::melt(boot_data)
-```
-
-Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
-```{r plot_boot_ridges, fig.width=7, fig.height=4}
-ggplot2::ggplot(ethno_boot_melt, aes(x = value, 
-                y = variable, fill = variable)) +
-                ggridges::geom_density_ridges() +
-                ggridges::theme_ridges() + 
-                theme(legend.position = "none") +
-                labs(y= "", x = "Example Bayesian bootstraps of three use categories")
-```
-
-
-For quick assessments of differences between indices use the `Radial_plot` function to show ethnobtoanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@cowplot] can useful for comparing several `Radial_plot` results for easy comparison across indices.
+For quick assessments of differences between indices use the `Radial_plot` function to show ethnobotanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@cowplot] can useful for comparing several `Radial_plot` results for easy comparison across indices.
 
 ```{r, fig.width=7, fig.height=7}
 URs_plot <- ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
@@ -241,7 +214,7 @@ cowplot::plot_grid(URs_plot, NUs_plot, FCs_plot, CIs_plot,
     label_size = 12)
 ```
 
-## `ethnobotanyR` chord diagrams with `circlize`
+## Chord diagrams with `circlize`
 
 The following chord plots are made using functions from the `circlize` package [@circlize]. An example of the application of chord plots in ethnobotany is described in a study on agrobiodiversity in Uganda [@whitneyEthnobotanyAgrobiodiversityValuation2018]. 
 
@@ -257,7 +230,7 @@ The `ethnoChord()` function can also be used to create a chord diagram of ethnob
 Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
 ```
 
-## `ethnobotanyR` flow diagrams with `ggalluvial`
+## Flow diagrams with `ggalluvial`
 
 The `ethno_alluvial()` function use the `ggplot2` extension `ggalluvial` to make flow diagrams. This offers a way to visualize frequency distributions across uses, experts and use categories. 
 
@@ -266,6 +239,39 @@ ethnobotanyR::ethno_alluvial(ethnobotanydata)
 ```
 
 ### Confidence in responses
+
+The indices are probably too narrow a tool for a proper assessment but they can be a useful entry way into understanding some aspects human and nature interactions. These steps required to calculate these indices offer a way to quantify intangible factors of how human communities interact with the world. They can come in handy as additive pieces for more holistic assessments and analyses. 
+
+The `ethno_boot` function creates a non-parametric Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chose statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
+
+Running `ethno_boot` over various plant uses and then plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
+
+```{r ethno_boot_histograms}
+Use_1_boot <- ethno_boot(ethnobotanydata$Use_1, statistic = mean, n1 = 1000, n2 = 100)
+
+Use_2_boot <- ethno_boot(ethnobotanydata$Use_2, statistic = mean, n1 = 1000, n2 = 100)
+
+Use_3_boot <- ethno_boot(ethnobotanydata$Use_3, statistic = mean, n1 = 1000, n2 = 100)
+```
+
+Create a data frame and use the `reshape` `melt` function to create a useful data set for the `ggplot2` plotting functions.
+
+```{r fig.width=7, fig.height=7}
+boot_data <- data.frame(Use_1_boot, Use_2_boot, Use_3_boot)
+
+ethno_boot_melt <- reshape::melt(boot_data)
+```
+
+Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
+
+```{r plot_boot_ridges, fig.width=7, fig.height=4}
+ggplot2::ggplot(ethno_boot_melt, aes(x = value, 
+                y = variable, fill = variable)) +
+                ggridges::geom_density_ridges() +
+                ggridges::theme_ridges() + 
+                theme(legend.position = "none") +
+                labs(y= "", x = "Example Bayesian bootstraps of three use categories")
+```
 
 The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oravecz2014; @romney1986]. 
 
@@ -304,11 +310,12 @@ Run the `ethno_bayes_consensus` function on the subset data of `sp_a`.
 ```{r ethno_sp_a_bayes}
 ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a, 
                     answers = 2,
-                    prior_for_answers = ethno_compet_sp_a,
-                    prior = -1)
+                    #here we keep the default normal distribution with `prior = -1`
+                    prior_for_answers = ethno_compet_sp_a) 
 ```
 
 Create a simple heatmap of the results. The `heatmap` function in R [@R-base] provides a good initial assessment of the results and can be a nice first look at the probability matrix that comes out of the `ethno_bayes_consensus` function. It includes the `hclust` hierarchical cluster analysis using euclidean distance for relationships among both the answers and the uses. This may be useful for looking for similarities among a number of uses or possible answers when there are more than just 'use' and 'non use' (see below). 
+
 ```{r heatmap}
 heatmap(ethno_sp_a_bayes)
 ```
@@ -318,6 +325,7 @@ Here the '1' and '2' represent 'use' and 'no use' (y-axis). The colors are the p
 ### Richer response data
 
 Users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different 'food' uses but this is just one category). Let's say that the theoretical maximum number of use reports in one category, for one species by one informant is 10. It may be useful to work with these richer datasets for the Bayes consensus analysis. The `ggplot2` and `ggridges` libraries can be used to plot the data as smooth histograms. Here we generate some ethnobotany data with up to 10 citations in a single use category for a species by one informant.
+
 ```{r ethno_sp_a_rich}
 set.seed(123) #make random number reproducible
 ethno_sp_a_rich <- data.frame(replicate(3,sample(0:10,20,rep=TRUE)))
@@ -331,6 +339,7 @@ ethno_sp_a_rich <- data.frame(replicate(3,sample(0:10,20,rep=TRUE)))
 ```
 
 Define the `prior_for_answers` of the data from these new informants in the simulated ethnobotany data. With `User_1` we have high confidence because perhaps we gather this information through 'walk in the woods' or another method we feel good about. With `User_2` we assign less confidence. Maybe did our work in a rush or gathered in another way that gives us less confidence. 
+
 ```{r}
 ethno_compet_sp_a_rich <- 
           dplyr::recode(ethno_sp_a_rich$informant,
@@ -338,6 +347,7 @@ ethno_compet_sp_a_rich <-
 ```
 
 We keep a normal prior for the data and the knowledge of the informants. 
+
 ```{r fig.width=7, fig.height=7}
 ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a_rich,
        answers = 10, 
@@ -346,13 +356,15 @@ ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a_rich,
 ```
 
 Create a data frame and melt for the `ggplot2` plotting functions.
-```{r fig.width=7, fig.height=7}
-ethno_sp_a_bayes_dat <- as.data.frame(ethno_sp_a_bayes)
 
-ethno_sp_a_bayes_melt <- reshape::melt(ethno_sp_a_bayes_dat)
+```{r fig.width=7, fig.height=7}
+ethno_sp_a_bayes_melt <-  ethno_sp_a_bayes %>%
+  as.data.frame() %>%
+  reshape::melt()
 ```
 
 Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
+
 ```{r fig.width=7, fig.height=4}
 ggplot2::ggplot(ethno_sp_a_bayes_melt, aes(x = value, 
                 y = variable, fill = variable)) +

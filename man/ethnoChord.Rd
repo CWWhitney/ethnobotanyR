@@ -29,7 +29,7 @@ The rest of the columns represent the identified ethnobotany use categories. The
 \examples{
 
 #Use built-in ethnobotany data example
-ethnoChord(ethnobotanydata)
+ethnoChord(ethnobotanydata, by = "informant")
 
 #Generate random dataset of three informants uses for four species
 
@@ -38,7 +38,7 @@ names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")
 eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
-ethnoChord(eb_data)
+ethnoChord(eb_data, by = "informant")
 
 }
 \references{

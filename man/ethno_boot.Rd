@@ -14,7 +14,7 @@ n2 = 1000 , use_weights = FALSE, weight_arg = NULL, ...)
 
 \item{n1}{The size of the bootstrap sample.}
 
-\item{n2}{The sample size used to calculate the statistic each bootstrap draw.}
+\item{n2}{The sample size used to calculate the statistic for each bootstrap draw.}
 
 \item{use_weights}{TRUE or FALSE about whether the statistic function accepts a weight argument or should be calculated using resampled data.}
 
@@ -26,7 +26,7 @@ n2 = 1000 , use_weights = FALSE, weight_arg = NULL, ...)
 Bayesian bootstrap of chosen ethnobotany indices in ethnobotanyR package.
 }
 \description{
-Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chose statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
+Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
 }
 \section{Application}{
 

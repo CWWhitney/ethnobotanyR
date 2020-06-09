@@ -21,8 +21,9 @@
 #' @importFrom magrittr %>%
 #' @importFrom reshape melt
 #' @importFrom ggalluvial StatStratum geom_stratum geom_alluvium
-#' @importFrom ggplot2 aes ggplot geom_text scale_x_continuous  
-#'
+#' @importFrom ggplot2 aes ggplot geom_text scale_x_continuous ggproto
+#' @importFrom stats na.omit
+#' 
 #' @examples
 #' 
 #' #Use built-in ethnobotany data example
@@ -42,6 +43,7 @@
 ethno_alluvial <- function(data) {
   
   #Add error stops ####
+  
   #Check that packages are loaded
   {
     if (!requireNamespace("reshape", quietly = TRUE)) {
@@ -59,7 +61,6 @@ ethno_alluvial <- function(data) {
            call. = FALSE)
     }
     
-
     if (!requireNamespace("magrittr", quietly = TRUE)) {
       stop("Package \"magrittr\" needed for this function to work. Please install it.",
            call. = FALSE)
@@ -74,7 +75,7 @@ ethno_alluvial <- function(data) {
   }# end error stops
   
   # Set the variables to NULL first, appeasing R CMD check and CRAN
-  plot_data <- shaped_data <- Use <- Species <- Expert <- informant <- sp_name <- variable <- value <- strwidth <- NULL 
+  Use <- Species <- Expert <- informant <- sp_name <- variable <- value <- strwidth <- NULL 
   
   # Melt ethnobotany data
   shaped_data <- reshape::melt(data, id=c("informant","sp_name")) %>% 
@@ -89,8 +90,8 @@ ethno_alluvial <- function(data) {
   
   # Create alluvial plot ####
   
-  #correct internal assignment for stat = "stratum"
-  StatStratum <- ggalluvial::StatStratum
+  # correct internal assignment for stat = "stratum" 
+  # StatStratum <- ggalluvial::StatStratum
   
   ggplot2::ggplot(as.data.frame(plot_data),
                   ggplot2::aes(y = value, 
@@ -98,12 +99,11 @@ ethno_alluvial <- function(data) {
                                axis2 = Use, 
                                axis3 = Expert)) +
     #geom_alluvium to make the sankey diagram
-    ggalluvial::geom_alluvium(aes(fill = Species), show.legend = FALSE) +
+    ggalluvial::geom_alluvium(aes(fill = Species), show.legend = TRUE) +
     ggalluvial::geom_stratum(alpha = 0, color = "grey") + 
     # fill the whole graph with the sankey
     ggplot2::scale_x_discrete(limits = c("Species", "Use", "Expert"), 
                               expand = c(0.01,0.02)) +
-    ggplot2::geom_text(stat = "stratum", size = 3, infer.label = TRUE) +
     #label y-axis
     ggplot2::labs(y= "Use Reports") +
     ggplot2::theme_minimal()
