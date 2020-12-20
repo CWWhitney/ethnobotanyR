@@ -76,10 +76,11 @@ RIs <- function(data) {
   #all UR greater than zero to count of '1' FC
   RFCdata <- RFCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
   
-  #calculate and creat data set of RFCs
-  RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>%
-    dplyr::summarize(RFCs = sum(FCps/(length(unique(informant))))) %>%
-    dplyr::arrange(-RFCs) 
+  #calculate and create data set of RFCs
+  RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>% 
+    dplyr::summarize(FCs = sum(FCps)) %>%
+    mutate(RFCs = FCs/max(FCs), FCs = NULL) %>% 
+    dplyr::arrange(-RFCs)
   
     #create subsettable data for RNUs
     RNUstestdata <- data
@@ -103,6 +104,7 @@ RIs <- function(data) {
     #merge RNUs and RFCs    
     RIs <- merge(RNUs, RFCs, by = "sp_name")
     RIs$RIs <- (RIs$RNUs + RIs$RFCs)/2
+    
     
     #change sort order
     RIs <- dplyr::arrange(RIs, -RIs) %>% 
