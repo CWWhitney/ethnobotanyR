@@ -25,7 +25,7 @@
 #'  In order to understand the various possible applications of this function for ethnobotany analyses it is important to read through that work. 
 #' 
 #'  ethnobotanyR users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different ‘food’ uses but this is just one category). 
-#'  Most quantitative ethnobotany tools are not equpied for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
+#'  Most quantitative ethnobotany tools are not equipped for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
 #'  This function and the ethno_bayes_consensus function may be useful to work with these richer datasets for the Bayes consensus analysis.
 #'  
 #' @importFrom stats rexp complete.cases

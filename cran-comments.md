@@ -20,11 +20,13 @@ checked win-builder with devtools::check_win_devel()
 All is ok
 
 ## Downstream dependencies
-I have also run R CMD check revdepcheck::revdep_check() on downstream dependencies 
+I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with revdepcheck::revdep_check() on downstream dependencies 
 All packages passed 
+
 
 ## Resubmission
 This is a resubmission. In this version I have:
 
 *Added new functions for quantitative assessment
 *Added an alluvial plot for comparing UR across species, uses and experts
+* fixed a bug in the RIs and RFCs functions
