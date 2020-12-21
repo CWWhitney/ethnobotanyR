@@ -1,6 +1,9 @@
 #' Use Value (UV) index per species
 #'
-#' Calculates the use value (UV) index for each species in the data set (see Tardio and Pardo-de-Santayana 2008).
+#' Calculates the use value (UV) index for each species in the data set 
+#' (see Tardio and Pardo-de-Santayana 2008). 
+#' This is calculated the same as the \link[ethnobotanyR]{CIs} function.
+#' 
 #' @usage UVs(data)
 #' 
 #' @references  
@@ -39,54 +42,9 @@
 #'
 UVs <- function(data) {
   
-  #Add error stops ####
-  {
-    #Check that packages are loaded
-    {
-    if (!requireNamespace("dplyr", quietly = TRUE)) {
-        stop("Package \"dplyr\" needed for this function to work. Please install it.", 
-            call. = FALSE)
-    }
-    if (!requireNamespace("magrittr", quietly = TRUE)) {
-      stop("Package \"magrittr\" needed for this function to work. Please install it.",
-           call. = FALSE)
-    }
-      }# end package check
-
-  ## Check that use categories are greater than zero
-  if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
-    warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-    data<-data[stats::complete.cases(data), ]
-  }
+  UVs <- CI <- NULL # Set variables to NULL first, appeasing R CMD check
   
-  ## Use 'complete.cases' from stats to get to the collection of obs without NA
-  if (any(is.na(data))) {
-    warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-    data<-data[stats::complete.cases(data), ]
-  }
-      } #end error stops
-
-  # Set the variables to NULL first, appeasing R CMD check
-  URdata <- sp_name <- informant <- UVps <- UV <- NULL
+  UVs <- CIs(data)
+  dplyr::rename(UVs, UV = CI)
   
-  URdata <- data #create complete subset-able data
-  
-  #Use-Value (UV) calculated after Tardio and Pardo-de-Santayana (2008)
-  
-  data_URs <- URs(URdata) #calculate URs()
-  
-  data_UV <- data_URs #create new subset-able data for UVs
-  
-  #UV differs from Ci (the CIs function) only in that 
-  #it sums UR grouping by informant (the sum of the uses cited by each informant) 
-  #then sums all these data 
-  #calcualte UV, c.f.. calcualte CI (UR/N)
-  data_UV$UV <- data_URs$URs/(length(unique(URdata$informant)))
-  
-  #change sort order, arrange and round
-  UVs <- data_UV %>% dplyr::select(-URs) %>%
-    dplyr::arrange(-UV) %>%
-    dplyr::mutate(UV = round(UV, 3))
-    
-    as.data.frame(UVs)
 }

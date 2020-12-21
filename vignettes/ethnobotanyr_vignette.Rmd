@@ -150,13 +150,13 @@ The `UVs()` function calculates the use value (UV) index for each species in the
 UV_{s} =  \sum_{i=i_1}^{^iN} \sum_{u=u_1}^{^uNC} UR_{ui/N} 
 \end{equation}
 
-`UVs()` is essentially the same as `CIs()` except that it starts with the sum of UR groupings by informants. $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey [see @tardioCulturalImportanceIndices2008].
+`UVs()` is essentially the same as `CIs()` except that it starts with the sum of UR groupings by informants. $U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey [see @tardioCulturalImportanceIndices2008]. 
 
 ```{r UVs}
 ethnobotanyR::UVs(ethnobotanydata)
 ```
 
-The `simple_UVs()` function calculates the simplified use value (UV) index for each species in the data set.
+The `simple_UVs()` function calculates the simplified use value (UV) index for each species in the data set. 
 
 \begin{equation}
 UV_{s} = \sum U_i/N
@@ -183,10 +183,10 @@ ethnobotanyR::CVe(ethnobotanydata)
 The `FLs()` function calculates the fidelity level (FL) per species in the study. It is a way of calculating the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
 
 \begin{equation}
-FL_{s} = \frac {N_{s}}{UR_{s}}
+FL_{s} = \frac {N_{s}*100}{FC_{s}}
 \end{equation}
 
-where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $UR_s$ is the total number of use reports for the species [see @friedmanPreliminaryClassificationHealing1986]. 
+where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $FC_s$ is the total number of uses for the species [see @friedmanPreliminaryClassificationHealing1986]. 
 
 ```{r FLs}
 ethnobotanyR::FLs(ethnobotanydata)
@@ -196,7 +196,7 @@ Divide FLs by 100 to get the percent FL, as it is reported in some studies.
 
 ## Visualize `ethnobotanyR` results
 
-For quick assessments of differences between indices use the `Radial_plot` function to show ethnobotanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@cowplot] can useful for comparing several `Radial_plot` results for easy comparison across indices.
+For quick assessments of differences between indices use the `Radial_plot` function to show ethnobotanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@cowplot] can be useful for comparing several `Radial_plot` results for easy comparison across indices.
 
 ```{r, fig.width=7, fig.height=7}
 URs_plot <- ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)

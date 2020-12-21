@@ -1,6 +1,9 @@
 #' Use Value (UV) index per species
 #'
-#' Calculates the simplified use value (UV) index for each species in the data set (see Albuquerque et al. 2006).
+#' Calculates the simplified use value (UV) index for each species in the 
+#' data set (see Albuquerque et al. 2006). 
+#' This is calculated the same as the \link[ethnobotanyR]{CIs} function.
+#' 
 #' @usage simple_UVs(data)
 #' 
 #' @references 
@@ -39,42 +42,9 @@
 #'
 simple_UVs <- function(data) {
   
-  #Add error stops ####
-  #Check that packages are loaded
-    {
-    if (!requireNamespace("dplyr", quietly = TRUE)) {
-        stop("Package \"dplyr\" needed for this function to work. Please install it.", 
-            call. = FALSE)
-    }
-  if (!requireNamespace("magrittr", quietly = TRUE)) {
-    stop("Package \"magrittr\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-    }# end package check
-    
-    ## Check that use categories are greater than zero
-    if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
-      warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-      data<-data[stats::complete.cases(data), ]
-    }
-    
-    ## Use 'complete.cases' from stats to get to the collection of obs without NA
-    if (any(is.na(data))) {
-      warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-      data<-data[stats::complete.cases(data), ]
-    } #end error stops
+  simple_UVs <- CI <- NULL # Set variables to NULL first, appeasing R CMD check
   
-  # Set the variables to NULL first, appeasing R CMD check
-  UVpsdata <- sp_name <- informant <- UVps <- NULL # Setting the variables to NULL first, appeasing R CMD check
-  
-  UVpsdata <- data #create complete subsettable data
-  
-  UVpsdata$UVps <- rowSums(dplyr::select(UVpsdata, -informant, -sp_name) > 0)
-  simple_UVs <- UVpsdata %>% 
-    dplyr::group_by(sp_name) %>% 
-      dplyr::summarize (simple_UVs = sum(UVps)/(length(unique(informant)))) %>%
-      dplyr::arrange(-simple_UVs)%>%
-    dplyr::mutate(simple_UVs = round(simple_UVs, 3))
+  simple_UVs <- CIs(data) 
+  dplyr::rename(simple_UVs, simple_UV = CI)
     
-    as.data.frame(simple_UVs)
 }

@@ -1,6 +1,10 @@
 #' Fidelity Level (FL)
 #' 
-#' Calculates the fidelity level (FL) of the various uses of a species,  i.e. the ratio between the number of informants who independently cite the use of a species for the same purposes (URs) and the total number of informants who mentioned the plant for any use (FCs). 
+#' Calculates the fidelity level (FL) of the various uses of a species,  
+#' i.e. the ratio between the number of informants who independently cite 
+#' the use of a species for the same purposes (Ns * 100) and the 
+#' total number of informants who mentioned the plant for any use (FCs).  
+#'
 #' @usage FLs(data)
 #' 
 #' @references  
@@ -82,16 +86,15 @@ FLs <- function(data) {
     dplyr::filter(value >=1) %>% 
     dplyr::select(-informant) 
   
-#Ip <- number who cited for same major purpose (UR in highest use category (-ies))
+#Ip <- number (N) who cite species (s) for same major purpose (Ns)
 Ip <- melt_FLS %>% 
    dplyr::group_by(sp_name, variable) %>%
    dplyr::summarize(Ip = sum(value, na.rm = TRUE)) 
   
-            
 #Bind Ip and Iu data
 FLspdata <- dplyr::left_join(Iu, Ip, by = "sp_name", na.rm = TRUE)
  
- #Calculate FLs = Ip *100 / Iu
+ #Calculate FLs = Ip * 100 / Iu
  FLspdata$FLs <- (FLspdata$Ip*100) / FLspdata$FCs
   
  FLs <- FLspdata %>% dplyr::group_by(sp_name, variable) %>%

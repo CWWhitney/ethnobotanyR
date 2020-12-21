@@ -14,7 +14,9 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 Data frame of species and use value (UV) index results.
 }
 \description{
-Calculates the use value (UV) index for each species in the data set (see Tardio and Pardo-de-Santayana 2008).
+Calculates the use value (UV) index for each species in the data set 
+(see Tardio and Pardo-de-Santayana 2008). 
+This is calculated the same as the \link[ethnobotanyR]{CIs} function.
 }
 \section{Warning}{
 
