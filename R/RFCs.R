@@ -76,11 +76,13 @@ RFCs <- function(data) {
   #all UR greater than zero to count of '1' FC per species 
   RFCdata <- RFCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
     
-  #calculate and creat data set of RFCs
-  RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize(RFCs = sum(FCps/(length(unique(informant))))) %>%
-      dplyr::arrange(-RFCs) %>%
-      dplyr::mutate(RFCs = round(RFCs, 3))
+  #calculate and create data set of RFCs
+  RFCs <- RFCdata %>% 
+    dplyr::group_by(sp_name) %>% 
+    dplyr::summarize(FCs = sum(FCps)) %>%
+    dplyr::mutate(RFCs = FCs/max(FCs), FCs = NULL) %>% 
+    dplyr::arrange(-RFCs) %>%
+    dplyr::mutate(RFCs = round(RFCs, 3))
     
     as.data.frame(RFCs)
     }

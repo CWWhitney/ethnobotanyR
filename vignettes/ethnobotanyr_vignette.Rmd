@@ -352,7 +352,7 @@ We keep a normal prior for the data and the knowledge of the informants.
 ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a_rich,
        answers = 10, 
        prior_for_answers = ethno_compet_sp_a_rich, 
-       prior=-1) #keep a normal prior in this example
+       prior=-1) #keep a normal prior in this example with -1
 ```
 
 Create a data frame and melt for the `ggplot2` plotting functions.
