@@ -83,7 +83,6 @@ RIs <- function(data) {
     dplyr::mutate(RFCs = FCs/max(FCs), FCs = NULL) %>% 
     dplyr::arrange(-RFCs)
   
-  
     #create subsettable data for RNUs
     RNUstestdata <- data
     

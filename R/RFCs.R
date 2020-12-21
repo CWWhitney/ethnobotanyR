@@ -82,7 +82,7 @@ RFCs <- function(data) {
     dplyr::summarize(FCs = sum(FCps)) %>%
     mutate(RFCs = FCs/sum(length(unique(informant)))) %>% 
     dplyr::arrange(-RFCs)
-    
+
     as.data.frame(RFCs)
     }
 
