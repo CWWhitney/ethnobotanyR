@@ -77,10 +77,12 @@ RIs <- function(data) {
   RFCdata <- RFCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
   
   #calculate and create data set of RFCs
-  RFCs <- RFCdata %>% dplyr::group_by(sp_name) %>% 
+  RFCs <- RFCdata %>% 
+    dplyr::group_by(sp_name) %>% 
     dplyr::summarize(FCs = sum(FCps)) %>%
-    mutate(RFCs = FCs/max(FCs), FCs = NULL) %>% 
+    dplyr::mutate(RFCs = FCs/max(FCs), FCs = NULL) %>% 
     dplyr::arrange(-RFCs)
+  
   
     #create subsettable data for RNUs
     RNUstestdata <- data

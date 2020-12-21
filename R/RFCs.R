@@ -80,9 +80,8 @@ RFCs <- function(data) {
   RFCs <- RFCdata %>% 
     dplyr::group_by(sp_name) %>% 
     dplyr::summarize(FCs = sum(FCps)) %>%
-    dplyr::mutate(RFCs = FCs/max(FCs), FCs = NULL) %>% 
-    dplyr::arrange(-RFCs) %>%
-    dplyr::mutate(RFCs = round(RFCs, 3))
+    mutate(RFCs = FCs/sum(length(unique(informant)))) %>% 
+    dplyr::arrange(-RFCs)
     
     as.data.frame(RFCs)
     }
