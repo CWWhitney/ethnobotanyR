@@ -39,6 +39,9 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 ethno_alluvial(eb_data)
 
 }
+\references{
+Mon, Aye Mya, Yinxian Shi, Xuefei Yang, Pyae Phyo Hein, Thaung Naing Oo, Cory Whitney, and Yongping Yang. “The Uses of Fig (Ficus) by Five Ethnic Minority Communities in Southern Shan State, Myanmar.” Journal of Ethnobiology and Ethnomedicine 16, no. 5 (2020).
+}
 \keyword{arith}
 \keyword{graphs}
 \keyword{logic}

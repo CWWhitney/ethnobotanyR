@@ -69,7 +69,7 @@ CVe <- function(data) {
   
   URdata <- data #create complete subset-able data
   
-  # calcualte Use Reports per ethnospecies 
+  # calculate Use Reports per ethnospecies 
   # with function URs()
   URS <- URs(URdata)
   
@@ -88,16 +88,16 @@ CVe <- function(data) {
   FCS$Ice <- FCS$FCs/length(unique(URdata$informant))
   
   # bind the three data sets 
-  UR_UN_FC <- dplyr::bind_cols(NUS, URS, FCS)
+  UR_UN_FC <- dplyr::left_join(NUS, URS) %>% dplyr::left_join(FCS)
   
   # IUce expresses the number of participants who mentioned 
   # each use of the ethnospecies e (also URs)
   # divided by the total number of participants 
   UR_UN_FC$IUce <- UR_UN_FC$URs/length(unique(URdata$informant))
   
-  # calcualte CVe = Uce * Ice*EIUce
-  UR_UN_FC$CVe <- UR_UN_FC$Uce * UR_UN_FC$Ice * sum(UR_UN_FC$IUce)
-    
+  # calculate CVe = Uce * Ice*EIUce
+  UR_UN_FC$CVe <- UR_UN_FC$Uce * UR_UN_FC$Ice * UR_UN_FC$IUce
+  
   CVe <- dplyr::select(UR_UN_FC, sp_name, CVe) %>%
     dplyr::arrange(-CVe) %>%
     dplyr::mutate(CVe = round(CVe, 3))
