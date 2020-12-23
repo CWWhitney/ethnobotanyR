@@ -44,10 +44,18 @@
 #' eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 #' eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 #' 
+#' # Simple bootstrap of the mean ####
+#' 
 #' boot_data <- URs(eb_data)
+#' 
+#' ethno_boot(data = boot_data$URs, statistic = mean)
+#' 
+#' # use FC as a weight argument ####
 #'  
-#' ethno_boot(data = boot_data$URs, statistic = mean, 
-#' n1 = 1000, n2 = 100)
+#' boot_data <- FCs(eb_data)  
+#' 
+#' ethno_boot(data = boot_data$URs, statistic = weighted.mean, 
+#' n1 = 100, n2 = 10, use_weights = TRUE, weight_arg = boot_data$FCs)
 #' 
 #' @export ethno_boot
 #' 
