@@ -1,18 +1,6 @@
 #' Bootstrap analyses of ethnobotany indices
 #'
-#' Creates a non-parametric bootstrap as a Bayesian Model 
-#' \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. 
-#' This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. 
-#' Performs a Bayesian bootstrap, like a normal bootstrap but instead 
-#' of simulating the sampling distribution of a statistic estimating a parameter, 
-#' it simulates the posterior distribution of the parameter.
-#' 
-#' The function returns a sample of size 'n1' representing the posterior distribution 
-#' of the chosen statistic (i.e. 'mean'). The function returns a vector if the 
-#' statistic is one-dimensional (like for mean(...)) or a data.frame 
-#' if the statistic is multi-dimensional (like for the coefficients 'coefs.' 
-#' of a regression model 'lm').
-#' 
+#' Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
 #' @references 
 #' Bååth, Rasmus. “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
 #' 
@@ -49,13 +37,12 @@
 #' ethno_boot(data = ethnobotanydata$Use_1, 
 #' statistic = mean, n1 = 1000)
 #' 
-#' 
 #' #Generate random dataset of three informants uses for four species
 #' 
 #' eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
 #' names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
-#' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
-#' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+#' eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 #' 
 #' boot_data <- URs(eb_data)
 #'  
@@ -73,32 +60,49 @@ ethno_boot <- function(data, statistic,
   if (any(is.na(data))) {
     warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
     data<-data[stats::complete.cases(data), ]
-    
-    ## Use 'complete.cases' from stats to get to the collection of obs without NA
-    if (!is.data.frame(data)) {
-      warning("Your data has been converted to a data.frame.")
-      data<-as.data.frame(data)
-      
   }#end error stops
   
   # Set the variables to NULL first, appeasing R CMD check
-  value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL
+  value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   #Bayes boot
   
-# Create Dirichlet distribution weights with rexp
-    dirichlet_weights <- matrix(stats::rexp(nrow(data) * n1, 1), 
-                                 ncol = nrow(data), byrow = TRUE)
+    # Draw from a uniform Dirichlet dist. with alpha set to rep(1, n_dim).
+    # Using the facts that you can transform gamma distributed draws into 
+    # Dirichlet draws and that rgamma(n, 1) <=> rexp(n, 1)
+    dirichlet_weights <- matrix(stats::rexp(NROW(data) * n1, 1) , 
+                                 ncol = NROW(data), byrow = TRUE)
+    dirichlet_weights <- dirichlet_weights / 
+      rowSums(dirichlet_weights)
     
-    dirichlet_weights <- dirichlet_weights / rowSums(dirichlet_weights)
-    
-# Draw from a uniform Dirichlet distribution    
-    
-      stat_call <- quote(statistic(data))
+    if(use_weights) {
+      stat_call <- quote(statistic(data, w, ...))
+      names(stat_call)[3] <- weight_arg
       boot_sample <- apply(dirichlet_weights, 1, function(w) {
         eval(stat_call)
       })
-      
+    } else {
+      if(is.null(dim(data)) || length(dim(data)) < 2) { 
+        # data is a list type of object
+        boot_sample <- apply(dirichlet_weights, 1, function(w) {
+          data_sample <- sample(data, size = n2, 
+                                replace = TRUE, prob = w)
+          statistic(data_sample, ...)
+        })
+      } else { # data is a table type of object
+        boot_sample <- apply(dirichlet_weights, 1, function(w) {
+          index_sample <- sample(nrow(data), 
+                                 size = n2, replace = TRUE, prob = w)
+          statistic(data[index_sample, ,drop = FALSE], ...)
+        })
+      }
+    }
+    if(is.null(dim(boot_sample)) || length(dim(boot_sample)) < 2) {
+      # If the bootstrap sample is just a simple vector return it.
+      boot_sample
+    } else {
+      # Otherwise it is a matrix. Since apply returns one row per statistic
+      # let's transpose it and return it as a data frame.
       as.data.frame(t(boot_sample))
     }
   }
