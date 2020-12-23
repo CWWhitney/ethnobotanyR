@@ -42,11 +42,8 @@
 #'
 simple_UVs <- function(data) {
   
-<<<<<<< HEAD
   simple_UVs <- CI <- NULL # Set variables to NULL first, appeasing R CMD check
   
-=======
->>>>>>> 11ee370e98976d16620d52bc3b630872b8dd3b50
   simple_UVs <- CIs(data) 
   dplyr::rename(simple_UVs, simple_UV = CI)
     

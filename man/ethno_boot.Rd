@@ -26,7 +26,19 @@ n2 = 1000 , use_weights = FALSE, weight_arg = NULL, ...)
 Bayesian bootstrap of chosen ethnobotany indices in ethnobotanyR package.
 }
 \description{
-Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
+Creates a non-parametric bootstrap as a Bayesian Model 
+\url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. 
+This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. 
+Performs a Bayesian bootstrap, like a normal bootstrap but instead 
+of simulating the sampling distribution of a statistic estimating a parameter, 
+it simulates the posterior distribution of the parameter.
+}
+\details{
+The function returns a sample of size 'n1' representing the posterior distribution 
+of the chosen statistic (i.e. 'mean'). The function returns a vector if the 
+statistic is one-dimensional (like for mean(...)) or a data.frame 
+if the statistic is multi-dimensional (like for the coefficients 'coefs.' 
+of a regression model 'lm').
 }
 \section{Application}{
 
@@ -46,11 +58,17 @@ Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.ne
 ethno_boot(data = ethnobotanydata$Use_1, 
 statistic = mean, n1 = 1000)
 
+
 #Generate random dataset of three informants uses for four species
 
-eb_data <- URs(ethnobotanydata)
+eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
+names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
+eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+
+boot_data <- URs(eb_data)
  
-ethno_boot(data = eb_data$URs, statistic = mean, 
+ethno_boot(data = boot_data$URs, statistic = mean, 
 n1 = 1000, n2 = 100)
 
 }
