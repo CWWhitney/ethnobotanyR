@@ -242,22 +242,34 @@ ethnobotanyR::ethno_alluvial(ethnobotanydata)
 
 The indices are probably too narrow a tool for a proper assessment but they can be a useful entry way into understanding some aspects human and nature interactions. These steps required to calculate these indices offer a way to quantify intangible factors of how human communities interact with the world. They can come in handy as additive pieces for more holistic assessments and analyses. 
 
-The `ethno_boot` function creates a non-parametric Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chose statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
+One such procedure is the non-parametric Bayesian bootstrap. The `ethno_boot` function runs such a bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chose statistic (i.e. 'mean').
 
-Running `ethno_boot` over various plant uses and then plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
+Here we are interested in the differences in use '1' between species 'a' and species 'b'.  
 
-```{r ethno_boot_histograms}
-Use_1_boot <- ethno_boot(ethnobotanydata$Use_1, statistic = mean, n1 = 1000, n2 = 100)
+```{r ethno_boot_uses}
+sp_a_data <- ethnobotanydata %>% filter(sp_name == "sp_a") 
 
-Use_2_boot <- ethno_boot(ethnobotanydata$Use_2, statistic = mean, n1 = 1000, n2 = 100)
+sp_a_use <- ethno_boot(sp_a_data$Use_3, statistic = mean, n1 = 1000)
 
-Use_3_boot <- ethno_boot(ethnobotanydata$Use_3, statistic = mean, n1 = 1000, n2 = 100)
+sp_b_data <- ethnobotanydata %>% filter(sp_name == "sp_b") 
+
+sp_b_use <- ethno_boot(sp_b_data$Use_3, statistic = mean, n1 = 1000)
+
 ```
+
+We can calculate the 90% credible interval to determine the lower bound of `r round(quantile(sp_a_use, c(0.05, 0.95)), 2)[1]` and upper bound of `r round(quantile(sp_a_use, c(0.05, 0.95)), 2)[2]` for species 'a' and `r round(quantile(sp_b_use, c(0.05, 0.95)), 2)[1]` and upper bound of `r round(quantile(sp_b_use, c(0.05, 0.95)), 2)[2]` for species 'b'.
+
+```{r ethno_boot_URs}
+quantile(sp_a_use, c(0.05, 0.95))
+quantile(sp_b_use, c(0.05, 0.95))
+```
+
+Running `ethno_boot` returns a posterior distribution of the result. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
 
 Create a data frame and use the `reshape` `melt` function to create a useful data set for the `ggplot2` plotting functions.
 
 ```{r fig.width=7, fig.height=7}
-boot_data <- data.frame(Use_1_boot, Use_2_boot, Use_3_boot)
+boot_data <- data.frame(sp_a_use, sp_b_use)
 
 ethno_boot_melt <- reshape::melt(boot_data)
 ```

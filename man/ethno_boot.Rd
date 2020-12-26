@@ -5,20 +5,16 @@
 \title{Bootstrap analyses of ethnobotany indices}
 \usage{
 ethno_boot(data, statistic, n1 = 1000, 
-n2 = 1000 , use_weights = FALSE, weight_arg = NULL, ...)
+n2 = 1000, ...)
 }
 \arguments{
 \item{data}{Can be either a vector, matrix or a data.frame.}
 
-\item{statistic}{A function that accepts data as its first argument and possibly the weights as its second, if use_weights is TRUE. Should return a numeric vector.}
+\item{statistic}{A function that accepts data as its first argument. Should return a numeric vector.}
 
 \item{n1}{The size of the bootstrap sample.}
 
 \item{n2}{The sample size used to calculate the statistic for each bootstrap draw.}
-
-\item{use_weights}{TRUE or FALSE about whether the statistic function accepts a weight argument or should be calculated using resampled data.}
-
-\item{weight_arg}{If the statistic function includes a named argument for the weights this can be specified here.}
 
 \item{...}{Further arguments passed on to the statistic function.}
 }
@@ -53,14 +49,16 @@ names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")
 eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
-boot_data <- URs(eb_data)
- 
-ethno_boot(data = boot_data$URs, statistic = mean, 
-n1 = 1000, n2 = 100)
+# Simple bootstrap of the mean ####
+
+boot_dataUR <- URs(eb_data)
+
+ethno_boot(data = boot_dataUR$URs, statistic = mean)
 
 }
 \references{
 Bååth, Rasmus. “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
+Rubin, Donald B. “The Bayesian Bootstrap.” Annals of Statistics 9, no. 1 (January 1981): 130–34. \url{https://doi.org/10.1214/aos/1176345338}.
 }
 \keyword{Bayes}
 \keyword{Bayesian}
