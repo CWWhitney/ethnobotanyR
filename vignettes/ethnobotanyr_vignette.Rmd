@@ -244,7 +244,13 @@ The indices are probably too narrow a tool for a proper assessment but they can 
 
 One such procedure is the non-parametric Bayesian bootstrap. The `ethno_boot` function runs such a bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chose statistic (i.e. 'mean').
 
-Here we are interested in the differences in use '1' between species 'a' and species 'b'.  
+The function uses the Dirichlet distribution as a way to model the randomness of a probability mass function (PMF) with unlimited options for finite sets (e.g. an unlimited amount of dice in a bag). It is the conjugate prior of the categorical distribution and multinomial distribution. 
+
+A probability mass function (PMF) is also called a frequency function, it gives probabilities for random variables that are discrete such as UR (there can be only 1 or 0 UR, this also works for discrete counts like plant uses where there can only be max 'n' people interviewed).
+
+The Dirichlet distribution creates n positive numbers (a set of random vectors X1…Xn) that add up to 1. It is closely related to the multinomial distribution, which also requires n numbers that sum to 1.
+
+Here we are interested in the differences in use (either '0' no use, or '1' use) between species 'a' and species 'b'.  
 
 ```{r ethno_boot_uses}
 sp_a_data <- ethnobotanydata %>% filter(sp_name == "sp_a") 
@@ -266,7 +272,7 @@ quantile(sp_b_use, c(0.05, 0.95))
 
 Running `ethno_boot` returns a posterior distribution of the result. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
 
-Create a data frame and use the `reshape` `melt` function to create a useful data set for the `ggplot2` plotting functions.
+Create a data frame and use the `reshape` and `melt` functions for use with the `ggplot2` plotting functions.
 
 ```{r fig.width=7, fig.height=7}
 boot_data <- data.frame(sp_a_use, sp_b_use)
