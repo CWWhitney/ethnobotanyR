@@ -4,15 +4,16 @@
 \alias{ethno_alluvial}
 \title{Alluvial plot of ethnobotany uses and species}
 \usage{
-ethno_alluvial(data)
+ethno_alluvial(data, alpha = 0)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
+
+\item{alpha}{is a number between 0 and 1 for the level of transparency behind the labels on the strata (default is 0).}
 }
 \value{
-Alluvial diagram figure for each use (top half) related to each 'sp_name' (bottom half) in the data set. 
-To change variable names try using the dplyr rename function.
+Alluvial diagram showing all use reports for each use (center) related to each species (left) and informant (right) in the data set.
 }
 \description{
 Creates a simple alluvial plot of species and uses for ethnobotany studies.
@@ -36,11 +37,13 @@ names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")
 eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 
+# Default plot ####
+
 ethno_alluvial(eb_data)
 
 }
 \references{
-Mon, Aye Mya, Yinxian Shi, Xuefei Yang, Pyae Phyo Hein, Thaung Naing Oo, Cory Whitney, and Yongping Yang. “The Uses of Fig (Ficus) by Five Ethnic Minority Communities in Southern Shan State, Myanmar.” Journal of Ethnobiology and Ethnomedicine 16, no. 5 (2020).
+Mon, Aye Mya, Yinxian Shi, Xuefei Yang, Pyae Phyo Hein, Thaung Naing Oo, Cory Whitney, and Yongping Yang. “The Uses of Fig (Ficus) by Five Ethnic Minority Communities in Southern Shan State, Myanmar.” Journal of Ethnobiology and Ethnomedicine 16, no. 5 (2020). \doi{10.1186/s13002-020-00406-z}
 }
 \keyword{arith}
 \keyword{graphs}

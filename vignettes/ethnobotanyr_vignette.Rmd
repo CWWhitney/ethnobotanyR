@@ -232,11 +232,26 @@ Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
 
 ## Flow diagrams with `ggalluvial`
 
-The `ethno_alluvial()` function use the `ggplot2` extension `ggalluvial` to make flow diagrams. This offers a way to visualize frequency distributions across uses, experts and use categories. 
+The `ethno_alluvial()` function uses the `ggplot2` extension `ggalluvial` to make flow diagrams. This may be a useful way to visualize frequency distributions across uses, experts and use categories. 
 
 ```{r, fig.width=7, fig.height=7}
 ethnobotanyR::ethno_alluvial(ethnobotanydata)
 ```
+
+Generate the same plot with labels on the strata and without the legend.
+
+```{r, fig.width=7, fig.height=7}
+
+# correct internal assignment for stat = "stratum" 
+  StatStratum <- ggalluvial::StatStratum
+
+ethnobotanyR::ethno_alluvial(ethnobotanydata, alpha = 0.2) + 
+  ggplot2::theme(legend.position = "none") +  
+             ggplot2::geom_label(stat = "stratum", 
+                      ggplot2::aes(label = ggplot2::after_stat(stratum)))
+
+```
+
 
 ### Confidence in responses
 

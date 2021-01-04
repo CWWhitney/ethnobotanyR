@@ -31,3 +31,4 @@ This is a resubmission. In this version I have:
 *Added an alluvial plot for comparing UR across species, uses and experts
 * fixed a bug in the RIs and RFCs functions
 * Swapped out reshape for reshape2 (for future chnges to this as a tidy package)
+* defined \url and \doi links in the help files (replaced \url and <doi...> with \doi for references)
