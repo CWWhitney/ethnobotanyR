@@ -12,6 +12,7 @@
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.
 #' 
+#' 
 #' @keywords graphs arith math logic methods misc survey
 #'
 #' @return Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
@@ -82,6 +83,9 @@ Radial_plot <- function(data, analysis) {
     ggplot2::geom_bar(width = 1, stat = "identity", color = "white") +
     ggplot2::scale_y_continuous(breaks = 0:nlevels(Radial_plot_data$sp_name), position = "right") +
     ggplot2::coord_polar() + 
+    # Limits of the plot, negative controls the size of the inner circle, 
+    # the positive one is useful to add size over each bar
+    ggplot2::ylim(-min(Radial_plot_data$value), max(Radial_plot_data$value)) +
     ggplot2::theme_minimal() +
     ggplot2::theme(axis.title.x=ggplot2::element_blank())+
     ggplot2::theme(axis.title.y=ggplot2::element_blank(),
