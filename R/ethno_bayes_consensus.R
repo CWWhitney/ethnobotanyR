@@ -1,7 +1,7 @@
 #' Gives a measure of the confidence we can have in the answers in the ethnobotany data.
 #'
 #' Determine the probability that informant citations for a given use are 'correct' given informant responses to the use category for each plant, an estimate of each person's prior_for_answers with this plant and use, and the number of possible answers about this plant use.
-#' @usage ethno_bayes_consensus(data, answers = 2, prior_for_answers, prior=-1)
+#' @usage ethno_bayes_consensus(data, answers = 2, prior_for_answers, prior = -1)
 #' 
 #' @references 
 #' Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. \url{https://doi.org/10.1177/1525822X13520280} 

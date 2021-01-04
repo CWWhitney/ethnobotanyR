@@ -6,7 +6,7 @@ Version: 0.1.8
 Authors@R: c( 
     person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre"))
     )
-Date: 2020-12-20
+Date: 2021-01-04
 Depends: R (>= 3.2.0)
 Imports:
     circlize,
@@ -15,7 +15,7 @@ Imports:
     ggalluvial,
     ggplot2,
     ggridges,
-    reshape,
+    reshape2,
     magrittr
 License: GPL
 URL: https://CRAN.R-project.org/package=ethnobotanyR

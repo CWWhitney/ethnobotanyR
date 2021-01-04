@@ -30,3 +30,4 @@ This is a resubmission. In this version I have:
 *Added new functions for quantitative assessment
 *Added an alluvial plot for comparing UR across species, uses and experts
 * fixed a bug in the RIs and RFCs functions
+* Swapped out reshape for reshape2 (for future chnges to this as a tidy package)

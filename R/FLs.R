@@ -48,8 +48,8 @@ FLs <- function(data) {
   #Add error stops ####
    #Check that packages are loaded
     {
-  if (!requireNamespace("reshape", quietly = TRUE)) {
-    stop("Package \"reshape\" needed for this function to work. Please install it.",
+  if (!requireNamespace("reshape2", quietly = TRUE)) {
+    stop("Package \"reshape2\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   if (!requireNamespace("dplyr", quietly = TRUE)) {
