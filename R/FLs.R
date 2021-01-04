@@ -15,7 +15,7 @@
 #' 
 #' @importFrom dplyr filter summarize select left_join group_by slice
 #' @importFrom magrittr %>%
-#' @importFrom reshape melt
+#' @importFrom reshape2 melt
 #' 
 #' @keywords arith math logic methods misc survey
 #'
@@ -82,7 +82,7 @@ FLs <- function(data) {
   
   Iu <- FCs(FLsdata) #calculate Iu, same as FCs()
   
-  melt_FLS<- reshape::melt(FLsdata, id=c("informant","sp_name")) %>% 
+  melt_FLS<- reshape2::melt(FLsdata, id=c("informant","sp_name")) %>% 
     dplyr::filter(value >=1) %>% 
     dplyr::select(-informant) 
   

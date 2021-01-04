@@ -1,7 +1,7 @@
 devtools::release()
 
 ## Test environments
-* local OS Catalina 10.15.3, R.Version R 3.6.3 
+* local OS Big Sur 11.1, R.Version R 4.0.2 
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs

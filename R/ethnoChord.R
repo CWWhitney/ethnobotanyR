@@ -26,7 +26,7 @@
 #' @importFrom dplyr filter rename select 
 #' @importFrom graphics strwidth
 #' @importFrom magrittr %>%
-#' @importFrom reshape melt
+#' @importFrom reshape2 melt
 #'
 #' @examples
 #' 
@@ -49,8 +49,8 @@ ethnoChord <- function(data, by = "sp_name") {
   #Add error stops ####
   #Check that packages are loaded
     {
-  if (!requireNamespace("reshape", quietly = TRUE)) {
-        stop("Package \"reshape\" needed for this function to work. Please install it.",
+  if (!requireNamespace("reshape2", quietly = TRUE)) {
+        stop("Package \"reshape2\" needed for this function to work. Please install it.",
             call. = FALSE)
   }
   
@@ -81,7 +81,7 @@ ethnoChord <- function(data, by = "sp_name") {
   informant <- sp_name <- variable <- value <- strwidth <- NULL 
   
   # Melt ethnobotany data
-  mat <- reshape::melt(data, id=c("informant","sp_name")) %>% 
+  mat <- reshape2::melt(data, id=c("informant","sp_name")) %>% 
     dplyr::filter(value >=1)%>%
     #dplyr::arrange(by) %>%  
     dplyr::arrange(variable) %>% 

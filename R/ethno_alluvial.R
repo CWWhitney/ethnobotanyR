@@ -21,7 +21,7 @@
 #' 
 #' @importFrom dplyr filter rename select 
 #' @importFrom magrittr %>%
-#' @importFrom reshape melt
+#' @importFrom reshape2 melt
 #' @importFrom ggalluvial StatStratum geom_stratum geom_alluvium
 #' @importFrom ggplot2 aes ggplot geom_text scale_x_continuous ggproto
 #' @importFrom stats na.omit
@@ -48,8 +48,8 @@ ethno_alluvial <- function(data) {
   
   #Check that packages are loaded
   {
-    if (!requireNamespace("reshape", quietly = TRUE)) {
-      stop("Package \"reshape\" needed for this function to work. Please install it.",
+    if (!requireNamespace("reshape2", quietly = TRUE)) {
+      stop("Package \"reshape2\" needed for this function to work. Please install it.",
            call. = FALSE)
     }
     
@@ -80,7 +80,7 @@ ethno_alluvial <- function(data) {
   Use <- Species <- Expert <- informant <- sp_name <- variable <- value <- strwidth <- NULL 
   
   # Melt ethnobotany data
-  shaped_data <- reshape::melt(data, id=c("informant","sp_name")) %>% 
+  shaped_data <- reshape2::melt(data, id=c("informant","sp_name")) %>% 
     dplyr::filter(value >=1)
   
   plot_data <-  shaped_data %>% 

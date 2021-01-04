@@ -272,12 +272,12 @@ quantile(sp_b_use, c(0.05, 0.95))
 
 Running `ethno_boot` returns a posterior distribution of the result. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
 
-Create a data frame and use the `reshape` and `melt` functions for use with the `ggplot2` plotting functions.
+Create a data frame and use the `melt` function to reshape data for the `ggplot2` plotting functions.
 
 ```{r fig.width=7, fig.height=7}
 boot_data <- data.frame(sp_a_use, sp_b_use)
 
-ethno_boot_melt <- reshape::melt(boot_data)
+ethno_boot_melt <- reshape2::melt(boot_data)
 ```
 
 Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
@@ -378,7 +378,7 @@ Create a data frame and melt for the `ggplot2` plotting functions.
 ```{r fig.width=7, fig.height=7}
 ethno_sp_a_bayes_melt <-  ethno_sp_a_bayes %>%
   as.data.frame() %>%
-  reshape::melt()
+  reshape2::melt()
 ```
 
 Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
