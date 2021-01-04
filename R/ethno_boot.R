@@ -4,7 +4,7 @@
 #' 
 #' @references 
 #' Bååth, Rasmus. “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
-#' Rubin, Donald B. “The Bayesian Bootstrap.” Annals of Statistics 9, no. 1 (January 1981): 130–34. \url{https://doi.org/10.1214/aos/1176345338}.
+#' Rubin, Donald B. “The Bayesian Bootstrap.” Annals of Statistics 9, no. 1 (January 1981): 130–34. \doi{10.1214/aos/1176345338}.
 #' 
 #' @usage ethno_boot(data, statistic, n1 = 1000, 
 #' n2 = 1000, ...)

@@ -44,7 +44,7 @@ ethnoChord(eb_data, by = "informant")
 \references{
 Gu, Zuguang, Lei Gu, Roland Eils, Matthias Schlesner, and Benedikt Brors. “Circlize Implements and Enhances Circular Visualization in R.” Bioinformatics, 2014, 393.
 
-Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. \url{https://doi.org/10.14237/ebl.9.2.2018.503}
+Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. \doi{10.14237/ebl.9.2.2018.503}
 }
 \keyword{arith}
 \keyword{graphs}

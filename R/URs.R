@@ -7,7 +7,7 @@
 #' @references  
 #' Prance, G. T., W. Balee, B. M. Boom, and R. L. Carneiro. 1987. “Quantitative Ethnobotany and the Case for Conservation in Amazonia.” Conservation Biology 1 (4): 296–310.
 #' @references
-#' Whitney, Cory W., J. Gebauer, and M. Anderson. “A Survey of Wild Collection and Cultivation of Indigenous Species in Iceland.” Human Ecology 40, no. 5 (2012): 781–87. https://doi.org/10.1007/s10745-012-9517-0.
+#' Whitney, Cory W., J. Gebauer, and M. Anderson. “A Survey of Wild Collection and Cultivation of Indigenous Species in Iceland.” Human Ecology 40, no. 5 (2012): 781–87. \doi{10.1007/s10745-012-9517-0}
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
