@@ -180,13 +180,13 @@ ethnobotanyR::CVe(ethnobotanydata)
 
 ### Fidelity Level (FL) per species 
 
-The `FLs()` function calculates the fidelity level (FL) per species in the study. It is a way of calculating the percentage of informants who use a plant for the same purpose as compared to all uses of all plants.
+The `FLs()` function calculates the fidelity level (FL) per species in the study. It is a way of calculating the percentage of informants who use a plant for the same purpose as compared to all uses of the plant for any purpose.
 
 \begin{equation}
 FL_{s} = \frac {N_{s}*100}{FC_{s}}
 \end{equation}
 
-where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $FC_s$ is the total number of uses for the species [see @friedmanPreliminaryClassificationHealing1986]. 
+where $N_s$ is the number of informants that use a particular plant for a specific purpose, and $FC_s$ is the frequency of citation for the species [see @friedmanPreliminaryClassificationHealing1986]. 
 
 ```{r FLs}
 ethnobotanyR::FLs(ethnobotanydata)
