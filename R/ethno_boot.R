@@ -44,11 +44,23 @@
 #' eb_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 #' eb_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 #' 
-#' # Simple bootstrap of the mean ####
+#' # Simple Bayesian bootstrap of the mean ####
 #' 
 #' boot_dataUR <- URs(eb_data)
 #' 
 #' ethno_boot(data = boot_dataUR$URs, statistic = mean)
+#' 
+#' # Generate random dataset of three informants with multiple uses for four species
+#' 
+#' eb_multi_use_data <- data.frame(replicate(10,sample(0:10,20,rep=TRUE)))
+#' names(eb_multi_use_data) <- gsub(x = names(eb_multi_use_data), pattern = "X", replacement = "Use_")  
+#' eb_multi_use_data$informant<-sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+#' eb_multi_use_data$sp_name<-sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' 
+#' # Simple Bayesian bootstrap of the mean of Use_1 ####
+#' 
+#' ethno_boot(data = eb_multi_use_data$Use_1, statistic = mean)
+#' 
 #' 
 #' @export ethno_boot
 #' 

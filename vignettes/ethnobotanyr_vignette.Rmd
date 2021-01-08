@@ -303,7 +303,7 @@ ggplot2::ggplot(ethno_boot_melt, aes(x = value,
                 ggridges::geom_density_ridges() +
                 ggridges::theme_ridges() + 
                 theme(legend.position = "none") +
-                labs(y= "", x = "Example Bayesian bootstraps of three use categories")
+                labs(y= "", x = "Example Bayesian bootstraps of the probability of use for two species")
 ```
 
 The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oravecz2014; @romney1986]. 
