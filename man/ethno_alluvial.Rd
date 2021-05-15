@@ -4,13 +4,15 @@
 \alias{ethno_alluvial}
 \title{Alluvial plot of ethnobotany uses and species}
 \usage{
-ethno_alluvial(data, alpha = 0)
+ethno_alluvial(data, alpha = 0, colors = NULL)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 
 \item{alpha}{is a number between 0 and 1 for the level of transparency behind the labels on the strata (default is 0).}
+
+\item{colors}{is the color palette to be used for the fill of the bars. The default is from the rainbow palette with the number of plants in the data}
 }
 \value{
 Alluvial diagram showing all use reports for each use (center) related to each species (left) and informant (right) in the data set.

@@ -6,12 +6,12 @@
 #' @references 
 #' Wickham, Hadley. ggplot2: Elegant Graphics for Data Analysis. Springer, 2016.
 #' 
-#' @usage Radial_plot(data, analysis)
+#' @usage Radial_plot(data, analysis, colors = NULL)
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.
-#' 
+#' @param colors is the color palette to be used for the fill of the bars. The default is from the rainbow palette with the number of plants
 #' 
 #' @keywords graphs arith math logic methods misc survey
 #'
@@ -26,6 +26,7 @@
 #' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom ggplot2 ggplot aes geom_bar coord_polar theme_minimal geom_bar scale_y_continuous
 #' @importFrom magrittr %>%
+#' @importFrom grDevices rainbow
 #'  
 #' @examples
 #' 
@@ -44,7 +45,7 @@
 #' 
 #' @export Radial_plot
 #' 
-Radial_plot <- function(data, analysis) {
+Radial_plot <- function(data, analysis, colors = NULL) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -71,12 +72,17 @@ Radial_plot <- function(data, analysis) {
       data<-data[stats::complete.cases(data), ]
     }#end error stops
   
+
   # Set the variables to NULL first, appeasing R CMD check
   value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   Radial_plot_data <- analysis(data) #create subset-able data
   
   names(Radial_plot_data)[length(names(Radial_plot_data))]<-"value" 
+
+  # define the colors
+  if (is.null(colors)){
+    colors <- rainbow(n = nrow(Radial_plot_data))}
   
   Radial_plot <- 
     ggplot2::ggplot(Radial_plot_data, ggplot2::aes(x = sp_name, y = value, fill = sp_name)) +
@@ -87,6 +93,7 @@ Radial_plot <- function(data, analysis) {
     # the positive one is useful to add size over each bar
     ggplot2::ylim(-min(Radial_plot_data$value), max(Radial_plot_data$value)) +
     ggplot2::theme_minimal() +
+    ggplot2::scale_fill_manual(values = colors) +
     ggplot2::theme(axis.title.x=ggplot2::element_blank())+
     ggplot2::theme(axis.title.y=ggplot2::element_blank(),
                    axis.text.y=ggplot2::element_blank(),
