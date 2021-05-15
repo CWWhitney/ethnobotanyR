@@ -1,7 +1,7 @@
 #' Alluvial plot of ethnobotany uses and species
 #'
 #' Creates a simple alluvial plot of species and uses for ethnobotany studies. 
-#' @usage ethno_alluvial(data, alpha = 0)
+#' @usage ethno_alluvial(data, alpha = 0, colors = NULL)
 #' 
 #' @references 
 #' Mon, Aye Mya, Yinxian Shi, Xuefei Yang, Pyae Phyo Hein, Thaung Naing Oo, Cory Whitney, and Yongping Yang. “The Uses of Fig (Ficus) by Five Ethnic Minority Communities in Southern Shan State, Myanmar.” Journal of Ethnobiology and Ethnomedicine 16, no. 5 (2020). \doi{10.1186/s13002-020-00406-z}
@@ -9,7 +9,8 @@
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param alpha is a number between 0 and 1 for the level of transparency behind the labels on the strata (default is 0). 
-#' 
+#' @param colors is the color palette to be used for the fill of the bars. The default is from the rainbow palette with the number of plants in the data
+#'
 #' @keywords graphs arith math logic methods misc survey
 #' 
 #' @return Alluvial diagram showing all use reports for each use (center) related to each species (left) and informant (right) in the data set. 
@@ -25,6 +26,7 @@
 #' @importFrom ggalluvial StatStratum geom_stratum geom_alluvium 
 #' @importFrom ggplot2 aes ggplot geom_text scale_x_continuous ggproto
 #' @importFrom stats na.omit
+#' @importFrom grDevices rainbow
 #' 
 #' @examples
 #' 
@@ -44,7 +46,7 @@
 #' 
 #' @export ethno_alluvial
 #' 
-ethno_alluvial <- function(data, alpha = 0) {
+ethno_alluvial <- function(data, alpha = 0, colors = NULL) {
   
   #Add error stops ####
   
@@ -93,6 +95,10 @@ ethno_alluvial <- function(data, alpha = 0) {
                   ) %>%  
     dplyr::arrange(Use) 
   
+  # define the colors
+  if (is.null(colors)){
+    colors <- rainbow(n = ncol(plot_data))}
+  
   # Create alluvial plot ####
   
   ggplot2::ggplot(as.data.frame(plot_data),
@@ -109,6 +115,8 @@ ethno_alluvial <- function(data, alpha = 0) {
                               expand = c(0.01,0.02)) +
     #label y-axis
     ggplot2::labs(y= "Use Reports") +
-    ggplot2::theme_minimal()
+    #set theme
+    ggplot2::theme_minimal() +
+    ggplot2::scale_fill_manual(values = colors)
   
 }

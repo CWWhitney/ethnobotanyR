@@ -27,8 +27,4 @@ All packages passed
 ## Resubmission
 This is a resubmission. In this version I have:
 
-*Added new functions for quantitative assessment
-*Added an alluvial plot for comparing UR across species, uses and experts
-* fixed a bug in the RIs and RFCs functions
-* Swapped out reshape for reshape2 (for future chnges to this as a tidy package)
-* defined \url and \doi links in the help files (replaced \url and <doi...> with \doi for references)
+*Added color options to the Radial_plot and ethno_alluvial functions with the rainbow package

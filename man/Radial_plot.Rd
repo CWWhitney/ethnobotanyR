@@ -4,13 +4,15 @@
 \alias{Radial_plot}
 \title{Radial bar plot of ethnobotany indices}
 \usage{
-Radial_plot(data, analysis)
+Radial_plot(data, analysis, colors = NULL)
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 
 \item{analysis}{is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.}
+
+\item{colors}{is the color palette to be used for the fill of the bars. The default is from the rainbow palette with the number of plants}
 }
 \value{
 Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
