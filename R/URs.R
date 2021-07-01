@@ -31,10 +31,10 @@
 #' 
 #' #Generate random dataset of three informants uses for four species
 #' 
-#' eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
+#' eb_data <- data.frame(replicate(10, sample(0:1, 20, rep = TRUE)))
 #' names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
-#' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
-#' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+#' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace = TRUE)
+#' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace = TRUE)
 #' 
 #' URs(eb_data)
 #' 
@@ -49,21 +49,33 @@ URs <- function(data) {
         stop("Package \"dplyr\" needed for this function to work. Please install it.",
             call. = FALSE)
     }
-  if (!requireNamespace("magrittr", quietly = TRUE)) {
+    if (!requireNamespace("magrittr", quietly = TRUE)) {
     stop("Package \"magrittr\" needed for this function to work. Please install it.",
          call. = FALSE)
-  }# end package check
+    }# end package check
     
+    ## Check that the data is numeric
+    if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
+      warning("The sum of all UR is not greater than zero. Check again to see that you have provided the right data.")
+      data <- data[stats::complete.cases(data), ]
+    }
+      
+    ## Check that values are '1' or '0'
+    if (any(length(dplyr::select(data, -informant, -sp_name)[dplyr::select(data, -informant, -sp_name) > 1])>0)){
+      warning("Some of your use use data includes values greater than 1. All the non-zero numeric values have been changed to 1.")
+      data <- dplyr::mutate_if(data, is.numeric, ~1 * (. != 0))
+    }
+      
     ## Check that use categories are greater than zero
     if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
       warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-      data<-data[stats::complete.cases(data), ]
+      data <- data[stats::complete.cases(data), ]
     }
     
     ## Use 'complete.cases' from stats to get to the collection of obs without NA
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-      data<-data[stats::complete.cases(data), ]
+      data <- data[stats::complete.cases(data), ]
     }
   } #end error stops
   
@@ -74,7 +86,7 @@ URs <- function(data) {
    
    URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     URs <- URdata %>% dplyr::group_by(sp_name) %>%
-                dplyr::summarize (URs = sum(URps))%>%
+                dplyr::summarize (URs = sum(URps)) %>%
       dplyr::arrange(-URs) 
     
     as.data.frame(URs)
