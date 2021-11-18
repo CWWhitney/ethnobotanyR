@@ -1,7 +1,7 @@
 devtools::release()
 
 ## Test environments
-* local OS Big Sur 11.2, R.Version R 4.0.4 
+* local OS Monterey 12.0.1, R.Version R 4.1.2 
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs
@@ -30,3 +30,4 @@ This is a resubmission. In this version I have:
 - Added color options to the Radial_plot and ethno_alluvial functions with the rainbow package
 - Add error checks for use observations with more than count '1'
 - Add corrections for those same use observations
+- Removed pbapply options
