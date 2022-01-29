@@ -77,6 +77,14 @@ ethnoChord <- function(data, by = "sp_name") {
     data<-data[stats::complete.cases(data), ]
     }# end error stops
   
+      if (nrow(table(data$informant))>50) {
+        warning("Your data has over 50 informants. This will be hard to fit on a plot. Consider using fewer or categorizing them instead.")
+      }
+  
+      if (nrow(table(data$sp_name))>50) {
+        warning("Your data has over 50 species. This will be hard to fit on a plot. Consider using fewer or categorizing them instead.")
+      }
+  
   # Set the variables to NULL first, appeasing R CMD check
   informant <- sp_name <- variable <- value <- strwidth <- NULL 
   

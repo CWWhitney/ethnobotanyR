@@ -31,3 +31,4 @@ This is a resubmission. In this version I have:
 - Add error checks for use observations with more than count '1'
 - Add corrections for those same use observations
 - Removed pbapply options
+- Address issues with the gap.degree in chord plots (add a warning that more than 50 species or informants is a lot)
