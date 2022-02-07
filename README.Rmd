@@ -23,6 +23,11 @@ knitr::opts_chunk$set(
 
 # ethnobotanyR
 
+Please remember to cite this package if you use it in your publications.
+
+```{r}
+citation("ethnobotanyR")
+```
 
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for ethnobotanists to work with quantitative ethnobotany assessments. It closely follows [Tardio and Pardo-de-Santayana (2008)](https://doi.org/10.1007/s12231-007-9004-5) and [Whitney et al. (2018)](https://doi.org/10.14237/ebl.9.2.2018.503). 
 
