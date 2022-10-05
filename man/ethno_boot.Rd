@@ -22,7 +22,7 @@ n2 = 1000, ...)
 Bayesian bootstrap of chosen ethnobotany indices in ethnobotanyR package.
 }
 \description{
-Creates a non-parametric bootstrap as a Bayesian Model \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
+Creates a non-parametric bootstrap as a Bayesian Model \url{https://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
 }
 \section{Application}{
 
