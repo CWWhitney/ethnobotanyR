@@ -6,13 +6,14 @@
 #' @references 
 #' Wickham, Hadley. ggplot2: Elegant Graphics for Data Analysis. Springer, 2016.
 #' 
-#' @usage Radial_plot(data, analysis, colors = NULL)
+#' @usage Radial_plot(data, analysis, colors = NULL, legend = "none")
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' @param analysis is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.
 #' @param colors is the color palette to be used for the fill of the bars. The default is from the rainbow palette with the number of plants
-#' 
+#' @param legend is the option for placing a legend in the radial plot (fits ggplot2 'legend.position' argument). The default is "none"
+
 #' @keywords graphs arith math logic methods misc survey
 #'
 #' @return Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
@@ -41,11 +42,11 @@
 #' eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 #' eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 #'  
-#' Radial_plot(data = eb_data, analysis = URs)
+#' Radial_plot(data = eb_data, analysis = URs, legend = "none")
 #' 
 #' @export Radial_plot
 #' 
-Radial_plot <- function(data, analysis, colors = NULL) {
+Radial_plot <- function(data, analysis, colors = NULL, legend = "none") {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -99,7 +100,7 @@ Radial_plot <- function(data, analysis, colors = NULL) {
                    axis.text.y=ggplot2::element_blank(),
                    axis.ticks.y=ggplot2::element_blank())+
     ggplot2::geom_text(ggplot2::aes(label=value), position=ggplot2::position_dodge(width=0.9), vjust=-0.25)+
-    ggplot2::theme(legend.position = "none") 
+    ggplot2::theme(legend.position = legend) 
   
   Radial_plot
 }

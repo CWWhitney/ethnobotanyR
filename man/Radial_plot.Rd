@@ -4,7 +4,7 @@
 \alias{Radial_plot}
 \title{Radial bar plot of ethnobotany indices}
 \usage{
-Radial_plot(data, analysis, colors = NULL)
+Radial_plot(data, analysis, colors = NULL, legend = "none")
 }
 \arguments{
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
@@ -13,6 +13,8 @@ The rest of the columns are the identified ethnobotany use categories. The data 
 \item{analysis}{is one of the quantitative ethnobotany functions from ethnobotanyR, i.e. ethnobotanyR::FCs.}
 
 \item{colors}{is the color palette to be used for the fill of the bars. The default is from the rainbow palette with the number of plants}
+
+\item{legend}{is the option for placing a legend in the radial plot (fits ggplot2 'legend.position' argument). The default is "none"}
 }
 \value{
 Radial bar plot of chosen ethnobotany indices in ethnobotanyR package.
@@ -40,7 +42,7 @@ names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")
 eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
 eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
  
-Radial_plot(data = eb_data, analysis = URs)
+Radial_plot(data = eb_data, analysis = URs, legend = "none")
 
 }
 \references{
