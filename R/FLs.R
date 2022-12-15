@@ -92,7 +92,8 @@ Ip <- melt_FLS %>%
    dplyr::summarize(Ip = sum(value, na.rm = TRUE)) 
   
 #Bind Ip and Iu data
-FLspdata <- dplyr::left_join(Iu, Ip, by = "sp_name")#, na.rm = TRUE)
+FLspdata <- dplyr::left_join(Iu, Ip, by = "sp_name")
+
  
  #Calculate FLs = Ip * 100 / Iu
  FLspdata$FLs <- (FLspdata$Ip*100) / FLspdata$FCs
