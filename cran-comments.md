@@ -20,8 +20,9 @@ checked win-builder with devtools::check_win_devel()
 All is ok
 
 ## Downstream dependencies
-I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with revdepcheck::revdep_check() on downstream dependencies. After running this I removed the revdep files to 
-All packages passed 
+I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with revdepcheck::revdep_check() on downstream dependencies. All packages passed 
+**After running this I removed the revdep files.**
+
 
 
 ## Resubmission

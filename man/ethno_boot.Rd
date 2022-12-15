@@ -27,7 +27,7 @@ Creates a non-parametric bootstrap as a Bayesian Model \url{https://www.sumsar.n
 \section{Application}{
 
 
- This function was inspired by Rasmus Bååth's “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
+ This function was inspired by Rasmus Bååth's “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{https://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
  In order to understand the various possible applications of this function for ethnobotany analyses it is important to read through that work. 
 
  ethnobotanyR users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different ‘food’ uses but this is just one category). 
@@ -69,7 +69,7 @@ ethno_boot(data = eb_multi_use_data$Use_1, statistic = mean)
 
 }
 \references{
-Bååth, Rasmus. “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{http://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
+Bååth, Rasmus. “The Non-Parametric Bootstrap as a Bayesian Model” Publishable Stuff, 2015. \url{https://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}.
 Rubin, Donald B. “The Bayesian Bootstrap.” Annals of Statistics 9, no. 1 (January 1981): 130–34. \doi{10.1214/aos/1176345338}.
 }
 \keyword{Bayes}
