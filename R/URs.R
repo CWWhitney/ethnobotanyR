@@ -1,7 +1,7 @@
 #' Use Report (UR)
 #'
 #' Calculates the use reports (UR) per species, a common metric for ethnobotany studies.
-#' 
+#'
 #' @usage URs(data)
 #' 
 #' @references  

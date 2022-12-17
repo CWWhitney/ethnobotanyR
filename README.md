@@ -20,17 +20,17 @@ citation("ethnobotanyR")
 #> 
 #> To cite package 'ethnobotanyR' in publications use:
 #> 
-#>   Cory Whitney (2021). ethnobotanyR: Calculate Quantitative Ethnobotany
-#>   Indices. R package version 0.1.8.
-#>   https://CRAN.R-project.org/package=ethnobotanyR
+#>   Whitney C (2022). _ethnobotanyR: Calculate Quantitative Ethnobotany
+#>   Indices_. R package version 0.1.9,
+#>   <https://CRAN.R-project.org/package=ethnobotanyR>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {ethnobotanyR: Calculate Quantitative Ethnobotany Indices},
 #>     author = {Cory Whitney},
-#>     year = {2021},
-#>     note = {R package version 0.1.8},
+#>     year = {2022},
+#>     note = {R package version 0.1.9},
 #>     url = {https://CRAN.R-project.org/package=ethnobotanyR},
 #>   }
 ```
@@ -86,3 +86,7 @@ Whitney, C. W., Bahati, J., and Gebauer, J. (2018), Ethnobotany and
 agrobiodiversity; valuation of plants in the homegardens of southwestern
 Uganda. Ethnobiology Letters, 9(2), 90-100.
 [doi.org/10.14237/ebl.9.2.2018.503](https://doi.org/10.14237/ebl.9.2.2018.503).
+
+Whitney C (2022). *ethnobotanyR: Calculate Quantitative Ethnobotany
+Indices*. R package version 0.1.9,
+<https://CRAN.R-project.org/package=ethnobotanyR>.

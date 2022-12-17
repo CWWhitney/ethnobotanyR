@@ -4,12 +4,10 @@ devtools::release()
 * local OS Monterey 12.3.1, R.Version R 4.2.0 
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs
-I ran devtools::document() 
-and
-devtools::build()
+I ran devtools::build()
 and 
-checked the package with devtools::check()
+checked the package with devtools::check(), which also runs devtools::document()
+There were no ERRORs, WARNINGs or NOTEs
 All is well
 
 I checked spelling with devtools::spell_check()
@@ -22,6 +20,7 @@ checked win-builder with devtools::check_win_devel()
 All is ok
 
 ## Downstream dependencies
+I accessed all dependencies with devtools::install_deps(dependencies = TRUE)
 I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with revdepcheck::revdep_check() on downstream dependencies. All packages passed 
 **After running this I removed the revdep files.**
 
