@@ -1,0 +1,140 @@
+---
+title: "Exploratory analysis of ethnobotany data in ethnobotanyR"
+author: "Cory Whitney"
+output: rmarkdown::html_vignette
+bibliography:  references/Ethnobotany.bib
+vignette: >
+  %\VignetteIndexEntry{Exploratory analysis of ethnobotany data in ethnobotanyR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<p align="center">
+<img src="ethnobotanyR.png" height="256" style="background:none; border:none; box-shadow:none;">
+</p>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(bnlearn)
+library(broom)
+library(causaleffect)
+library(decisionSupport)
+library(dplyr)
+library(ethnobotanyR)
+library(magrittr)
+library(pbapply)
+library(purrr)
+library(stringr)
+library(Taxonstand)
+library(tibble)
+library(tidyr)
+library(tidyselect)
+library(vegan)
+
+
+```
+
+This guide offers some handy and useful tools for exploratory analysis of ethnobotany data using the `ethnobotanyR` package [@R-ethnobotanyR] in the R programming language [@R-base]. 
+
+## Working with data
+
+The `ethnobotanyR` package is primarily designed for dealing with data sets resulting from ethnobotany interviews in the field. These are standard outputs in the form of spreadsheets with a row for each user and the plant species that they use. An example data set called `ethnobotanydata` is provided with the package including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
+
+Users can get their own data into `R` for following along with the next sections of programming by saving an ethnobotany spreadsheet as a .csv file and using the function `read.csv()` to upload it. There are many other options. Read more about them in R for Data Science ^[<https://r4ds.had.co.nz/data-import.html>.].
+
+For the following examples we create some ethnobotany data for use in `ethnobotanyR`. 
+
+```{r create_data}
+eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
+names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
+eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
+```
+
+## Ordination methods
+
+Analyses such as detrended correspondence analysis (DCA) and principal component analysis (PCA) may be useful for exploratory analysis of ethnobotany data. Such analyses should be used with caution and within the confines of the predetermined research aims and objectives.
+
+### Detrended correspondence analysis (DCA)
+
+Detrended correspondence analysis (DCA) can be used to find the main factors or 'gradients' in large and sparse community data sets. This can be a useful tool for assessing important informant-species-use associations in ethnobotany. Here we use the  data set presented in `eb_data` to perform DCA using the `decorana()` function in the `vegan` package [@R-vegan]. 
+
+The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded). This can be done quickly using the `select()` and `filter_all()` functions of the `dplyr` package [@R-dplyr] and pipe `%>%` functions of the `magrittr` package [@magrittr].
+
+```{r remove_zero_DCA}
+
+#remove rows with zero rowsums
+ethno_data_complete <- eb_data %>%  
+  dplyr::select(-informant, -sp_name) %>% 
+  dplyr::filter_all(any_vars(!is.na(.)))%>%
+    dplyr::filter_all(any_vars(. != 0))
+
+```
+
+Use the `decorana` function of the `vegan` package [@R-vegan] to get the ordination results.
+
+```{r ordination}
+#Save ordination results
+ ethno_ordination <- vegan::decorana(ethno_data_complete) 
+```
+
+Ordination results can be shown with the command `summary()` and the argument for the named ordination, i.e. `summary(ethno_ordination)` in our case. Likewise, ordination scores can be extracted with `scores()`. Calling the `plot()` function on the ordination results will plot the scores from the ordination.
+
+```{r plot_ord, fig.width=7, fig.height=7}
+#Plot ordination results
+plot(ethno_ordination)
+```
+
+## Principal component analysis (PCA)
+
+Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `broom` [@R-broom], `tidyr` [@R-tidyr] and `purrr` [@R-purrr] packages using the `nest()` function along with the `mutate()` and `map()` functions to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
+
+```{r nesting}
+nested_ethno_pca <- eb_data %>% 
+  tidyr::nest(., data = everything()) %>% 
+  dplyr::mutate(pca = purrr::map(data, ~ stats::prcomp(.x %>% 
+        dplyr::select(-informant, -sp_name), 
+        center = TRUE, scale = TRUE)),
+         pca_augmented = map2(pca, data, ~broom::augment(.x, data = .y)))
+```
+
+For PCA model evaluation we can check to see how much variance is explained by each principal component. This tells us how many of the components would be reasonable to assess when analyzing the results. To do this, we can use the data in the `pca_augmented` column of our `nested_ethno_pca` tibble along with `dplyr` [@R-dplyr] and `magrittr` [@R-magrittr] functions.
+
+```{r variance_check}
+var_exp_tidy <- nested_ethno_pca %>% 
+  tidyr::unnest(pca_augmented) %>% 
+  dplyr::summarize_at(.vars = dplyr::vars(contains("PC", ignore.case = FALSE)), .funs = tibble::lst(var)) %>% 
+  tidyr::gather(key = pc, value = variance) %>% 
+  dplyr::mutate(var_exp = variance/sum(variance),
+         cum_var_exp = cumsum(var_exp),
+         pc = stringr::str_replace(pc, ".fitted", ""))
+```
+
+The `r nrow(var_exp_tidy)` principle components selected explain `r sum(var_exp_tidy$var_exp)`% of variance. As a general rule the first few principal components explain much of the variation. To keep the analysis within reasonable bounds it makes sense to select the first four principle components (this choice may change according to the analysis).
+
+```{r select_components}
+var_exp <- var_exp_tidy %>% 
+  head(4)
+```
+
+Plot the variance explained and the cumulative variance explained to see trends across components.
+
+```{r plot_pca, fig.width=7, fig.height=3}
+var_exp %>% 
+  dplyr::rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %>% 
+  tidyr::gather(key = key, value = value, `Variance Explained`:`Cumulative Variance Explained`) %>% 
+  ggplot2::ggplot(ggplot2::aes(pc, value, group = key)) + 
+  ggplot2::geom_point() + 
+  ggplot2::geom_line() + 
+  ggplot2::facet_wrap(~key, scales = "free_y") +
+  ggplot2::theme_minimal() +
+  ggplot2::lims(y = c(0, 1)) +
+  ggplot2::labs(y = "Variance",
+       title = "Variance explained by each principal component")
+
+```
+
+## References

@@ -1,7 +1,7 @@
 devtools::release()
 
 ## Test environments
-* local OS Monterey 12.3.1, R.Version R 4.2.0 
+* local OS Ventural 13.0.1, R.Version R 4.2.0 
 
 ## R CMD check results
 I ran devtools::build()

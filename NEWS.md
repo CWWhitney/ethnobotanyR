@@ -1,5 +1,12 @@
 # ethnobotanyR News
 
+This version 0.1.9.1 of ethnobotanyR is a working version (thus the redundant trailing '.1':
+
+Adding new vignettes for species names and for modeling
+Starting the process of dismantling the quantitative indices stuff in favor of some modeling - adding more modeling and removing - or at least scaling back argumentation about - the quant. indices
+
+# version 0.1.9 News
+
 This version 0.1.9 of ethnobotanyR is a patch:
 
 # Enhancements

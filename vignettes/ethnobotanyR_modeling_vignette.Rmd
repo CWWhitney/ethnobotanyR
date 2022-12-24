@@ -2,7 +2,7 @@
 title: "Modeling with ethnobotanyR"
 author: "Cory Whitney"
 output: rmarkdown::html_vignette
-bibliography: references/Ethnobotany.bib
+bibliography: [references/packages.bib, references/Ethnobotany.bib]
 vignette: >
   %\VignetteIndexEntry{Modeling with ethnobotanyR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -35,19 +35,30 @@ library(magrittr)
 # in case of rendering issues render with 
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
 
+knitr::write_bib(c(.packages(), 
+                   "dplyr",
+                   "ethnobotanyR",
+                   "ggalluvial",
+                   "ggplot2",
+                   "ggridges",
+                   "magrittr",
+                   "knitr",
+                   "magrittr",
+                   "Taxonstand"), file = "references/packages.bib")
+
 ```
 
 <img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
 
-Please remember to cite this package if you use it in your publications.
+Please remember to cite the `ethnobotanyR` package if you use it in your publications.
 
 ```{r}
 citation("ethnobotanyR")
 ```
 
-Here we will use an example data set called `ethnobotanydata`, which is provided to show how standard ethnobotany data should be formatted to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
+Here we will use an example data set called `ethnobotanydata`, which is provided to show how standard ethnobotany data should be formatted to interface with the `ethnobotanyR` package  [@R-ethnobotanyR]. This is an ethnobotany data set including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
 
-Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()` functions of the `dplyr` package [@dplyr] and pipe functions `%>%` from the `magrittr` package [@magrittr]. These are easy to use and understand and allow users the chance to pull the code for these functions and change anything they see fit.
+Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()` functions of the `dplyr` package [@R-dplyr] and pipe functions `%>%` from the `magrittr` package [@R-magrittr]. These are easy to use and understand and allow users the chance to pull the code for these functions and change anything they see fit.
 
 ```{r, echo= FALSE}
 knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
