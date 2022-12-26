@@ -1,10 +1,10 @@
 ---
-title: "Taxonomic names in ethnobotanyR"
-author: "C. Whitney"
+title: "Verifying Taxonomic names in ethnobotany"
+author: "Cory Whitney, University of Bonn"
 output: rmarkdown::html_vignette
-bibliography:  [references/packages.bib, references/Ethnobotany.bib]
+bibliography:  [references/tax_packages.bib, references/ethnobotanyR.bib]
 vignette: >
-  %\VignetteIndexEntry{Taxonomic names in ethnobotanyR}
+  %\VignetteIndexEntry{Verifying Taxonomic names in ethnobotany}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,7 +25,7 @@ knitr::write_bib(c(.packages(),
                    "ethnobotanyR",
                    "knitr",
                    "magrittr",
-                    "Taxonstand"), file = "references/packages.bib")
+                    "Taxonstand"), file = "references/tax_packages.bib")
 
 ```
 
