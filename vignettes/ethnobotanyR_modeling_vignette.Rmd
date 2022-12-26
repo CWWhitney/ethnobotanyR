@@ -2,7 +2,7 @@
 title: "Modeling with ethnobotanyR"
 author: "Cory Whitney"
 output: rmarkdown::html_vignette
-bibliography: [references/packages.bib, references/Ethnobotany.bib]
+bibliography: [references/model_packages.bib, references/ethnobotanyR.bib]
 vignette: >
   %\VignetteIndexEntry{Modeling with ethnobotanyR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -26,6 +26,8 @@ knitr::opts_chunk$set(
 )
 
 load("ethnobotanydata.rda")
+# devtools::install_github('alastair-JL/AnthroTools')
+library(AnthroTools)
 library(dplyr)
 library(ethnobotanyR)
 library(ggalluvial)
@@ -36,6 +38,7 @@ library(magrittr)
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
 
 knitr::write_bib(c(.packages(), 
+                   "AnthroTools",
                    "dplyr",
                    "ethnobotanyR",
                    "ggalluvial",
@@ -44,7 +47,7 @@ knitr::write_bib(c(.packages(),
                    "magrittr",
                    "knitr",
                    "magrittr",
-                   "Taxonstand"), file = "references/packages.bib")
+                   "Taxonstand"), file = "references/model_packages.bib")
 
 ```
 
@@ -119,11 +122,11 @@ ggplot2::ggplot(ethno_boot_melt, aes(x = value,
                 labs(y= "", x = "Example Bayesian bootstraps of the probability of use for two species")
 ```
 
-The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oravecz2014; @romney1986]. 
+The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@R-AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. 
 
 The inputs to the function are informant responses to the use category for each plant, an estimate of informant's \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
 
-Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function`filter`  [@dplyr] to subset to a single species and create a ridge plot. 
+Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function`filter`  [@R-dplyr] to subset to a single species and create a ridge plot. 
 
 ```{r ethno_sp_a }
 ethno_sp_a <- dplyr::filter(ethnobotanydata, sp_name == "sp_a")
@@ -132,13 +135,14 @@ ethno_sp_a <- dplyr::filter(ethnobotanydata, sp_name == "sp_a")
 Generate prior probabilities for all answers as a matrix. If this is not provided the function assumes a uniform distribution `(prior = -1)`. The probability table should have the same number of columns as uses in the provided ethnobotany data and the same number of rows as there are possible answers for the consensus.
 
 First we set the number of possible answers to '2'. This means informants can either agree it is 'used' or 'not used'.
+
 ```{r answers}
   answers <- 2
 ```
 
 It is also possible to build the probability table manually using `prop.table` [@R-base]. This can be easier if there are many answers or if there is not always a clear preference about where the higher probability should be for the various answers. This matrix must sum up to 100% chance for either 'use' or 'no use'.
 
-Here we use the `dplyr` function `recode` to reset the informant name factor variable as numeric [@dplyr]. This way we can set a prior for the informants skill for the `prior_for_answers` input. Assuming that informants have a varying degree of skill that we can assign as a prior for the likelihood that the data we have are correct for `sp_a`.
+Here we use the `dplyr` function `recode` to reset the informant name factor variable as numeric [@R-dplyr]. This way we can set a prior for the informants skill for the `prior_for_answers` input. Assuming that informants have a varying degree of skill that we can assign as a prior for the likelihood that the data we have are correct for `sp_a`.
 
 ```{r ethno_compet_sp_a}
 ethno_compet_sp_a <- dplyr::recode(ethno_sp_a$informant, 
