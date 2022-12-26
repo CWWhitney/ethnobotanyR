@@ -1,8 +1,8 @@
 ---
 title: "Quantitative ethnobotany analysis with ethnobotanyR"
-author: "Cory Whitney"
+author: "Cory Whitney, University of Bonn"
 output: rmarkdown::html_vignette
-bibliography: references/Ethnobotany.bib
+bibliography: [references/packages.bib, references/ethnobotanyR.bib]
 vignette: >
   %\VignetteIndexEntry{Quantitative ethnobotany analysis with ethnobotanyR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -26,47 +26,131 @@ knitr::opts_chunk$set(
 )
 
 load("ethnobotanydata.rda")
+library(bnlearn)
+library(broom)
+library(causaleffect)
+library(circlize)
+library(cowplot)
+library(decisionSupport)
 library(dplyr)
 library(ethnobotanyR)
 library(ggalluvial)
 library(ggplot2)
 library(ggridges)
 library(magrittr)
+library(pbapply)
+library(purrr)
+library(stringr)
+library(Taxonstand)
+library(tibble)
+library(tidyr)
+library(tidyselect)
+library(vegan)
+
 # in case of rendering issues render with 
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
+
+knitr::write_bib(c(.packages(), 
+                  "bnlearn",
+                  "broom",
+                  "causaleffect",
+                  "circlize",
+                  "cowplot",
+                  "decisionSupport",
+                  "dplyr",
+                  "ethnobotanyR",
+                  "ggalluvial",
+                  "ggplot2",
+                  "ggridges",
+                  "knitr",
+                  "magrittr",
+                  "pbapply",
+                  "purrr",
+                  "stringr",
+                  "tibble",
+                  "tidyr",
+                  "tidyselect",
+                  "vegan" ), file = "references/packages.bib")
 
 ```
 
 <img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
 
-Please remember to cite this package if you use it in your publications.
+Quantitative ethnobotany is the study of the use and importance of plants in human cultures, using statistical and analytical methods to quantify and interpret data. This approach has emerged as a key tool for understanding the cultural and ecological significance of plant species, and for evaluating the impact of human activities on plant communities and ecosystems.
 
-```{r}
-citation("ethnobotanyR")
-```
+The field of ethnobotany has a long history, with roots dating back to the early 20th century when researchers began to systematically study the relationships between humans and plants. In recent decades, advances in statistical and computational techniques have enabled researchers to more rigorously and systematically analyze and interpret ethnobotanical data, leading to a greater understanding of the complex and diverse ways in which plants are used and valued in different cultural and ecological contexts.
 
-The `ethnobotanyR` package offers quantitative tools to assess the cultural significance of plant species based on informant consensus. The package closely follows two papers, one on cultural importance indices [@tardioCulturalImportanceIndices2008] and another on agrobiodiversity valuation [@whitneyEthnobotanyAgrobiodiversityValuation2018]. The goal is to provide an easy-to-use platform for ethnobotanists to perform quantitative ethnobotany assessments. Users are highly encouraged to familiarize themselves with ethnobotany theory [@albuquerqueEthnobotanyOneConcept2010] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theoretical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions.
+Today, quantitative ethnobotany is an interdisciplinary field that draws on a range of methods and approaches from the natural and social sciences, including anthropology, sociology, biology, and ecology. It is a rapidly growing field that is making significant contributions to our understanding of human-plant relationships, and to the conservation and management of plant biodiversity.
 
-The standard quantitative ethnobotany indices are probably too narrow a tool for a proper assessment of human and ecological interactions of interest. Still, they can be a useful entry way into understanding some aspects of human populations and how they interact with nature. The steps required to calculate these indices offer a way to quantify intangible factors of how human communities interact with the world. They can come in handy as additive pieces for more holistic assessments and analyses. 
+This manual offers an overview of the basic functions of the `ethnobotanyR` package for generating figures and performing some very basic quantitative ethnobotany analysis. It offers a general overview and some arguments for and against the use of indices and offers some guidance toward other options for quantitative ethnobotany analysis. It also offers some handy and useful tools for exploratory analysis of ethnobotany data. All analyses are done using the `ethnobotanyR` package [@R-ethnobotanyR] in the R programming language [@R-base]. 
 
-An example data set called `ethnobotanydata` is provided to show how standard ethnobotany data should be formatted to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
+## using the `ethnobotanyR` package
 
-Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()` functions of the `dplyr` package [@dplyr] and pipe functions `%>%` from the `magrittr` package [@magrittr]. These are easy to use and understand and allow users the chance to pull the code for these functions and change anything they see fit.
+The `ethnobotanyR` package offers quantitative tools to assess the cultural significance of plant species based on informant consensus [@R-ethnobotanyR] ^[Please remember to cite this package if you use it in your publications. Use the R command `citation("ethnobotanyR")` to get the citation to the your loaded version of the package.]. The package closely follows two papers, one on cultural importance indices [@tardioCulturalImportanceIndices2008] and another on agrobiodiversity valuation [@whitneyEthnobotanyAgrobiodiversityValuation2018]. The goal is to provide an easy-to-use platform for ethnobotanists to perform quantitative ethnobotany assessments. Users are highly encouraged to familiarize themselves with ethnobotany theory [@albuquerqueEthnobotanyOneConcept2010] and social ecological theory [@albuquerqueSocialEcologicalTheoryMaximization2019]. An overview of this theoretical background will be helpful in understanding approaches in ethnobotany and formulating useful research questions.
+
+An example data set called `ethnobotanydata` is provided to show how standard quantitative ethnobotany data should be formatted to interface with the `ethnobotanyR` package. This is an ethnobotany data set including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values) ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.].
 
 ```{r, echo= FALSE}
 knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
 ```
 
-```{r, fig.width=7, fig.height=7, echo=FALSE}
+Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()` functions of the `dplyr` package [@R-dplyr] and pipe functions `%>%` from the `magrittr` package [@R-magrittr]. The intention is that these should be easy to understand and use, and that they should allow users the chance to pull the code for these functions and change anything they see fit.
+
+## Working with figures
+
+Figures can help to visually represent the main ideas or key results of ethnobotany work. A figure is a graphical representation of data or concepts, and it can be an effective tool for conveying complex information in a clear and concise manner. Figures are often used in ethnobotany research to illustrate important points, highlight trends or patterns in the data, or demonstrating results of statistical analyses. There are several benefits to working on making good figures. A meaningful and well formulated figure can help to make ethnobotany work engaging, visually appealing and accessible to a wide audience. Overall, generating a figure can be a valuable tool for effectively communicating the key ideas and results of ethnobotany research. Here we walk through a few of the functions within the `ethnobotanyR` package for generating figures [@R-ethnobotanyR]. 
+
+## Chord diagrams with `circlize`
+
+The following chord plots are made using functions from the `circlize` package [@R-circlize]. An example of the application of chord plots in ethnobotany is described in a study on agrobiodiversity in Uganda [@whitneyEthnobotanyAgrobiodiversityValuation2018]. 
+
+The `ethnoChord()` function creates a chord diagram of ethnobotany uses and species.
+
+```{r Chord_sp, fig.width=7, fig.height=7}
 Chord_sp <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "sp_name")
 ```
 
+The `ethnoChord()` function can also be used to create a chord diagram of ethnobotany uses and informants.
+
+```{r, fig.width=7, fig.height=7}
+Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
+```
+
+For an example of the application of a chord diagram in ethnobotany research see @tabutiPrioritySpeciesManagement2022 on values and challenges for woody species in Uganda and @monUsesFigFicus2020 on fig species use in Myanmar.
+
+## Flow diagrams with `ggalluvial`
+
+The `ethno_alluvial()` function uses the `ggplot2` extension `ggalluvial` to make flow diagrams. This may be a useful way to visualize frequency distributions across uses, experts and use categories. 
+
+```{r, fig.width=7, fig.height=7}
+ethnobotanyR::ethno_alluvial(ethnobotanydata)
+```
+
+Generate the same plot with labels on the strata and without the legend.
+
+```{r, fig.width=7, fig.height=7}
+
+# correct internal assignment for stat = "stratum" 
+  StatStratum <- ggalluvial::StatStratum
+
+ethnobotanyR::ethno_alluvial(ethnobotanydata, alpha = 0.2) + 
+  ggplot2::theme(legend.position = "none") +  
+             ggplot2::geom_label(stat = "stratum", 
+                      ggplot2::aes(label = ggplot2::after_stat(stratum)))
+
+```
+
+For an exaple of the alluvial plot in ethnobotany paper see @monUsesFigFicus2020 on the traditional knowledge of edible fig tree species in Myanmar.
+
 ## `ethnobotanyR` indices functions
+
+Ethnobotany indices are numerical measures that are used to quantify the importance of plant species in different cultural or ecological contexts. Some common ethnobotany indices are included here. These indices are often used to analyze ethnobotanical data and to compare the relative importance of different plant species within a particular culture or ecosystem. 
+
+The standard quantitative ethnobotany indices are probably too narrow a tool for a proper assessment of human and ecological interactions of interest. Still, they can be a useful entry way into understanding some aspects of human populations and how they interact with nature. The steps required to calculate these indices offer a way to quantify intangible factors of how human communities interact with the world. They can come in handy as additive pieces for more holistic assessments and analyses. 
 
 ### Use Report (UR) per species
 
 The use report `URs()` is the most basic ethnobotany calculation. The function calculates the use report (UR) for each species in the data set. 
-
 \begin{equation}
 UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
 \end{equation}
@@ -173,17 +257,17 @@ The `simple_UVs()` function calculates the simplified use value (UV) index for e
 UV_{s} = \sum U_i/N
 \end{equation}
 
-$U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey [see @albuquerque2006].
+$U_i$ is the number of different uses mentioned by each informant $i$ and $N$ is the total number of informants interviewed in the survey [see @albuquerqueEvaluatingTwoQuantitative2006].
 
 ### Cultural Value (CVe) for ethnospecies 
 
-The `CVe()` function calculates the cultural value (CVe) for ethnospecies. The index is one of three proposed for assessing the cultural, practical and economic dimensions (ethno) species importance. Reyes-Garcia et al. (2006) suggest several more indices but $CV_e$ is the most commonly used from that study [@ReyesGarcia2006].
+The `CVe()` function calculates the cultural value (CVe) for ethnospecies. The index is one of three proposed for assessing the cultural, practical and economic dimensions (ethno) species importance. Reyes-Garcia et al. (2006) suggest several more indices but $CV_e$ is the most commonly used from that study [@reyes-garciaCulturalPracticalEconomic2006].
 
 \begin{equation}
 CV_{e} = {Uc_{e}}  \cdot{IC_{e}}  \cdot \sum {IUc_{e}}
 \end{equation}
 
-Where $UC_e$ is the number of uses reported for ethnospecies $e$ divided by all potential uses of an ethnospecies considered in the study. $Ic_e$ expresses the number of informants who listed the ethnospecies $e$ as useful divided by the total number of informants. $IUc_e$ expresses the number of informants who mentioned each use of the ethnospecies $e$ divided by the total number of informants [see @ReyesGarcia2006].
+Where $UC_e$ is the number of uses reported for ethnospecies $e$ divided by all potential uses of an ethnospecies considered in the study. $Ic_e$ expresses the number of informants who listed the ethnospecies $e$ as useful divided by the total number of informants. $IUc_e$ expresses the number of informants who mentioned each use of the ethnospecies $e$ divided by the total number of informants [see @reyes-garciaCulturalPracticalEconomic2006].
 
 ```{r CVe}
 ethnobotanyR::CVe(ethnobotanydata)
@@ -205,9 +289,9 @@ ethnobotanyR::FLs(ethnobotanydata)
 
 Divide FLs by 100 to get the percent FL, as it is reported in some studies.
 
-## Visualize `ethnobotanyR` results
+### Plot all indices
 
-For quick assessments of differences between indices use the `Radial_plot` function to show ethnobotanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@cowplot] can be useful for comparing several `Radial_plot` results for easy comparison across indices.
+For quick assessments of differences between indices use the `Radial_plot` function to show ethnobotanyR results as a radial bar plot using the `ggplot2` library. The `cowplot` package [@R-cowplot] can be useful for comparing several `Radial_plot` results for easy comparison across indices.
 
 ```{r, fig.width=7, fig.height=7}
 URs_plot <- ethnobotanyR::Radial_plot(ethnobotanydata, ethnobotanyR::URs)
@@ -225,45 +309,123 @@ cowplot::plot_grid(URs_plot, NUs_plot, FCs_plot, CIs_plot,
     label_size = 12)
 ```
 
-## Chord diagrams with `circlize`
+Despite their popularity, ethnobotany indices have been criticized for not accurately capturing the complexity and diversity of human-plant relationships. They may oversimplify or overlook important cultural or ecological factors. Additionally, ethnobotany indices are often based on subjective judgments and may be influenced by cultural biases or other factors that can affect the results of the analysis. Still, it is important to have an overview of ethnobotany indices, as they can provide useful insights into the role of plants in different cultural and ecological contexts. Additionally, understanding the background theory and limitations of these indices can help researchers to critically evaluate and interpret ethnobotanical data, and to design more accurate and comprehensive studies of human-plant interactions. Further exploratory methods may be helpful in understanding important relationships.
 
-The following chord plots are made using functions from the `circlize` package [@circlize]. An example of the application of chord plots in ethnobotany is described in a study on agrobiodiversity in Uganda [@whitneyEthnobotanyAgrobiodiversityValuation2018]. 
+## Exploratory analyses 
 
-The `ethnoChord()` function creates a chord diagram of ethnobotany uses and species.
+For the following examples we create some ethnobotany data for use in `ethnobotanyR`. 
 
-```{r, fig.width=7, fig.height=7}
-Chord_sp <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "sp_name")
+```{r create_data}
+eb_data <- data.frame(replicate(10,sample(0:1,20,rep=TRUE)))
+names(eb_data) <- gsub(x = names(eb_data), pattern = "X", replacement = "Use_")  
+eb_data$informant <- sample(c('User_1', 'User_2', 'User_3'), 20, replace=TRUE)
+eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 ```
 
-The `ethnoChord()` function can also be used to create a chord diagram of ethnobotany uses and informants.
+## Ordination methods
 
-```{r, fig.width=7, fig.height=7}
-Chord_informant <- ethnobotanyR::ethnoChord(ethnobotanydata, by = "informant")
-```
+Detrended correspondence analysis (DCA) and principal component analysis (PCA) are statistical techniques that can be useful for exploring patterns and trends in ethnobotany data. DCA is a multivariate statistical technique that is used to analyze patterns of species abundance or occurrence in relation to environmental variables, and to identify species groups or communities that are associated with different environmental conditions. PCA, on the other hand, is a statistical method that is used to identify the underlying structure of a dataset by reducing the number of variables and identifying the most important or influential factors.
 
-## Flow diagrams with `ggalluvial`
+Both DCA and PCA can be useful tools for exploratory analysis of ethnobotany data, as they can help to identify patterns and trends in the data that may not be immediately apparent. However, it is important for researchers to be aware of the limitations of these techniques and to use them with caution, as they can be sensitive to certain types of data and may not always produce reliable results.
 
-The `ethno_alluvial()` function uses the `ggplot2` extension `ggalluvial` to make flow diagrams. This may be a useful way to visualize frequency distributions across uses, experts and use categories. 
+In order to use these techniques effectively, it is important for researchers to have access to programming tools that allow them to run the analyses. The `ethnobptanyR` package offers a few handy tools to make these work with standard quantitative ethnobotany data. By having access to these tools, researchers can more easily and efficiently run these analyses and incorporate the results into their research projects.
 
-```{r, fig.width=7, fig.height=7}
-ethnobotanyR::ethno_alluvial(ethnobotanydata)
-```
+Overall, it is important for researchers to be aware of tools like DCA and PCA and to have access to programming tools that allow them to run these analyses. These tools can be valuable tools for exploring and interpreting ethnobotany data, but they should be used with caution and within the confines of the predetermined research aims and objectives.
 
-Generate the same plot with labels on the strata and without the legend.
+### Detrended correspondence analysis (DCA)
 
-```{r, fig.width=7, fig.height=7}
+Detrended correspondence analysis (DCA) can be used to find the main factors or 'gradients' in large and sparse community data sets. This can be a useful tool for assessing important informant-species-use associations in ethnobotany. Here we use the  data set presented in `eb_data` to perform DCA using the `decorana()` function in the `vegan` package [@R-vegan]. 
 
-# correct internal assignment for stat = "stratum" 
-  StatStratum <- ggalluvial::StatStratum
+The first step is to remove zero value row sums. The DCA can only work with data that is complete (i.e. we remove all NA cases as well as those where the species is listed by an informant but no specific use is recorded). This can be done quickly using the `select()` and `filter_all()` functions of the `dplyr` package [@R-dplyr] and pipe `%>%` functions of the `magrittr` package [@R-magrittr].
 
-ethnobotanyR::ethno_alluvial(ethnobotanydata, alpha = 0.2) + 
-  ggplot2::theme(legend.position = "none") +  
-             ggplot2::geom_label(stat = "stratum", 
-                      ggplot2::aes(label = ggplot2::after_stat(stratum)))
+```{r remove_zero_DCA}
+
+#remove rows with zero rowsums
+ethno_data_complete <- eb_data %>%  
+  dplyr::select(-informant, -sp_name) %>% 
+  dplyr::filter_all(any_vars(!is.na(.)))%>%
+    dplyr::filter_all(any_vars(. != 0))
 
 ```
 
+Use the `decorana` function of the `vegan` package [@R-vegan] to get the ordination results.
 
+```{r ordination}
+#Save ordination results
+ ethno_ordination <- vegan::decorana(ethno_data_complete) 
+```
+
+Ordination results can be shown with the command `summary()` and the argument for the named ordination, i.e. `summary(ethno_ordination)` in our case. Likewise, ordination scores can be extracted with `scores()`. Calling the `plot()` function on the ordination results will plot the scores from the ordination.
+
+```{r plot_ord, fig.width=7, fig.height=7}
+#Plot ordination results
+plot(ethno_ordination)
+```
+
+## Principal component analysis (PCA)
+
+Principal component analysis (PCA) can be used to create sets of linearly uncorrelated variables from cases of informant-species-use associations. The resulting principal components are linear combinations of variables that are fed in and each contain all observations. We perform PCA using the `broom` [@R-broom], `tidyr` [@R-tidyr] and `purrr` [@R-purrr] packages using the `nest()` function along with the `mutate()` and `map()` functions to operate on the nested columns. This gives a `tibble` with one row and three columns: 1. our original data set, 2. the `prcomp` object and 3. a data frame of principal component values for each observation.
+
+```{r nesting}
+nested_ethno_pca <- eb_data %>% 
+  tidyr::nest(., data = everything()) %>% 
+  dplyr::mutate(pca = purrr::map(data, ~ stats::prcomp(.x %>% 
+        dplyr::select(-informant, -sp_name), 
+        center = TRUE, scale = TRUE)),
+         pca_augmented = map2(pca, data, ~broom::augment(.x, data = .y)))
+```
+
+For PCA model evaluation we can check to see how much variance is explained by each principal component. This tells us how many of the components would be reasonable to assess when analyzing the results. To do this, we can use the data in the `pca_augmented` column of our `nested_ethno_pca` tibble along with `dplyr` [@R-dplyr] and `magrittr` [@R-magrittr] functions.
+
+```{r variance_check}
+var_exp_tidy <- nested_ethno_pca %>% 
+  tidyr::unnest(pca_augmented) %>% 
+  dplyr::summarize_at(.vars = dplyr::vars(contains("PC", ignore.case = FALSE)), .funs = tibble::lst(var)) %>% 
+  tidyr::gather(key = pc, value = variance) %>% 
+  dplyr::mutate(var_exp = variance/sum(variance),
+         cum_var_exp = cumsum(var_exp),
+         pc = stringr::str_replace(pc, ".fitted", ""))
+```
+
+The `r nrow(var_exp_tidy)` principle components selected explain `r sum(var_exp_tidy$var_exp)`% of variance. As a general rule the first few principal components explain much of the variation. To keep the analysis within reasonable bounds it makes sense to select the first four principle components (this choice may change according to the analysis).
+
+```{r select_components}
+var_exp <- var_exp_tidy %>% 
+  head(4)
+```
+
+Plot the variance explained and the cumulative variance explained to see trends across components.
+
+```{r plot_pca, fig.width=7, fig.height=3}
+var_exp %>% 
+  dplyr::rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %>% 
+  tidyr::gather(key = key, value = value, `Variance Explained`:`Cumulative Variance Explained`) %>% 
+  ggplot2::ggplot(ggplot2::aes(pc, value, group = key)) + 
+  ggplot2::geom_point() + 
+  ggplot2::geom_line() + 
+  ggplot2::facet_wrap(~key, scales = "free_y") +
+  ggplot2::theme_minimal() +
+  ggplot2::lims(y = c(0, 1)) +
+  ggplot2::labs(y = "Variance",
+       title = "Variance explained by each principal component")
+
+```
+
+
+## Conclusions
+
+Quantitative ethnobotany offers a way to study the use and importance of plants in human cultures, using statistical and analytical methods to quantify and interpret data. This approach can be useful in a variety of contexts, including understanding the cultural and ecological significance of plant species, evaluating the impact of human activities on plant communities, and conserving plant biodiversity.
+
+One of the main benefits of quantitative ethnobotany is that it allows researchers to rigorously and systematically analyze and interpret data, providing more reliable and objective insights into the role of plants in different cultural and ecological settings. By using standardized methods and statistical analyses, researchers can more accurately compare and contrast the importance of different plant species and evaluate the significance of their findings.
+
+In addition, the development of a set of standard practices and guidelines for quantitative ethnobotany can be helpful for the field in several ways. First, standard practices can help to ensure the reliability and validity of research findings, by providing a consistent and transparent approach to data collection, analysis, and interpretation. Second, standard practices can facilitate the sharing and dissemination of research findings, by providing a common language and framework for communication and collaboration among researchers. Finally, standard practices can help to advance the field of ethnobotany by promoting the use of rigorous and transparent methods, and by encouraging the development of new and innovative approaches to understanding the role of plants in human cultures.
+
+## Acknowledgements
+
+This work was written and formatted using the handy tools provided by the `knitr` package [@R-knitr]. 
 
 ## References
 
