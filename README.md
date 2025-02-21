@@ -9,6 +9,7 @@ Status](http://www.r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https://
 [![](http://cranlogs.r-pkg.org/badges/grand-total/ethnobotanyR?color=orange)](https://cran.r-project.org/package=ethnobotanyR)
 [![](http://cranlogs.r-pkg.org/badges/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
 [![](http://cranlogs.r-pkg.org/badges/last-week/ethnobotanyR?color=green)](https://cran.r-project.org/package=ethnobotanyR)
+
 <!-- badges: end -->
 
 # ethnobotanyR
