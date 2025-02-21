@@ -9,10 +9,10 @@ Status](https://www.r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https:/
 [![](https://cranlogs.r-pkg.org/badges/grand-total/ethnobotanyR?color=orange)](https://cran.r-project.org/package=ethnobotanyR)
 [![](https://cranlogs.r-pkg.org/badges/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
 [![](https://cranlogs.r-pkg.org/badges/last-week/ethnobotanyR?color=green)](https://cran.r-project.org/package=ethnobotanyR)
-
 <!-- badges: end -->
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cwhitney)
+[![“Buy Me A
+Coffee”](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cwhitney)
 
 # ethnobotanyR
 
@@ -20,7 +20,6 @@ Please remember to cite this package if you use it in your publications.
 
 ``` r
 citation("ethnobotanyR")
-#> 
 #> To cite package 'ethnobotanyR' in publications use:
 #> 
 #>   Whitney C (2022). _ethnobotanyR: Calculate Quantitative Ethnobotany
@@ -52,12 +51,12 @@ developing meaningful research questions.
 
 <!-- Links: start -->
 
-| Quick Links                                                                                                                                               |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Installation**](https://github.com/CWWhitney/ethnobotanyR#Installation)                                                                                |
-| [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR)                                                                                       |
+| Quick Links |
+|:---|
+| [**Installation**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
+| [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
 | [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
-| [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki)                                                                                   |
+| [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki) |
 
 <!-- Links: end -->
 
