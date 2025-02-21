@@ -12,6 +12,8 @@ Status](https://www.r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https:/
 
 <!-- badges: end -->
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cwhitney)
+
 # ethnobotanyR
 
 Please remember to cite this package if you use it in your publications.
