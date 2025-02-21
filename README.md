@@ -5,10 +5,10 @@
 <!-- badges: start -->
 
 [![CRAN
-Status](http://www.r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https://cran.r-project.org/package=ethnobotanyR)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/ethnobotanyR?color=orange)](https://cran.r-project.org/package=ethnobotanyR)
-[![](http://cranlogs.r-pkg.org/badges/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
-[![](http://cranlogs.r-pkg.org/badges/last-week/ethnobotanyR?color=green)](https://cran.r-project.org/package=ethnobotanyR)
+Status](https://www.r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https://cran.r-project.org/package=ethnobotanyR)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/ethnobotanyR?color=orange)](https://cran.r-project.org/package=ethnobotanyR)
+[![](https://cranlogs.r-pkg.org/badges/ethnobotanyR?color=blue)](https://cran.r-project.org/package=ethnobotanyR)
+[![](https://cranlogs.r-pkg.org/badges/last-week/ethnobotanyR?color=green)](https://cran.r-project.org/package=ethnobotanyR)
 
 <!-- badges: end -->
 
