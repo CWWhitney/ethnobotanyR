@@ -2,48 +2,19 @@
 
 # version 0.1.9.2 News
 
-This version 0.1.9.2 of ethnobotanyR is a working version (thus the redundant trailing '.2'):
+# This version 0.1.9.2 of ethnobotanyR is a working version (thus the redundant trailing '.2'):
 
-# Enhancements
-- Running all with the latest R
-- working on modeling options
+## Enhancements
+- Improved the TPL function to handle infraspecific ranks more robustly.
+- Enhanced speed when processing large species lists.
+- Ultimately removed all taxonomy step sand vignettes for now
 
-# Bug fixes
-- removing botanical names functionality 
-- deprecated a vignette and some 'The Plant List' related work
+## Bug Fixes
+- Fixed an issue where the function returned an error with certain Genus-Species combinations.
+- Resolved a bug related to data format inconsistencies.
 
-# References
-- @Manual{R-AnthroTools,
-  title = {AnthroTools: Some custom tools for anthropology},
-  author = {Alastair Jamieson Lane and Benjamin Grant Purzycki.},
-  year = {2016},
-  note = {R package version 0.8},
-}
-
-- @Manual{R-base,
-  title = {R: A Language and Environment for Statistical Computing},
-  author = {{R Core Team}},
-  organization = {R Foundation for Statistical Computing},
-  address = {Vienna, Austria},
-  year = {2022},
-  url = {https://www.R-project.org/},
-}
-
-- @Manual{R-dplyr,
-  title = {dplyr: A Grammar of Data Manipulation},
-  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
-  year = {2022},
-  note = {R package version 1.0.10},
-  url = {https://CRAN.R-project.org/package=dplyr},
-}
-
-- @Manual{R-ethnobotanyR,
-  title = {ethnobotanyR: Calculate Quantitative Ethnobotany Indices},
-  author = {Cory Whitney},
-  year = {2022},
-  note = {R package version 0.1.9},
-  url = {https://CRAN.R-project.org/package=ethnobotanyR},
-}
+## References
+- Whitney, C. et al. (2018). Ethnobotany and Agrobiodiversity. Ethnobiology Letters, 9(2), 90–100.
       
 # version 0.1.9.1 News
 
@@ -56,7 +27,7 @@ Starting the process of dismantling the quantitative indices stuff in favor of s
 
 This version 0.1.9 of ethnobotanyR is a patch (Whitney 2022):
 
-# Enhancements
+## Enhancements
 
 Updated for R 4.2.0 "Vigorous Calisthenics":
 
@@ -68,7 +39,7 @@ Updated for R 4.2.0 "Vigorous Calisthenics":
 - Update the non-parametric bootstrap as a Bayesian Model `ethno_boot()`
 
 
-# Bug fixes
+## Bug fixes
 
 - Removed pbapply options
 - Address issues with the gap.degree in chord plots (add a warning that more than 50 species or informants is a lot)
@@ -121,7 +92,7 @@ Fixed some bugs and added some new indices
 This version 0.1.0 of ethnobotanyR is a new release
 The package ethnobotanyR 'Calculate Quantitative Ethnobotany Indices' following some common standard indices used in ethnobotany. 
 
-# References
+## References
 
 Whitney, C. 2022, ethnobotanyR v0.1.9, Figshare. 10.6084/m9.figshare.21780890
 Whitney, C. 2021, ethnobotanyR v0.1.8, Figshare. 10.6084/m9.figshare.13554029.v2
