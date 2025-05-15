@@ -28,5 +28,13 @@ Suggests:
     knitr,
     rmarkdown, 
     tidyr,
-    stringr
+    stringr,
+    purrr,
+    tibble,
+    vegan,
+    AnthroTools,
+    bnlearn,
+    causaleffect,
+    pbapply,
+    tidyselect
 VignetteBuilder: knitr
