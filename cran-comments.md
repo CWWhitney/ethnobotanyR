@@ -6,10 +6,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
        GNU Fortran (GCC) 14.2.0
 
 ## R CMD check results
-I ran devtools::build()
-and 
-checked the package with devtools::check(), 
-        which also runs devtools::document()
+I ran devtools::build() and checked the package with devtools::check(), which also runs devtools::document()
 There were no ERRORs, WARNINGs or NOTEs
 All is well
 
@@ -18,7 +15,6 @@ All is fine
 
 I checked R-hub with devtools::check_rhub()
 All is great
-
 
 ## Downstream dependencies
 I accessed all dependencies with devtools::install_deps(dependencies = TRUE)
