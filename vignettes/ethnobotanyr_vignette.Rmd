@@ -44,6 +44,7 @@ library(tibble)
 library(tidyr)
 library(tidyselect)
 library(vegan)
+# install.packages(c('bnlearn','broom','causaleffect','circlize','cowplot','dplyr','ethnobotanyR','ggalluvial','ggplot2','ggridges','magrittr','pbapply','purrr','stringr','tibble','tidyr','tidyselect','vegan'))
 
 # in case of rendering issues render with 
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
