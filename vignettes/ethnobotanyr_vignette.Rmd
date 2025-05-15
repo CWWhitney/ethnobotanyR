@@ -31,7 +31,6 @@ library(broom)
 library(causaleffect)
 library(circlize)
 library(cowplot)
-library(decisionSupport)
 library(dplyr)
 library(ethnobotanyR)
 library(ggalluvial)
@@ -55,7 +54,6 @@ knitr::write_bib(c(.packages(),
                   "causaleffect",
                   "circlize",
                   "cowplot",
-                  "decisionSupport",
                   "dplyr",
                   "ethnobotanyR",
                   "ggalluvial",
