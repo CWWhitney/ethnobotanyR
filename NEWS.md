@@ -4,8 +4,47 @@
 
 This version 0.1.9.2 of ethnobotanyR is a working version (thus the redundant trailing '.2'):
 
-Running all with the latest R, working on modeling options, removing botanical names functionality (deprecated a vignette and some 'The Plant List' related work)
+# Enhancements
+- Running all with the latest R
+- working on modeling options
 
+# Bug fixes
+- removing botanical names functionality 
+- deprecated a vignette and some 'The Plant List' related work
+
+# References
+- @Manual{R-AnthroTools,
+  title = {AnthroTools: Some custom tools for anthropology},
+  author = {Alastair Jamieson Lane and Benjamin Grant Purzycki.},
+  year = {2016},
+  note = {R package version 0.8},
+}
+
+- @Manual{R-base,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2022},
+  url = {https://www.R-project.org/},
+}
+
+- @Manual{R-dplyr,
+  title = {dplyr: A Grammar of Data Manipulation},
+  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+  year = {2022},
+  note = {R package version 1.0.10},
+  url = {https://CRAN.R-project.org/package=dplyr},
+}
+
+- @Manual{R-ethnobotanyR,
+  title = {ethnobotanyR: Calculate Quantitative Ethnobotany Indices},
+  author = {Cory Whitney},
+  year = {2022},
+  note = {R package version 0.1.9},
+  url = {https://CRAN.R-project.org/package=ethnobotanyR},
+}
+      
 # version 0.1.9.1 News
 
 This version 0.1.9.1 of ethnobotanyR is a working version (thus the redundant trailing '.1'):
