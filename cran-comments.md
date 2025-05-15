@@ -9,7 +9,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 I ran devtools::build()
 and 
 checked the package with devtools::check(), 
-which also runs devtools::document()
+        which also runs devtools::document()
 There were no ERRORs, WARNINGs or NOTEs
 All is well
 
