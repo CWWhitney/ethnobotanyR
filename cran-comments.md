@@ -1,12 +1,15 @@
 devtools::release()
 
 ## Test environments
-* local OS Ventura 13.0.1, R.Version R 4.2.0 
+* local OS Sequoia 15.4.1, R.Version R 4.5.0 
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+       GNU Fortran (GCC) 14.2.0
 
 ## R CMD check results
 I ran devtools::build()
 and 
-checked the package with devtools::check(), which also runs devtools::document()
+checked the package with devtools::check(), 
+which also runs devtools::document()
 There were no ERRORs, WARNINGs or NOTEs
 All is well
 
