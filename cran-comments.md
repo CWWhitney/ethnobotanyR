@@ -31,13 +31,8 @@ I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with
 ## Resubmission
 This is a patch. In this version I have:
 
-- Added color options to the Radial_plot and ethno_alluvial functions with the rainbow package
-- Added error checks for use observations with more than count '1'
-- Added corrections for those same use observations
-- Removed pbapply options
-- Address issues with the gap.degree in chord plots (add a warning that more than 50 species or informants is a lot)
-- Added a new vignette (split the existing into one about  indices and one about modeling and expanded on both)
-- Add more visual output options ()
-- Address CRAN issue https://cran.r-project.org/web/checks/check_results_isoband.html
-- Update the non-parametric bootstrap as a Bayesian Model
-- Remove arguments for dplyr (to work with version on the way)
+- Improved the TPL function to handle infraspecific ranks more robustly.
+- Enhanced speed when processing large species lists.
+- Fixed an issue where the function returned an error with certain Genus-Species combinations.
+- Resolved a bug related to data format inconsistencies.
+- Ultimately removed all taxonomy step sand vignettes for now
