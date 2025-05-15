@@ -1,5 +1,15 @@
 # ethnobotanyR News
 
+# version 0.1.9.2 News
+
+This version 0.1.9.2 of ethnobotanyR is a working version (thus the redundant trailing '.2'):
+
+Running all with the latest R, working on modeling options, removing botanical names functionality (deprecated a vignette and some 'The Plant List' related work)
+
+New datasets .RData file bryophytesdata 
+
+# version 0.1.9.1 News
+
 This version 0.1.9.1 of ethnobotanyR is a working version (thus the redundant trailing '.1'):
 
 Adding new vignettes for species names and for modeling
