@@ -19,8 +19,6 @@ All is fine
 I checked R-hub with devtools::check_rhub()
 All is great
 
-checked win-builder with devtools::check_win_devel()
-All is ok
 
 ## Downstream dependencies
 I accessed all dependencies with devtools::install_deps(dependencies = TRUE)
