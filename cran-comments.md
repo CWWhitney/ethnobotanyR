@@ -1,7 +1,7 @@
 devtools::release()
 
 ## Test environments
-* local OS Sequoia 15.4.1, R.Version R 4.5.0 
+* local OS Sequoia 15.6.1, R.Version R 4.5.1 
 Apple clang version 14.0.0 (clang-1400.0.29.202)
        GNU Fortran (GCC) 14.2.0
 
