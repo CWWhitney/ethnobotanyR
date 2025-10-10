@@ -28,3 +28,4 @@ rsconnect/
 .Rproj.user
 #revdep
 revdep/
+.DS_Store
