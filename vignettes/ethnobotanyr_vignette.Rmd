@@ -74,7 +74,26 @@ knitr::write_bib(c(.packages(),
 
 <img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
 
+## A Critical Perspective on Ethnobotany Indices
+
 Quantitative ethnobotany is the study of the use and importance of plants in human cultures, using statistical and analytical methods to quantify and interpret data. This approach has emerged as a key tool for understanding the cultural and ecological significance of plant species, and for evaluating the impact of human activities on plant communities and ecosystems.
+
+While widely used in the literature, traditional ethnobotany indices have significant limitations that researchers should consider:
+
+- **Oversimplification**: Complex cultural relationships reduced to single numbers
+- **Context stripping**: Remove cultural, ecological, and historical context
+- **Methodological issues**: Sensitive to sampling design and interview methods
+- **Theoretical concerns**: Often lack strong theoretical foundations
+
+**When to use these indices:**
+- Preliminary exploratory analysis
+- Comparison with existing literature that uses similar methods
+- As input variables for more sophisticated models (not as final results)
+
+**When to avoid these indices:**
+- As primary evidence for policy decisions
+- For cross-cultural comparisons without careful validation
+- As standalone measures of "importance"
 
 The field of ethnobotany has a long history, with roots dating back to the early 20th century when researchers began to systematically study the relationships between humans and plants. In recent decades, advances in statistical and computational techniques have enabled researchers to more rigorously and systematically analyze and interpret ethnobotanical data, leading to a greater understanding of the complex and diverse ways in which plants are used and valued in different cultural and ecological contexts.
 
@@ -96,7 +115,7 @@ Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()
 
 ## Working with figures
 
-Figures can help to visually represent the main ideas or key results of ethnobotany work. A figure is a graphical representation of data or concepts, and it can be an effective tool for conveying complex information in a clear and concise manner. Figures are often used in ethnobotany research to illustrate important points, highlight trends or patterns in the data, or demonstrating results of statistical analyses. There are several benefits to working on making good figures. A meaningful and well formulated figure can help to make ethnobotany work engaging, visually appealing and accessible to a wide audience. Overall, generating a figure can be a valuable tool for effectively communicating the key ideas and results of ethnobotany research. Here we walk through a few of the functions within the `ethnobotanyR` package for generating figures [@R-ethnobotanyR]. 
+Figures can help to visually represent the main ideas or key results of ethnobotany work. Here we walk through a few of the functions within the `ethnobotanyR` package for generating figures [@R-ethnobotanyR]. 
 
 ## Chord diagrams with `circlize`
 
@@ -148,7 +167,8 @@ The standard quantitative ethnobotany indices are probably too narrow a tool for
 
 ### Use Report (UR) per species
 
-The use report `URs()` is the most basic ethnobotany calculation. The function calculates the use report (UR) for each species in the data set. 
+The use report `URs()` is the most basic ethnobotany calculation. The function calculates the reported uses for each species in the data set. 
+
 \begin{equation}
 UR_{s} = \sum_{u=u_1}^{^uNC} \sum_{i=i_1}^{^iN} UR_{ui}
 \end{equation}
@@ -308,6 +328,13 @@ cowplot::plot_grid(URs_plot, NUs_plot, FCs_plot, CIs_plot,
 ```
 
 Despite their popularity, ethnobotany indices have been criticized for not accurately capturing the complexity and diversity of human-plant relationships. They may oversimplify or overlook important cultural or ecological factors. Additionally, ethnobotany indices are often based on subjective judgments and may be influenced by cultural biases or other factors that can affect the results of the analysis. Still, it is important to have an overview of ethnobotany indices, as they can provide useful insights into the role of plants in different cultural and ecological contexts. Additionally, understanding the background theory and limitations of these indices can help researchers to critically evaluate and interpret ethnobotanical data, and to design more accurate and comprehensive studies of human-plant interactions. Further exploratory methods may be helpful in understanding important relationships.
+
+Critical Considerations
+
+- Raw counts don't account for sampling effort or cultural significance
+- Can be misleading if informant expertise varies significantly
+- Best used as input for more sophisticated analyses rather than final results
+
 
 ## Exploratory analyses 
 

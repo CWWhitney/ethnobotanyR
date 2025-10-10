@@ -55,7 +55,7 @@ knitr::write_bib(c(.packages(),
 
 Please remember to cite the `ethnobotanyR` package if you use it in your publications.
 
-```{r}
+```{r citation}
 citation("ethnobotanyR")
 ```
 
@@ -69,24 +69,35 @@ knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the
 
 ## `ethnobotanyR` modeling functions
 
-Applying quantitative approaches in ethnobotany requires a number of preliminary steps that for a good foundation for the research. We should be clear about the aims and objectives of our work as well as the theoretical background and body of existing literature on our topic of interest. Assuming that all this is in place we can start to model systems of interest. Here we will dig in to some of the more holistic assessments and analyses that can be performed in ethnobotany.
+Applying quantitative approaches in ethnobotany requires a number of preliminary steps as a foundation for the research. **1.** We should be clear about the aims and objectives of our work. **2.** We should have a sound footing in the theoretical background and body of existing literature on our topic of interest. 
+
+Assuming that all this is in place we can start to model systems of interest. Here we will dig in to some holistic assessments and analyses that can be performed in ethnobotany.
+
+The `ethnobotanyR` package provides tools to move beyond descriptive statistics and model the underlying cultural and ecological systems. This vignette demonstrates two complementary approaches:
+
+- The Non-Parametric Bayesian Bootstrap `ethno_boot`: This method helps us understand the uncertainty around our estimates (e.g., the probability of a use). It answers the question: "If we repeated this study many times in this population, what range of results might we get?"
+
+- The Bayesian Cultural Consensus Model `ethno_bayes_consensus`: This method helps us account for varying informant expertise and estimate the "culturally correct" answer for whether a plant has a use. It answers the question: "Given that some informants are more knowledgeable than others, what does the culture truly hold to be a use for this plant?"
 
 ### The non-parametric Bayesian bootstrap
 
-Simply put, a bootstrap is any test or metric that uses random sampling with replacement, it is just one of many resampling methods. The common R function `sample()` is one example of a resampling method. The `ethno_boot` function runs a non-parametric Bayesian bootstrap, with the ability to estimate a population distribution from a set of observations, i.e. it can help us to estimate the larger population of data from which our smaller sample was derived. The procedure begins by estimating the population distribution from the data set. It then simulates the sampling process that led to the set of observations. Finally, for each sampling, the method calculates a sample statistic of interest (i.e. the mean). To calculate that sample statistic the function runs a large number of iterations, each one generating a new bootstrap replicate, and for each bootstrap replicate we calculate the sample estimate of the statistic.  
+When we collect ethnobotany data, we're usually working with a sample of people from a larger community. The Bayesian bootstrap helps us answer: "How much might our results change if we had interviewed different people?"
 
-Technically, the function uses the Dirichlet distribution as a way to model the randomness of a probability mass function (PMF) with unlimited options for finite sets (e.g. an unlimited amount of dice in a bag). It is the conjugate prior of the categorical distribution and multinomial distribution. 
+Think of it like this: If you randomly re-interviewed people from the same community many times, you'd get slightly different answers each time. The bootstrap simulates this process to show us the range of plausible results.^[Simply put, a bootstrap is any test or metric that uses random sampling with replacement, it is just one of many resampling methods. The common R function `sample()` is one example of a resampling method.]
 
-A probability mass function (PMF) is also called a frequency function, it gives probabilities for random variables that are discrete such as UR (there can be only 1 or 0 UR) or for discrete counts like plant uses where there can only be max 'n' people interviewed.
-
-The Dirichlet distribution creates n positive numbers (a set of random vectors X1…Xn) that add up to 1. It is closely related to the multinomial distribution, which also requires n numbers that sum to 1.
-
-Here we are interested in the differences (either '0' no use, or '1' use) between species 'a' and species 'b' or a particular use category. This could be, for example, the differences the use for a specific disease treatment between one species and another. We are using 'Use_3' in our data set as the specific use. 
-
-```{r ethno_boot_uses}
+```{r ethno_boot_uses_a}
 sp_a_data <- ethnobotanydata %>% filter(sp_name == "sp_a") 
 
 sp_a_use <- ethno_boot(sp_a_data$Use_3, statistic = mean, n1 = 1000)
+```
+
+The `ethno_boot` function takes our actual data about species `sp_a` and `Use_3` it simulates re-sampling from the community 1000 times (n1 = 1000). For each simulation `ethno_boot` calculates the average use (`statistic = mean`). It then gives us 1,000 (`n1 = 1000`) plausible average use values
+
+The `ethno_boot` function runs a non-parametric Bayesian bootstrap, with the ability to estimate a population distribution from a set of observations, i.e. it can help us to estimate the larger population of data from which our smaller sample was derived. The procedure begins by estimating the population distribution from the data set. It then simulates the sampling process that led to the set of observations. Finally, for each sampling, the method calculates a sample statistic of interest (i.e. the mean). To calculate that sample statistic the function runs a large number of iterations, each one generating a new bootstrap replicate, and for each bootstrap replicate we calculate the sample estimate of the statistic. ^[Technically, the function uses the Dirichlet distribution as a way to model the randomness of a probability mass function (PMF) with unlimited options for finite sets (e.g. an unlimited amount of dice in a bag). A probability mass function (PMF) is also called a frequency function, it gives probabilities for random variables that are discrete such as UR (there can be only 1 or 0 UR) or for discrete counts like plant uses where there can only be max 'n' people interviewed.]
+
+Here we are interested in the differences (either '0' no use, or '1' use) between species 'a' and species 'b' or a particular use category. This could be, for example, the differences the use for a specific disease treatment between one species and another. We are using `Use_3` in our data set as the specific use. 
+
+```{r ethno_boot_uses_b}
 
 sp_b_data <- ethnobotanydata %>% filter(sp_name == "sp_b") 
 
@@ -103,7 +114,7 @@ quantile(sp_b_use, c(0.05, 0.95))
 
 Running `ethno_boot` returns a posterior distribution of the result, i.e. it gives us an estimation, based on our observations, of what a reasonable distribution of the actual population might look like. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
 
-Create a data frame and use the `melt` function to reshape data for the `ggplot2` plotting functions.
+Create a data frame and use the `melt` function to reshape data for the `ggplot2` plotting functions [@R-ggplot2].
 
 ```{r fig.width=7, fig.height=7}
 boot_data <- data.frame(sp_a_use, sp_b_use)
@@ -111,7 +122,7 @@ boot_data <- data.frame(sp_a_use, sp_b_use)
 ethno_boot_melt <- reshape2::melt(boot_data)
 ```
 
-Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
+Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms [@R-ggplot2; @R-ggridges].
 
 ```{r plot_boot_ridges, fig.width=7, fig.height=4}
 ggplot2::ggplot(ethno_boot_melt, aes(x = value, 
@@ -124,9 +135,9 @@ ggplot2::ggplot(ethno_boot_melt, aes(x = value,
 
 The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@R-AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. 
 
-The inputs to the function are informant responses to the use category for each plant, an estimate of informant's \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
+The inputs to the function are informant responses to the use category for each plant, an estimate of informants \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
 
-Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function`filter`  [@R-dplyr] to subset to a single species and create a ridge plot. 
+Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function `filter`  [@R-dplyr] to subset to a single species and create a ridge plot. 
 
 ```{r ethno_sp_a }
 ethno_sp_a <- dplyr::filter(ethnobotanydata, sp_name == "sp_a")
@@ -157,6 +168,7 @@ ethno_compet_sp_a <- dplyr::recode(ethno_sp_a$informant,
 ```
 
 Run the `ethno_bayes_consensus` function on the subset data of `sp_a`. 
+
 ```{r ethno_sp_a_bayes}
 ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a, 
                     answers = 2,
@@ -173,6 +185,8 @@ heatmap(ethno_sp_a_bayes)
 Here the '1' and '2' represent 'use' and 'no use' (y-axis). The colors are the probabilities (darker is greater). The `hclust` for these is not very informative since there are only 2. However, the `hclust` for the various uses (x-axis) might be helpful in thinking about how the strength of the information about different use categories for `sp_a` are grouped together. 
 
 ### Richer response data
+
+So far, we've modeled data where an informant either confirms (1) or denies (0) a use. However, ethnobotanical data is often richer. An informant might list multiple specific ways a plant is used within a single category (e.g., 5 different food preparations). The `ethno_bayes_consensus` function can model this kind of count data. In this example, we'll simulate a dataset where informants can report up to 10 distinct uses per category.
 
 Users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different 'food' uses but this is just one category). Let's say that the theoretical maximum number of use reports in one category, for one species by one informant is 10. It may be useful to work with these richer datasets for the Bayes consensus analysis. The `ggplot2` and `ggridges` libraries can be used to plot the data as smooth histograms. Here we generate some ethnobotany data with up to 10 citations in a single use category for a species by one informant.
 
@@ -191,6 +205,7 @@ ethno_sp_a_rich <- data.frame(replicate(3,sample(0:10,20,rep=TRUE)))
 Define the `prior_for_answers` of the data from these new informants in the simulated ethnobotany data. With `User_1` we have high confidence because perhaps we gather this information through 'walk in the woods' or another method we feel good about. With `User_2` we assign less confidence. Maybe did our work in a rush or gathered in another way that gives us less confidence. 
 
 ```{r}
+# Assign prior competencies: higher values (e.g., 0.9) indicate we trust that informant's data more.
 ethno_compet_sp_a_rich <- 
           dplyr::recode(ethno_sp_a_rich$informant,
           User_1 = 0.9, User_2 = 0.5)
@@ -225,5 +240,9 @@ ggplot2::ggplot(ethno_sp_a_bayes_melt, aes(x = value,
 ```
 
 Visualizing the variation in outcomes can be useful for assessing the amount of confidence we have in the cultural use of the plant across categories. 
+
+This vignette has demonstrated how to use ethnobotanyR for two powerful modeling techniques. The Bayesian bootstrap allows you to quantify uncertainty in your estimates, while the cultural consensus model helps you infer shared cultural knowledge from individual responses, accounting for differences in informant competence.
+
+These models provide a robust, quantitative foundation for understanding plant-use systems. For a deeper dive into the theory behind these methods, please see the key references [@oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. To explore more basic descriptive functions in the package, see the 'Introduction to ethnobotanyR' vignette.
 
 ## References
