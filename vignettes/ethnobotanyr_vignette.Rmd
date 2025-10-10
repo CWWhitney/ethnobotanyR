@@ -353,7 +353,7 @@ Detrended correspondence analysis (DCA) and principal component analysis (PCA) a
 
 Both DCA and PCA can be useful tools for exploratory analysis of ethnobotany data, as they can help to identify patterns and trends in the data that may not be immediately apparent. However, it is important for researchers to be aware of the limitations of these techniques and to use them with caution, as they can be sensitive to certain types of data and may not always produce reliable results.
 
-In order to use these techniques effectively, it is important for researchers to have access to programming tools that allow them to run the analyses. The `ethnobptanyR` package offers a few handy tools to make these work with standard quantitative ethnobotany data. By having access to these tools, researchers can more easily and efficiently run these analyses and incorporate the results into their research projects.
+In order to use these techniques effectively, it is important for researchers to have access to programming tools that allow them to run the analyses. The `ethnobotanyR` package offers a few handy tools to make these work with standard quantitative ethnobotany data. By having access to these tools, researchers can more easily and efficiently run these analyses and incorporate the results into their research projects.
 
 Overall, it is important for researchers to be aware of tools like DCA and PCA and to have access to programming tools that allow them to run these analyses. These tools can be valuable tools for exploring and interpreting ethnobotany data, but they should be used with caution and within the confines of the predetermined research aims and objectives.
 
