@@ -25,26 +25,25 @@ knitr::opts_chunk$set(
 
 # ethnobotanyR
 
-Please remember to cite this package if you use it in your publications.
+Please remember to cite the `ethnobotanyR` package if you use it in your publications. Use `citation("ethnobotanyR")` to get a citation for the latest version.  
 
-```{r}
+```{r cite_ethnobotanyR, comment=NA, echo=FALSE}
 citation("ethnobotanyR")
 ```
 
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for ethnobotanists to work with quantitative ethnobotany assessments. It closely follows [Tardio and Pardo-de-Santayana (2008)](https://doi.org/10.1007/s12231-007-9004-5) and [Whitney et al. (2018)](https://doi.org/10.14237/ebl.9.2.2018.503). 
-
 
 Users of `ethnobotanyR` may find it useful to read the background papers and books on ethnobotany theory. In particular [Albuquerque et al. (2019)](https://doi.org/10.1007/s13752-019-00316-8) offer helpful guidance to understanding theoretical approaches in ethnobotany and developing meaningful research questions. 
 
 <!-- Links: start -->
 |   Quick Links  |
 |:-------|
-| [**Installation**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
-| [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
-| [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**Installing ethnobotanyR**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
+| [**ethnobotanyR CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
+| [**Quantitative ethnobotany analysis with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**Modeling with ethnobotanyR**](https://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyR_modeling_vignette.html) |
 | [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki) |
 <!-- Links: end -->
-
 
 ## Installation
 

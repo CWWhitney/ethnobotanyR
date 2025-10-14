@@ -2,6 +2,7 @@
 <img src="vignettes/ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%"/>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![CRAN
@@ -16,26 +17,27 @@ Coffee”](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)
 
 # ethnobotanyR
 
-Please remember to cite this package if you use it in your publications.
+Please remember to cite the `ethnobotanyR` package if you use it in your
+publications. Use `citation("ethnobotanyR")` to get a citation for the
+latest version.
 
-``` r
-citation("ethnobotanyR")
-#> To cite package 'ethnobotanyR' in publications use:
-#> 
-#>   Whitney C (2022). _ethnobotanyR: Calculate Quantitative Ethnobotany
-#>   Indices_. R package version 0.1.9,
-#>   <https://CRAN.R-project.org/package=ethnobotanyR>.
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Manual{,
-#>     title = {ethnobotanyR: Calculate Quantitative Ethnobotany Indices},
-#>     author = {Cory Whitney},
-#>     year = {2022},
-#>     note = {R package version 0.1.9},
-#>     url = {https://CRAN.R-project.org/package=ethnobotanyR},
-#>   }
-```
+    To cite package 'ethnobotanyR' in publications use:
+
+      Whitney C (2022). _ethnobotanyR: Calculate Quantitative Ethnobotany
+      Indices_. doi:10.32614/CRAN.package.ethnobotanyR
+      <https://doi.org/10.32614/CRAN.package.ethnobotanyR>, R package
+      version 0.1.9, <https://CRAN.R-project.org/package=ethnobotanyR>.
+
+    A BibTeX entry for LaTeX users is
+
+      @Manual{,
+        title = {ethnobotanyR: Calculate Quantitative Ethnobotany Indices},
+        author = {Cory Whitney},
+        year = {2022},
+        note = {R package version 0.1.9},
+        url = {https://CRAN.R-project.org/package=ethnobotanyR},
+        doi = {10.32614/CRAN.package.ethnobotanyR},
+      }
 
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for
 ethnobotanists to work with quantitative ethnobotany assessments. It
@@ -53,9 +55,10 @@ developing meaningful research questions.
 
 | Quick Links |
 |:---|
-| [**Installation**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
-| [**CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
-| [**Working with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**Installing ethnobotanyR**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
+| [**ethnobotanyR CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
+| [**Quantitative ethnobotany analysis with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
+| [**Modeling with ethnobotanyR**](https://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyR_modeling_vignette.html) |
 | [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki) |
 
 <!-- Links: end -->
