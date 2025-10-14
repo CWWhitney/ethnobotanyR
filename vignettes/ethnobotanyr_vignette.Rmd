@@ -74,6 +74,12 @@ knitr::write_bib(c(.packages(),
 
 <img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
 
+Please remember to cite the `ethnobotanyR` package if you use it in your publications. Use `citation("ethnobotanyR")` to get a citation for the latest version.  
+
+```{r cite_ethnobotanyR, comment=NA, echo=FALSE}
+citation("ethnobotanyR")
+```
+
 ## A Critical Perspective on Ethnobotany Indices
 
 Quantitative ethnobotany is the study of the use and importance of plants in human cultures, using statistical and analytical methods to quantify and interpret data. This approach has emerged as a key tool for understanding the cultural and ecological significance of plant species, and for evaluating the impact of human activities on plant communities and ecosystems.

@@ -53,9 +53,9 @@ knitr::write_bib(c(.packages(),
 
 <img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
 
-Please remember to cite the `ethnobotanyR` package if you use it in your publications.
+Please remember to cite the `ethnobotanyR` package if you use it in your publications. Use `citation("ethnobotanyR")` to get a citation for the latest version.  
 
-```{r citation}
+```{r cite_ethnobotanyR, comment=NA, echo=FALSE}
 citation("ethnobotanyR")
 ```
 
