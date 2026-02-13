@@ -1,0 +1,231 @@
+---
+title: "Modeling with Traditional Ecological Knowledge (TEK): Bayesian Networks and Monte Carlo"
+author: "Cory Whitney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TEK-based decision models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Overview
+
+This vignette demonstrates how Traditional Ecological Knowledge (TEK) can be incorporated into decision models using Bayesian Networks (BNs) and Monte Carlo sampling. It is designed as a short tutorial showing practical, reproducible code snippets and guidance on eliciting and encoding TEK.
+
+Note: this vignette is both pedagogical and practical. It gives worked examples you can run locally. The goal is to show how TEK — whether collected as counts (k of n informants), multinomial categories, or qualitative rankings (high/med/low) — can be translated into probability distributions that feed Bayesian Networks. Monte Carlo sampling is then used to propagate TEK-derived uncertainty through the BN and produce decision-relevant outcome distributions.
+
+The examples below include a small simulated TEK dataset embedded in the vignette so you can run everything end-to-end. For heavier examples you may conditionally skip chunks if packages are not installed (see notes in chunks). By default the main code chunks here are enabled so the vignette will run in an environment with the required packages installed.
+
+## Required packages
+
+We will show examples that use the following packages (install if you want to run the code):
+
+- bnlearn
+- gRain
+- dplyr
+- ggplot2
+- purrr
+
+You can install them with:
+
+```r
+install.packages(c("bnlearn","gRain","dplyr","ggplot2","purrr"))
+```
+
+---
+
+## 1. Short motivation and data
+
+We often collect TEK as counts (k informants out of n) or qualitative categories (high/medium/low). A convenient approach is to convert counts into Beta (binary) or Dirichlet (categorical) priors and then sample from these priors inside a Monte Carlo loop to create CPTs for a BN.
+
+Below we illustrate the workflow with a tiny, didactic model: a management `Decision` (Harvest vs Conserve), a latent `Abundance` node (High/Low), and an `Impact` node (Recovery/Decline). The goal is to compare management options under TEK uncertainty.
+
+## 2. Example: encode TEK as Beta priors and sample CPTs (R code)
+
+#```{r set-up, eval=TRUE}
+# Example: create Beta priors from TEK counts (k out of n informants say 'harvest causes decline')
+tek_k <- 7   # informants saying 'decline'
+tek_n <- 10  # total informants
+# Beta posterior (Laplace smoothing): Beta(k+1, n-k+1)
+alpha <- tek_k + 1
+beta  <- tek_n - tek_k + 1
+
+# draw Monte Carlo samples for that probability
+set.seed(123)
+p_samples <- rbeta(1000, alpha, beta)
+
+# Inspect distribution
+library(ggplot2)
+qplot(p_samples, geom = "density") + ggtitle("TEK-derived prior for P(decline | harvest)")
+```
+
+### Simulated informant dataset (multivariate)
+
+Below we create a small simulated TEK survey with 20 informants. Each informant provides:
+- a binary response about whether harvesting causes decline (1 = yes, 0 = no),
+- a categorical assessment of current abundance (High/Medium/Low), and
+- a self-reported confidence score (1-5).
+
+```{r sim-data, eval=TRUE}
+set.seed(42)
+n_inf <- 20
+informants <- data.frame(
+  id = 1:n_inf,
+  says_decline = rbinom(n_inf, 1, 0.6),
+  abundance = sample(c("High","Medium","Low"), n_inf, replace=TRUE, prob=c(0.4,0.35,0.25)),
+  confidence = sample(3:5, n_inf, replace=TRUE, prob=c(0.2,0.6,0.2))
+)
+
+knitr::kable(head(informants, 8))
+```
+
+We will use this toy dataset to illustrate three aggregation approaches below: simple counts -> Beta/Dirichlet, weighted pooling by confidence, and mapping qualitative categories to numerical pseudo-counts.
+
+## 3. Build a small BN and run Monte Carlo parameter sampling
+
+High-level algorithm
+
+1. Define BN structure (nodes and conditional relationships).
+2. For each Monte Carlo iteration:
+   - Sample each uncertain probability from its Beta/Dirichlet prior.
+   - Populate CPTs with the sampled probabilities.
+   - Compile the BN and query target node probabilities or expected utilities.
+3. Aggregate the distribution of outcomes across iterations and compare decisions.
+
+```{r bn-mc-workflow, eval=requireNamespace("bnlearn", quietly = TRUE) && requireNamespace("gRain", quietly = TRUE)}
+if (requireNamespace("bnlearn", quietly = TRUE) && requireNamespace("gRain", quietly = TRUE)) {
+  library(bnlearn); library(gRain); library(purrr)
+} else {
+  message("Skipping BN + gRain workflow: 'bnlearn' and/or 'gRain' not available")
+}
+
+# define simple TEK priors (ensure alpha/beta are available during knitting)
+tek_k <- 7   # number of informants saying 'decline'
+tek_n <- 10  # total informants
+alpha <- tek_k + 1
+beta  <- tek_n - tek_k + 1
+
+# define structure
+model_string <- "[Decision][Abundance|Decision][Impact|Abundance:Decision]"
+net <- model2network(model_string)
+
+# a single Monte Carlo iteration (pseudo-code)
+sample_one <- function(){
+  # sample p(Abundance=Low | Decision=Harvest) from TEK-derived Beta
+  p_decline_if_harvest <- rbeta(1, alpha, beta)
+
+  # create CPTs (values must be in the order expected by gRain)
+  # Example CPTs (toy values)
+  cpt_decision <- cptable(~Decision, values=c(0.5,0.5), levels=c("Harvest","Conserve"))
+  # Abundance|Decision: P(High|Harvest)=1 - p_decline_if_harvest, P(High|Conserve)=0.9, etc.
+  cpt_abundance <- cptable(~Abundance|Decision, values=c(1-p_decline_if_harvest, p_decline_if_harvest, 0.9, 0.1), levels=c("High","Low"))
+  # Impact|Abundance: simple mapping
+  cpt_impact <- cptable(~Impact|Abundance:Decision, values=c(0.95,0.05, 0.2,0.8), levels=c("Recovery","Decline"))
+
+  plist <- compileCPT(list(cpt_decision, cpt_abundance, cpt_impact))
+  grain_net <- grain(plist)
+  query <- querygrain(grain_net, nodes=c("Impact"), type="marginal")
+  return(query)
+}
+
+# run Monte Carlo many times (here, do 500 iterations)
+results <- map_dfr(1:500, ~as.data.frame(sample_one()))
+
+# summarize distributions for decisions (extract expected probability of Recovery/Decline for each decision)
+
+
+```
+
+## 4. Decision rules and visualization
+
+- Compute expected utility per decision for each Monte Carlo iteration, then compare mean, median and quantiles.
+- Use conservative decision rules if stakeholders prefer lower risk (e.g., maximize the 10th percentile of utility).
+
+Visualization ideas:
+
+- Density plots of expected utility for each option.
+- Fan chart showing quantiles across iterations.
+
+#```{r plot-idea, eval=TRUE}
+# Suppose we computed expected utility per decision across iterations into a data.frame `mc_util`
+# ggplot(mc_util, aes(x=utility, fill=decision)) + geom_density(alpha=0.4)
+```
+
+## 5. Practical notes on elicitation and aggregation
+
+- For binary outcomes from TEK use Beta priors (k + 1, n - k + 1).
+- For multinomial TEK responses use Dirichlet with counts + 1 as pseudo-counts.
+- Weight informants by confidence or expertise when aggregating (weighted counts or hierarchical models).
+- Record provenance and do sensitivity by omitting individual informants.
+
+### 5.1 Realistic aggregation examples
+
+We now show three practical aggregation methods using the simulated `informants` dataset above.
+
+1) Simple pooling (counts -> Beta/Dirichlet)
+
+```{r agg-simple, eval=TRUE}
+# Binary: counts for 'says_decline'
+k <- sum(informants$says_decline)
+n <- nrow(informants)
+alpha <- k + 1; beta <- n - k + 1
+cat(sprintf("P(decline) prior ~ Beta(%d, %d) -> mean = %.2f\n", alpha, beta, alpha/(alpha+beta)))
+
+# Multinomial: counts for abundance categories -> Dirichlet
+ab_counts <- table(informants$abundance)
+ab_dirichlet_alpha <- as.numeric(ab_counts) + 1
+cat("Abundance counts:\n")
+print(ab_counts)
+```
+
+2) Weighted pooling by informant confidence
+
+```{r agg-weighted, eval=TRUE}
+# Use confidence as weight (simple rescaling to pseudo-counts)
+weights <- informants$confidence / sum(informants$confidence)
+# Weighted count for binary outcome
+weighted_k <- sum(informants$says_decline * weights) * nrow(informants)
+# Convert to pseudo-counts (floor/round) if needed for Dirichlet/Beta
+wk <- round(weighted_k)
+walpha <- wk + 1; wbeta <- n - wk + 1
+cat(sprintf("Weighted Beta prior approx: Beta(%d, %d) -> mean = %.2f\n", walpha, wbeta, walpha/(walpha+wbeta)))
+
+# Weighted multinomial: use weighted frequencies
+weighted_ab <- tapply(weights, informants$abundance, sum)
+weighted_ab_counts <- round(weighted_ab * nrow(informants))
+cat("Weighted abundance pseudo-counts:\n")
+print(weighted_ab_counts)
+```
+
+3) Map qualitative categories to pseudo-counts
+
+```{r agg-qualitative, eval=TRUE}
+# Map High/Medium/Low to pseudo-counts reflecting stronger beliefs
+map_counts <- c(High=5, Medium=3, Low=1)
+qual_counts <- sapply(c("High","Medium","Low"), function(lvl) sum(map_counts[lvl] * (informants$abundance == lvl)))
+cat("Mapped pseudo-counts for abundance (qualitative -> counts):\n")
+print(qual_counts)
+# Convert to Dirichlet alpha
+qual_alpha <- qual_counts + 1
+print(qual_alpha)
+```
+
+All three approaches give you numeric pseudo-counts that can be used as Beta or Dirichlet parameters. Which is appropriate depends on your elicitation protocol and whether you want to weight informants by confidence or expertise.
+
+## 6. Next steps and reproducibility
+
+- To make this vignette runnable in your environment, install the suggested packages and set the code chunks' `eval=TRUE`.
+- Consider adding an appendix with the TEK elicitation form and a small simulated dataset if you want self-contained reproducibility.
+
+---
+
+### Appendix: minimal reproducible toy data
+
+#```{r toy-data, eval=TRUE}
+# toy dataset of informant responses
+informants <- data.frame(id=1:10, says_decline=c(rep(1,7), rep(0,3)))
+# compute counts
+tek_k <- sum(informants$says_decline)
+tek_n <- nrow(informants)
+```
