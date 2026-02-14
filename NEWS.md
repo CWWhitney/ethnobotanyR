@@ -1,5 +1,40 @@
 # ethnobotanyR News
 
+# version 0.2.0 News
+
+This is a major update repositioning the package from a quantitative indices calculator to a comprehensive framework for integrating Traditional Ecological Knowledge (TEK) into conservation and development decision-making.
+
+## Major Changes
+
+**New vignettes:**
+- `vignette("honest_ethnobotany")` - Critical assessment of quantitative ethnobotany indices: what they can tell you, what they cannot tell you, when they're useful, and when they mislead. A no-holds-barred examination of both limitations and responsible use.
+- `vignette("decision_framing_guide")` - Comprehensive framework for structured decision-framing in community-based conservation. Covers decision theory, participatory ethics, epistemological foundations, multiple contrasting cases (successes and failures), and principles for defensible practice.
+- `vignette("benin_case_study")` - Critical case study of a fonio value-chain workshop in Benin. Shows what the workshop achieved, what it doesn't tell us, what follow-up is needed, and how to avoid treating a single successful event as a replicable methodology.
+- `vignette("ethnobotanyr_decision_framing_practical")` - Practical guide with worked code examples for using ethnobotanyR functions in participatory decision-framing workshops. Shows how to calculate indices responsibly and use them as prompts for dialogue rather than decision-drivers.
+
+**Reframed README:**
+- Now emphasizes three user pathways (describe knowledge, model decisions, run participatory exercises) rather than indices as the primary product
+- Explicitly states what the package does NOT do (make decisions, offer robust proof via indices, replace engagement)
+- Directs users to `vignette("honest_ethnobotany")` before using indices
+- Repositions indices as descriptive tools within larger frameworks
+
+**Emphasis shift:**
+- Moved from "indices as the main product" to "decision-framing and Bayesian modeling as primary methods"
+- Indices now positioned as one tool for communication and exploration, not as foundational to conservation/development decisions
+- Elevated Bayesian network modeling and structured decision-framing as the robust, defensible approaches
+
+## What This Means
+
+Users should now:
+1. **Start with the framework vignettes if planning participatory work** (decision-framing guide, Benin case study)
+2. **Read the honest critique before using indices** (honest_ethnobotany vignette)
+3. **Use indices for disaggregation and communication, not prediction** (practical guide with examples)
+4. **Model uncertainty when making high-stakes decisions** (TEK modeling with Bayesian networks)
+
+The package now acknowledges both the utility and the substantial limitations of quantitative ethnobotany indices, and provides a path toward scientifically defensible, ethically grounded decision-making that integrates TEK.
+
+---
+
 # version 0.1.9.2 News
 
 # This version 0.1.9.2 of ethnobotanyR is a working version (thus the redundant trailing '.2'):
