@@ -1,8 +1,8 @@
 Package: ethnobotanyR
 Type: Package
-Title: Calculate Quantitative Ethnobotany Indices
-Description: An implementation of the quantitative ethnobotany indices in R. The goal is to provide an easy-to-use platform for ethnobotanists to assess the cultural significance of plant species based on informant consensus. The package closely follows the paper by Tardio and Pardo-de-Santayana (2008). Tardio, J., and M. Pardo-de-Santayana, 2008. Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain) 1. Economic Botany, 62(1), 24-39. <doi:10.1007/s12231-007-9004-5>.
-Version: 0.1.9
+Title: Ethnobotanical Analysis, Decision-Framing, and TEK Modeling
+Description: Tools for quantifying Traditional Ecological Knowledge (TEK), modeling TEK in decision frameworks, and designing structured decision-framing exercises in conservation and development contexts. The package implements quantitative ethnobotany indices (Use Value, Relative Frequency of Citation, etc.) but positions them within a larger framework of Bayesian modeling and participatory decision analysis. Includes critical assessment of indices' limitations and case studies of participatory workshops.
+Version: 0.2.0
 Authors@R: c( 
     person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre"))
     )
@@ -35,6 +35,8 @@ Suggests:
     AnthroTools,
     bnlearn,
     causaleffect,
+    gRain,
     pbapply,
-    tidyselect
+    tidyselect,
+    tidyverse
 VignetteBuilder: knitr
