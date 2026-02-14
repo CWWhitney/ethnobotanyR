@@ -1,0 +1,576 @@
+---
+title: "Honest Ethnobotany: Quantitative Indices, Their Limitations, and How to Use Them Responsibly"
+author: "Cory Whitney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Honest Ethnobotany: Quantitative Indices}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+This vignette is a critical examination of quantitative ethnobotany indices—their appeal, their fundamental limitations, when they're useful, and when they mislead.
+
+**This is not a how-to guide.** It's a reality check.
+
+The standard ethnobotany indices (Use Value, Relative Frequency of Citation, Relative Importance, etc.) are widely used and widely misused. They create an appearance of scientific rigor that often masks weak reasoning and methodological problems. We'll be honest about that.
+
+But indices aren't worthless. Used carefully, with awareness of their constraints, they can serve a purpose: **describing the distribution of knowledge in a community and making implicit patterns explicit for dialogue.**
+
+The paradox is that `ethnobotanyR` makes these indices easy to calculate. That ease is both a strength (accessibility) and a danger (false confidence in the robustness of results).
+
+This vignette exists so you can't claim ignorance.
+
+---
+
+# 1. The Appeal: Why Indices Exist and Why They're Seductive
+
+## 1.1 The Human Impulse to Quantify
+
+Ethnobotany is fundamentally about **people's relationships with plants**. That's qualitative, complex, embedded in culture and history.
+
+But in academic and policy contexts, you face pressure to **measure, rank, compare**. Numbers feel objective. A Use Value of 0.67 sounds more scientific than "most people know about this plant, but what that means varies."
+
+Indices exist because:
+- **Funders and policymakers want numbers.** "Biodiversity is important" is vague; "this ecosystem provides value to 1.2 million people" is actionable.
+- **Comparison requires a common scale.** If you're studying 30 plant species, you need a way to ask: which are most important to the community?
+- **Quantification looks like rigor.** When you report "Use Value = 0.63 ± 0.12," you appear scientific and defensible. (You're not, but you appear to be.)
+- **Methods feel replicable.** "Calculate UV as (number of citations) / (number of respondents)" is clear and cookbook-style. Qualitative description seems subjective.
+
+These are reasonable impulses. But they collide with reality.
+
+---
+
+# 2. The Problems: A Harsh Critique
+
+## 2.1 False Precision
+
+**The core problem:** An index compresses multidimensional, context-dependent knowledge into a single number.
+
+### Example:
+You interview 20 farmers about use of *Digitaria exilis* (fonio). You code responses:
+- "Yes, it's important for family food" → 1 citation
+- "My mother grows it; I eat it sometimes" → 1 citation
+- "I know about it but don't grow it" → 1 citation
+- "It's used in ceremonies" → 1 citation
+
+**Calculation:** 4 citations / 5 informants = Use Value of 0.80.
+
+But wait: These four citations are **not equivalent**. One reflects deep, nutritional reliance; one reflects episodic consumption; one reflects knowledge without practice; one reflects cultural significance. Averaging them into 0.80 **obscures that diversity** while appearing to quantify it precisely.
+
+**The precision is false.** You've collapsed qualitative variation into a false quantitative consensus.
+
+### Worse: Confidence intervals hide the problem.
+
+If you calculate a 95% confidence interval around UV = 0.80, you get something like 0.52 to 0.97 (very wide). That rightfully tells you the estimate is uncertain. But it still looks like you've measured something objective. You haven't. You've encoded **interpretation decisions** (what counts as a citation? are all citations equal?) into a distribution.
+
+**The precision suggests more rigor than you actually have.**
+
+## 2.2 Incommensurability Collapsed into Commensurability
+
+Different "uses" of a plant are not commensurate categories, yet indices treat them as if they are.
+
+### Example:
+Consider three uses of *Moringa oleifera* (moringa):
+1. **Nutrition:** Leaves are nutritious; parents feed them to children
+2. **Medicine:** Bark is used to treat infections; knowledge held by healers
+3. **Ceremony:** Trees are planted in sacred spaces; connected to spiritual practices
+
+You calculate Use Value for each:
+- Nutrition: UV = 0.65 (13 of 20 informants cite)
+- Medicine: UV = 0.45 (9 of 20 cite)
+- Ceremony: UV = 0.35 (7 of 20 cite)
+
+**What does this ranking mean?**
+
+The indices suggest nutrition is "more important" because more people cite it. But:
+- Nutrition importance is about livelihood and health
+- Medicine importance is about healing expertise and trust
+- Ceremony importance is about community identity and spiritual relationships
+
+These are **incommensurable**—they answer different questions and serve different purposes. Ranking them on the same scale is like asking: "Is a mother more important than a friend?" You can't answer that; the categories aren't comparable.
+
+**Yet indices force comparability.** This obscures rather than clarifies what communities actually value.
+
+## 2.3 What Gets Counted vs. What Matters
+
+An index counts **citations**. But citation frequency ≠ use frequency ≠ importance ≠ ecosystem impact ≠ livelihood dependence.
+
+### Example:
+Two species, both with Use Value of 0.60 (12 of 20 informants cite):
+
+**Species A:** 
+- Cited by 12 farmers as a emergency food (once per 3 years during drought)
+- Used rarely, but critical for survival in extreme events
+- No market; purely subsistence
+
+**Species B:**
+- Cited by 12 traders as a commercial product
+- Traded daily; high market value
+- Widely marketed regionally
+
+Same Use Value. Vastly different ecological impact, livelihood importance, and conservation priority.
+
+**The index treats them as equivalent. In reality, they're fundamentally different.**
+
+## 2.4 Power and Access Invisible
+
+An index assumes all knowledge is equally valid and all people have equal access to plants.
+
+They don't.
+
+### Example:
+You interview 20 people about medicinal plants. You calculate UV for "Treatment of malaria" = 0.65 (13 cite).
+
+But who cited it?
+- Healers (expert knowledge): all 5 mention it → knowledgeable about dosage, preparation, efficacy
+- Farmers: 5 mention hearing about it → secondhand knowledge, maybe tried it once
+- Traders: 3 mention it's bought in markets → commercial awareness, not personal use
+
+**Same citation count; wildly different knowledge quality and authority.**
+
+An unweighted index treats all three citations equally. **It doesn't.**
+
+Worse: The index hides **who benefits and who doesn't**. If plant access is controlled by a powerful family, high UV might reflect that family's interest (pushing others to adopt) rather than genuine independent use.
+
+**The index makes invisible the very power dynamics that shape ethnobotanical knowledge.**
+
+## 2.5 Assumes Stable Preferences in Unstable Times
+
+Indices are calculated at a moment in time. But knowledge, use, and preferences change:
+
+- **Market shocks:** A traditionally used crop becomes too expensive; people switch to cheaper alternatives
+- **Climate change:** A plant that thrived in traditional climate becomes unreliable; knowledge about it becomes outdated
+- **Policy changes:** A medicinal plant is banned; knowledge is suppressed (even if practice continues underground)
+- **Social change:** Younger generations have different knowledge and values than elders; practices are forgotten
+
+An index says: **"At this moment, this is what people know and use."** 
+
+But within months or years, that snapshot may be obsolete. **Indices create false stability.**
+
+## 2.6 Almost Zero Predictive Power
+
+Here's the critical failure: **Quantitative ethnobotany indices don't predict conservation outcomes, livelihood impacts, or policy success.**
+
+### Evidence:
+- High Use Value for a species doesn't predict whether conservation efforts will succeed
+- High Relative Importance doesn't predict whether a livelihood intervention will work
+- Knowledge of a medicinal plant doesn't predict whether communities will adopt it at scale
+- Agreement among informants doesn't predict whether adoption is sustainable
+
+Why? Because **knowledge ≠ practice ≠ outcomes.**
+
+A community may know a species is nutritious (high citation) but can't afford to grow it (poverty constraints). A species may have high value (high UV) but be inaccessible (land tenure). A medicine may be well-known (high citations) but people may prefer hospital care (preference shift).
+
+**Indices describe knowledge. They don't predict what happens in the real world.**
+
+This is a fundamental limitation that is almost never acknowledged when indices are cited as evidence for conservation or development interventions.
+
+---
+
+# 3. Statistical Limitations (The Numbers Behind the Numbers)
+
+## 3.1 Confidence Intervals Are Usually Wide
+
+With typical ethnobotany sample sizes (n = 20-50 informants), confidence intervals around indices are wide.
+
+### Example:
+If 12 of 20 informants cite a use:
+- UV = 0.60
+- 95% Confidence Interval (Wilson method): [0.36, 0.81]
+
+**That's a range of ±0.22 around the point estimate.** 
+
+If another species has UV = 0.55 (11 of 20), its CI is roughly [0.31, 0.76].
+
+**The two intervals overlap substantially.** You cannot claim one UV is meaningfully higher than the other.
+
+Yet papers routinely rank species by UV without acknowledging this overlap. They present differences that, statistically, are indistinguishable.
+
+## 3.2 Power to Detect Differences Is Low
+
+Most ethnobotany papers don't report statistical power. If they did, they'd find:
+
+- To reliably detect a difference of UV = 0.60 vs. 0.40 with α = 0.05 and 80% power, you need n ≈ 56 per group
+- Most ethnobotany studies have smaller samples
+- **Conclusion: Many published "differences" in UV between groups are not statistically reliable**
+
+## 3.3 Multiple Comparisons Problem
+
+If you calculate indices for 30 plant species across 10 categories of use, that's 300 different statistics. Even if there's no real pattern, random noise will produce some "significant" differences by chance.
+
+Few ethnobotany papers correct for multiple comparisons. They report the apparent findings without acknowledging the multiple testing inflation.
+
+## 3.4 Representativeness Is Usually Unknown
+
+Who did you interview?
+- Gender balance? (Usually weighted toward older males, who are assumed "elders")
+- Wealth representation? (Wealthier people often more accessible; poorer farmers harder to reach)
+- Age range? (Youth often underrepresented; dying knowledge is often overrepresented)
+- Geographic coverage? (Easy to over-sample in villages near roads; remote areas undersampled)
+
+**Yet indices are reported as if they represent "the community."** They usually represent "the people we could conveniently access."
+
+---
+
+# 4. Validity Questions: What Do Indices Actually Measure?
+
+## 4.1 Are You Measuring Use or Knowledge?
+
+**Use Value** is based on citation frequency in interviews. But citations measure **knowledge**, not **actual use**.
+
+- Someone might cite a use they heard about but never practice
+- Someone might practice a use but forget to mention it (salience bias)
+- Someone might hide use due to stigma or fear (social desirability bias)
+
+### Example:
+Interview question: "What do you use *Artemisia annua* for?"
+
+Response: "My grandmother used it for fever; I think it helps."
+
+**Does this count as a citation?** The person hasn't used it; they have secondhand knowledge.
+
+Different researchers would code this differently. The same Use Value number obscures these disagreements.
+
+## 4.2 Are You Measuring Frequency or Salience?
+
+People cite plants they think about frequently, not necessarily plants they use most.
+
+- A medicinal plant used once in emergencies might be highly salient (memorable) and get many citations
+- A staple food eaten every day might be so routine people forget to mention it
+- A ceremonial plant might be cited for its cultural weight, not its use frequency
+
+Use Value captures **salience, not objective use.**
+
+## 4.3 Are You Measuring Importance or Accessibility?
+
+A plant might be cited by many people not because it's important but because it's **available**.
+
+- If everyone lives near a particular tree, they all know about it and cite it
+- That creates high UV, but it doesn't mean the tree is uniquely important
+- It means it's locally abundant
+
+**Yet the index doesn't distinguish between "important" and "available."**
+
+---
+
+# 5. When Indices Are Actually Useful
+
+**Given all those problems, are indices worth anything?**
+
+Yes. But only in limited contexts, with caveats.
+
+## 5.1 Describing Knowledge Distribution (Not Predicting Outcomes)
+
+**What indices can do:** Show which plants/uses are widely known vs. specialized knowledge.
+
+### Example:
+UV = 0.85 (excellent knowledge distribution; most community members cite it)
+
+This tells you: "This plant is widely known." 
+
+It doesn't tell you:
+- Whether it's widely used (people know about it but don't use it)
+- Whether use is sustainable (it might be overexploited)
+- Whether it will remain important (climate change might make it unreliable)
+- Whether conservation efforts will protect it (knowledge ≠ action)
+
+**But it does tell you:** This is not specialized knowledge; it's common understanding.
+
+## 5.2 Surfacing Disagreement and Variation
+
+**The real value of indices** is not the single number but **what variation around it reveals.**
+
+If Use Value for a medicinal plant averages 0.60 across the community, but disaggregating shows:
+- Older women = 0.85
+- Younger women = 0.40
+- Men = 0.50
+
+**You've just discovered something important:** Knowledge is not evenly distributed. Gender and age matter. This variation is actionable for program design.
+
+**Indices are useful for forcing yourself to disaggregate and show variation, not for producing a comparable single metric.**
+
+## 5.3 Facilitating Dialogue (Not Decision-Making)
+
+In a workshop, if you present "Use Value of 0.67," people hear: "This plant is 67% important—it's scientific."
+
+That's misleading. But if you present: "14 of 20 community members cited this plant; 11 of 14 women cited it as nutritious, but only 5 of 9 men did," you've opened a conversation.
+
+**The index becomes a prompt for dialogue,** not the answer itself.
+
+This is honest use of indices:
+- Calculate them
+- Report why different groups cite differently
+- Let people discuss what that variation means
+- Make decisions *about* the variation, not *based on* the index
+
+## 5.4 Communicating to Non-Expert Audiences
+
+Sometimes you need to explain complex knowledge to people unfamiliar with ethnobotany. A simple number can be a communication tool.
+
+"68% of interviewed farmers recognize this species' nutritional value" is more accessible than a 20-page qualitative description.
+
+**But add the caveats:** Sample size, what "recognize" means, which farmers, what changed afterward.
+
+---
+
+# 6. Responsible Reporting: How to Use Indices if You Use Them
+
+If you calculate ethnobotany indices, **report them responsibly.**
+
+## 6.1 Always Report Confidence Intervals
+
+**Don't:**
+```
+Use Value of Digitaria exilis = 0.73
+```
+
+**Do:**
+```
+Use Value of Digitaria exilis = 0.73 (95% CI: 0.51–0.88, n = 20 informants)
+```
+
+The confidence interval shows you're aware that the point estimate is uncertain. It invites readers to see the margin of error.
+
+## 6.2 Disaggregate by Stakeholder Type, Gender, Age, Wealth (At Minimum)
+
+**Don't:**
+```
+Use Value of medicinal plants ranges from 0.42 to 0.89
+```
+
+**Do:**
+```
+Use Value of medicinal plants differs markedly by informant type:
+- Healers: 0.85 (7 of 8; 95% CI: 0.55–0.96)
+- Farmers: 0.62 (8 of 13; 95% CI: 0.40–0.79)
+- Traders: 0.40 (2 of 5; 95% CI: 0.11–0.74)
+
+This variation suggests specialized knowledge among healers. Conservation efforts targeting medicinal plants should engage healers directly, as they hold knowledge others may not have.
+```
+
+**Now the index becomes a springboard for insight, not a false consensus.**
+
+## 6.3 Report Actual Frequencies, Not Just Percentages
+
+**Don't:**
+```
+85% of respondents cited nutritional use
+```
+
+**Do:**
+```
+17 of 20 respondents cited nutritional use (85%; 95% CI: 67–95%)
+```
+
+Raw numbers force readers to see sample sizes. They're less misleading than percentages alone.
+
+## 6.4 Avoid Causal or Predictive Language
+
+**Don't:**
+```
+High Use Value (0.78) indicates this plant is critical for community nutrition.
+Therefore, conservation should prioritize this species.
+```
+
+**Do:**
+```
+16 of 20 respondents cited nutritional uses of this plant (Use Value = 0.78; 95% CI: 0.62–0.88).
+However, actual consumption depends on market prices, land access, and dietary preferences—all of which vary. 
+To assess conservation priority, we would need to document: (1) actual consumption patterns, 
+(2) population trends of the wild species, (3) sustainability of current harvest levels, and 
+(4) substitutability if the species becomes unavailable.
+This index contributes one piece of that picture; it is not sufficient for strategy alone.
+```
+
+**This frames the index as what it is: one input among many, not the decision itself.**
+
+## 6.5 Name What You Don't Know
+
+**Don't hide the limitations. Name them:**
+
+```
+Limitations of this analysis:
+- Sample size (n = 20) produces wide confidence intervals; differences between groups 
+  may not be statistically reliable.
+- Participants were selected through convenience sampling; results may overrepresent 
+  accessible community members and underrepresent those unable to attend interviews.
+- Data collection was cross-sectional (single point in time); seasonal, annual, or 
+  multi-year variation in use is not captured.
+- The analysis describes what informants said they know and use; actual consumption 
+  patterns may differ.
+- Citation frequency reflects salience, not necessarily frequency of use.
+```
+
+**Being honest about limitations is not weakness; it's credibility.**
+
+---
+
+# 7. When NOT to Use Indices
+
+Stop. Don't calculate an index if:
+
+## 7.1 Your Sample Size Is Less Than ~15 Per Group
+
+With n = 10, confidence intervals are so wide that rankings are meaningless. You're reporting noise as signal.
+
+**Instead:** Describe patterns qualitatively. Quote informants. Show the range of knowledge and practice.
+
+## 7.2 You're Making High-Stakes Decisions
+
+If you're allocating millions in conservation funding, designing policy, or determining land use, **don't rest that on indices.**
+
+Use indices as **one input** in a larger decision analysis that accounts for:
+- Actual conservation outcomes (species population trends, ecosystem health)
+- Livelihood impacts (income, food security, gender equity)
+- Feasibility (cost, institutional capacity, market conditions)
+- Values (whose priorities are you serving?)
+
+## 7.3 You Lack Important Context
+
+If you don't understand:
+- Why communities use plants the way they do (social, economic, historical context)
+- What constraints shape actual practice (poverty, policy, climate)
+- Power dynamics in the community (who influenced knowledge circulation, whose views dominant)
+
+**Don't pretend an index captures that.** Indices will mislead you without context.
+
+## 7.4 Different Interpretations of What's Being Cited
+
+If people in your study have fundamentally different ideas about what they're using a plant for, aggregating citations is misleading.
+
+**Example:**
+- Farmer A: "I use this plant as a nitrogen-fixing crop."
+- Farmer B: "I use this plant as fodder."
+- Farmer C: "I use it for ceremonies; it's not really food."
+
+Same plant; different uses; different meanings. Aggregating into a single citation obscures this diversity.
+
+**Better approach:** Show the different uses separately. Let the variation speak for itself.
+
+---
+
+# 8. The Paradox: Why ethnobotanyR Exists, and Why It's Critical
+
+## 8.1 The Attraction
+
+`ethnobotanyR` makes it easy to calculate indices. That's useful:
+- **Accessibility:** Non-statisticians can compute complex measures
+- **Standardization:** Everyone uses the same formula; results are comparable
+- **Transparency:** Code is visible; calculations are reproducible
+
+These are genuine goods.
+
+## 8.2 The Danger
+
+Easy computation becomes incentive to compute without thought:
+- Researchers calculate UV for 50 species without understanding what variation means
+- Results get published as fact ("Use Value = 0.62") without caveats
+- Policy makers read the number and make decisions
+- Communities are affected by decisions resting on incomplete understanding
+
+**The package's accessibility paradoxically increases the risk of misuse.**
+
+## 8.3 Our Responsibility
+
+As maintainers and users of `ethnobotanyR`, we bear responsibility:
+
+- **We should not encourage false precision.** Every function in the package should include documentation of limitations.
+- **We should make disaggregation the default, not an afterthought.** If you calculate an index, calculate it by subgroup, not just overall.
+- **We should teach via examples that show responsible and irresponsible use.** Make the consequences of misuse clear.
+- **We should steer users toward robust methods** (Bayesian modeling, decision analysis, qualitative synthesis) rather than stopping at indices.
+
+---
+
+# 9. Forward: What Robust Ethnobotanical Research Looks Like
+
+If you want to make ethnobotanical knowledge useful for conservation or development, indices alone are insufficient. This is what responsible work includes:
+
+## 9.1 Quantify, but With Caveats
+
+- Calculate Use Value, RI, etc.
+- Always report confidence intervals
+- Always disaggregate by stakeholder type, gender, age, wealth, geography
+- Never report an index without the raw frequency data
+- Name study limitations (sample size, representativeness, temporal snapshot)
+
+## 9.2 Triangulate: Connect Knowledge to Actual Practice
+
+- Interview: What do people say they know and use?
+- Observe: What do they actually do? (Market data, harvesting patterns, food diaries)
+- Compare: Where do reported and observed diverge? Why?
+- Explain: What barriers or incentives explain the gap?
+
+**Knowledge is not practice. You must document both.**
+
+## 9.3 Model Under Uncertainty: Use Bayesian Methods
+
+Instead of presenting a single point estimate (Use Value = 0.73), use Bayesian networks to show:
+- What we know about plant use (elicited from interviews)
+- What we're uncertain about
+- How decisions change with different assumptions
+- What would convince us to change our minds
+
+See the TEK Modeling vignette in `ethnobotanyR` for practical examples.
+
+## 9.4 Frame Decisions Explicitly
+
+Use ethnobotanical knowledge to **inform** decisions, not **determine** them.
+
+Run structured decision-framing exercises that:
+- Surface stakeholder values and priorities
+- Name structural constraints (what's possible given tenure, markets, policy, climate)
+- Acknowledge tradeoffs (you can't optimize all values simultaneously)
+- Build in learning and adaptation (plans will change; that's okay)
+
+See the Decision-Framing vignette in `ethnobotanyR` for methods.
+
+## 9.5 Follow Up: Document Implementation and Outcomes
+
+The real test of ethnobotanical research is impact:
+- Did documented knowledge actually inform decisions?
+- Were interventions implemented as planned?
+- Did they achieve intended outcomes?
+- What unexpected consequences emerged?
+- What would you do differently?
+
+Most ethnobotany papers stop at the index or workshop. **Research that stops there doesn't really know whether it mattered.**
+
+---
+
+# 10. Summary: The Principles
+
+**Use ethnobotany indices as a communication tool and a prompt for dialogue, not as the foundation of decisions.**
+
+Operate by these principles:
+
+1. **Transparency:** Show all assumptions, methods, and limitations.
+2. **Disaggregation:** Reveal variation; don't hide it in means.
+3. **Humility:** Acknowledge what you don't know.
+4. **Triangulation:** Triangulate knowledge against practice, outcomes, and context.
+5. **Responsibility:** Never report a number without context; never let a number substitute for judgment.
+6. **Integration:** Use indices as one input in larger frameworks (decision analysis, Bayesian modeling, participatory processes).
+
+---
+
+# 11. References
+
+**On limitations of ethnobotany indices:**
+- Nadasdy, P. (1999). The politics of TEK: Power and the "integration" of knowledge. *Arctic Anthropology*, 36(1/2), 1-18.
+- Agrawal, A. (2002). Indigenous knowledge and the politics of development. *Critique of Anthropology*, 22(2), 141-164.
+- Timbrook, B., & Groesbeck, A. S. (2004). Chumash ethnobotany: Aboriginal uses of California plants. The Huntington Library.
+
+**On responsible quantitative ethnobotany:**
+- Tardio, J., & Pardo-de-Santayana, M. (2008). Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain). *Economic Botany*, 62(1), 24-39.
+- Whitney, C. W., Bahati, J., & Gebauer, J. (2018). Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. *Ethnobiology Letters*, 9(2), 90-100.
+
+**On decision analysis and TEK integration:**
+- Gregory, R., & Keeney, R. L. (1994). Creating policy alternatives using stakeholder values. *Management Science*, 40(8), 1035-1048.
+
+**On Bayesian modeling of ethnobotanical knowledge:**
+- See companion vignette: TEK Modeling with Bayesian Networks
+
+---
+
