@@ -1,0 +1,87 @@
+Hard Questions About the Core Idea of using Benin case as a method description
+
+## Decision Quality Framework Mismatch
+
+Howard's decision quality was designed for corporate/organizational contexts with relatively clear payoffs and stakeholders who accept technical frameworks.
+Conservation + development decisions are politically contested—they're not primarily technical problems needing better framing. Framing itself is the power struggle.
+Risk: you're taking a mechanistic framework and applying it to genuinely messy, value-laden problems where "framing" often masks whose interests win.
+
+## The Participatory Knowledge Integration Problem
+
+The gap between "gathering participatory input" and "actually integrating TEK into decisions" is enormous and glossed over in most frameworks.
+Real integration would mean: communities define the decision, not researchers/NGOs applying a framework to pre-selected decisions.
+
+Risk: you end up instrumentalizing TEK—treating it as data input rather than recognizing incommensurable decision-making systems.
+Who decides what counts as "expert knowledge"? That's already a framing that privileges some voices.
+
+## Nutrition/Development as Proxy Outcomes
+
+Nutrition and "development outcomes" are often what outsiders think matters, not what communities prioritize (livelihood security, cultural continuity, autonomy, dignity often rank higher).
+Focusing decision-framing on nutrition/development outcomes risks reproducing the same extractive logic you're trying to move beyond.
+Specific Critique of Using Benin Workshop as Methodology Template
+This is where I'd be most critical:
+
+## One Workshop is Not a Methodology
+
+A workshop output is a bounded event, not evidence of a replicable process.
+Critical missing information: What actually happened after the workshop? Did those framings persist? Did they change? What did participants actually do with them?
+You're teaching people a method based on a single successful instance—no variation, failure modes, or boundary conditions.
+
+## Context-Specificity Collapse
+
+Benin's legal framework, market systems, ethnic diversity, colonial history, current governance capacity, and ecological context are specific to Benin.
+Presenting it as a general example obscures which elements are transferable and which aren't.
+Risk: readers apply Benin logic to contexts where it's inappropriate (e.g., contexts with more aggressive outsider pressure, weaker local institutions, different power dynamics with government).
+
+## The Representation Problem
+
+Who were the workshop participants? Were they actually decision-makers or selected elites?
+Did the "framing process" reflect actual power, or did it reflect who showed up and could speak in a workshop?
+Publishing a Benin case as exemplary without naming power imbalances risks neo-colonial framing: the African case as instructive example for others.
+
+## The Method/Illustration Confusion
+
+If the goal is to teach a process (pre-framing, framing, participatory input gathering), a case study is a weak pedagogical tool.
+Better: make the process explicit first (e.g., step-by-step protocol, decision trees about when to use what), then illustrate with Benin and other cases.
+Right now, Benin appears to be modeling something universal, but it's actually only showing a context-specific outcome.
+Deeper Structural Critiques
+
+## Missing Conflict and Failure
+
+What happens when stakeholders disagree fundamentally? Howard's framework doesn't handle genuine value incommensurability well.
+When do these pre-framing processes fail? Which conditions make them inappropriate?
+What's the power dynamics story? (Often absent from "participatory" literature.)
+
+## Accountability Beyond the Workshop
+
+Decision-framing exercises often produce beautiful consensus in the room that evaporates when people face real constraints (poverty, market prices, government policies, ecological surprises).
+You'd need longitudinal evidence: did the framed decisions actually get made? Did they improve outcomes? For whom?
+
+## Ethnobotany-Ethnoecology Integration is Underspecified
+
+How does TEK about plant uses (ethnobotany) actually change conservation or nutrition decisions?
+The link between "farmers know which species are nutritious and resilient" → "better decisions" requires lots of institutional/market/policy scaffolding that often isn't there.
+Risk: treating TEK as a dataset that improves decision-making when the real constraint is access, tenure, markets, or political will.
+
+## Suggested Changes
+
+Start with an explicit framework grounded in decision theory + participatory ethics + ethnobotany literature.
+
+What are the principles of good decision-framing in conservation/development contexts with indigenous/local communities?
+Under what conditions does pre-framing help vs. obscure?
+Use Benin as one case among several—and be clear about what it shows and doesn't show.
+
+Include cases where the process failed or only partially worked.
+Compare across contexts to extract principles, not present Benin as the model.
+Be radically honest about limitations:
+
+Decision-framing doesn't solve structural problems (poverty, weak institutions, climate shocks, global markets).
+Participatory processes can legitimize external agendas if power imbalances aren't actively addressed.
+TEK is valuable but isn't automatically better for conservation outcomes—context matters enormously.
+Name the epistemological and political questions explicitly:
+
+Are you asking communities to adopt outsiders' decision frameworks?
+Or are you supporting communities' own decision processes?
+These are different, and the choice itself is a framing.
+Bottom line: The idea has merit, but the current approach risks replicating standard participatory development rhetoric without genuinely grappling with power, context-specificity, and the limits of technical framing for political problems. A single workshop case, however successful, isn't a methodology—it's an anecdote dressed up as methods.
+

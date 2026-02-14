@@ -1,0 +1,8 @@
+type,objective,category,weight,Improved varieties,Public awarness,Processing equipment,Production training,Advocacy,Exchange,Business & credit,Production equipment ,Farm practices
+weight,Priority Weights,,,,,,,,,,,
+score,Income & livelihoods,impact,16,151,163,160,165,150,152,159,163,162
+score,Nutrition & health,impact,16,136,162,160,157,142,135,145,154,153
+score,Production & processing,feasibility,16,51,55,165,129,116,97,120,165,149
+score,Equity,feasibility,16,65,87,116,95,106,134,101,109,104
+score,Ecology,impact,16,85,103,117,143,110,127,100,105,146
+score,Social Inclusion,feasibility,16,107,98,139,128,143,122,124,140,121

@@ -1,0 +1,305 @@
+# Value Chain Prioritization for Fonio (*Digitaria exilis*)
+
+## Impact Assessment 
+
+An overview of the impact assessment for the Fonio, *Digitaria exilis* (Kippist) Stapf, value chain, for black and white varieties. Interventions and objectives were identified through expert consultation with 55 participants (16 agricultural institutions, 10 Farmers, 9 consumers, 7 processors, 7 traders, 3 transporters, 4 restaurants and 2 import suppliers). After a day of discussion the experts agreed on a long list of objectives and interventions and then reduced these to the most important: 
+
+### Interventions Retained / Interventions Retenues
+
+- *Advocacy* - Plaidoyer des acteurs de la filière fonio auprès du gouvernement et des Partenaires Techniques et Financiers (PTF) pour le développement d'un Plan National de Développement de la Filière (PNDF) Fonio
+- *Improved varieties* - Amélioration des variétés
+- *Public awareness* - Sensibilisation de la population sur les valeurs nutritionnelles et thérapeutiques du fonio
+- *Processing equipment* - Renforcement, développement et/ou acquisition des équipements agro-alimentaires
+- *Production training* - Formation des acteurs sur les bonnes pratiques de production du fonio
+- *Exchange* - Création d'un cadre de concertation des acteurs de la chaîne de valeur fonio
+- *Business & credit* - Appui aux acteurs pour l'élaboration de plans d'action et l'accès au financement
+- *Production equipment* - Mécanisation des opérations culturales du fonio
+- *Farm practices* - Actualisation des itinéraires de production et renforcement des capacités techniques
+
+### Associated Objectives / Objectifs Associés
+
+- *Income & livelihood*s - Augmenter la productivité et la production du fonio (améliorer les revenus)
+- *Nutrition & health* - Amener la population à consommer davantage le fonio (améliorer la nutrition)
+- *Production & processing* - Améliorer les équipements de transformation (réduire la pénibilité)
+- *Equity* - Harmoniser les prix au niveau communautaire et national (équité de la chaîne)
+- *Ecology* - Préserver les ressources naturelles (biodiversité, sols, eau, lutte contre l'érosion)
+- *Social Inclusion* - Promouvoir le genre et l'inclusion sociale
+
+```{r load_and_adjust_unified_matrix_fonio}
+high_vote_score <- 3
+
+source("R/normalize_intervention_data.R")
+
+source("R/create_full_heatmap_data.R")
+
+######### Fonio ###########
+
+# Load the transposed matrix for all
+unified_matrix_fonio_all <- read_csv("data/fonio_data/interventions_matrix_all.csv")
+
+normalized_matrix_fonio_all <- normalize_intervention_data(
+  unified_matrix = unified_matrix_fonio_all,
+  total_participants = 55,
+  high_vote_score = high_vote_score
+)
+
+full_heatmap_data_fonio <- 
+  create_full_heatmap_data(normalized_matrix_fonio_all)
+
+heatmap_data_fonio_all <- full_heatmap_data_fonio %>%
+  filter(intervention != "weight") %>%
+  filter(label != "PRIORITY WEIGHTS") 
+
+# Men Boukoumbe
+
+unified_matrix_fonio_men_boukoumbe <- read_csv("data/fonio_data/interventions_matrix_men_boukoumbe.csv")
+
+normalized_matrix_fonio_men_boukoumbe <- normalize_intervention_data(
+  unified_matrix = unified_matrix_fonio_men_boukoumbe,
+  total_participants = 15,
+  high_vote_score = high_vote_score
+)
+
+full_heatmap_data_men_boukoumbe <- 
+  create_full_heatmap_data(normalized_matrix_fonio_men_boukoumbe)
+
+full_heatmap_data_men_boukoumbe <- full_heatmap_data_men_boukoumbe %>%
+  filter(intervention != "weight") %>%
+  filter(label != "PRIORITY WEIGHTS") 
+
+# Men Natitingou
+
+unified_matrix_fonio_men_natitingou <- read_csv("data/fonio_data/interventions_matrix_men_natitingou.csv")
+
+normalized_matrix_fonio_men_natitingou <- normalize_intervention_data(
+  unified_matrix = unified_matrix_fonio_men_natitingou,
+  total_participants = 17,
+  high_vote_score = high_vote_score
+)
+
+full_heatmap_data_men_natitingou <- 
+  create_full_heatmap_data(normalized_matrix_fonio_men_natitingou)
+
+full_heatmap_data_men_natitingou <- full_heatmap_data_men_natitingou %>%
+  filter(intervention != "weight") %>%
+  filter(label != "PRIORITY WEIGHTS") 
+
+# Women Boukoumbe
+
+unified_matrix_fonio_women_boukoumbe <- read_csv("data/fonio_data/interventions_matrix_women_boukoumbe.csv")
+
+normalized_matrix_fonio_women_boukoumbe <- normalize_intervention_data(
+  unified_matrix = unified_matrix_fonio_women_boukoumbe,
+  total_participants = 10,
+  high_vote_score = high_vote_score
+)
+
+full_heatmap_data_women_boukoumbe <- 
+  create_full_heatmap_data(normalized_matrix_fonio_women_boukoumbe)
+
+full_heatmap_data_women_boukoumbe <- full_heatmap_data_women_boukoumbe %>%
+  filter(intervention != "weight") %>%
+  filter(label != "PRIORITY WEIGHTS") 
+
+# Women Natitingou
+
+unified_matrix_fonio_women_natitingou <- read_csv("data/fonio_data/interventions_matrix_women_natitingou.csv")
+
+normalized_matrix_fonio_women_natitingou <- normalize_intervention_data(
+  unified_matrix = unified_matrix_fonio_women_natitingou,
+  total_participants = 13,
+  high_vote_score = high_vote_score
+)
+
+full_heatmap_data_women_natitingou <- 
+  create_full_heatmap_data(normalized_matrix_fonio_women_natitingou)
+
+full_heatmap_data_women_natitingou <- full_heatmap_data_women_natitingou %>%
+  filter(intervention != "weight") %>%
+  filter(label != "PRIORITY WEIGHTS") 
+
+# Scores were done with 1-3 votes - people who did not vote could have indicated that they are a '0' no confidence, or a 'na' that they either did not understand or did not agree. So that the total score could potentially range from n to n*3 participants. 
+```
+
+## Comprehensive Impact Matrix Heatmap
+
+This shows the complete assessment - both the stakeholder priorities (weights) and intervention impacts.
+
+```{r plot_heatmaps_fonio, echo=FALSE}
+source("R/plot_heatmap.R")
+
+heatmap_fonio_all <- plot_heatmap(heatmap_data_fonio_all)
+
+heatmap_fonio_women_boukoumbe <- plot_heatmap(full_heatmap_data_women_boukoumbe, high_score_color = "#e377c2")
+
+heatmap_fonio_women_natitingou <- plot_heatmap(full_heatmap_data_women_natitingou, high_score_color = "#e377c2")
+
+heatmap_fonio_men_boukoumbe <- plot_heatmap(full_heatmap_data_men_boukoumbe, high_score_color = "blue")
+
+heatmap_fonio_men_natitingou <- plot_heatmap(full_heatmap_data_men_natitingou, high_score_color = "blue")
+
+library(patchwork)
+
+# with titles for each subplot
+heatmap_fonio_all + labs(title = "All Participants") 
+
+heatmap_fonio_women_natitingou + labs(title = "Women - Natitingou") 
+heatmap_fonio_men_natitingou + labs(title = "Men - Natitingou") 
+  
+heatmap_fonio_women_boukoumbe + labs(title = "Women - Boukoumbe") 
+heatmap_fonio_men_boukoumbe + labs(title = "Men - Boukoumbe")  
+
+```
+
+## Bubble Chart - "Impact vs Feasibility (Weighted Composite)" *D. exilis*
+
+The next step was to categorize variables into those related to 'impact' and those related to 'feasibility': 
+
+Impact objectives measure the potential benefits and positive outcomes of interventions:
+- *Income & livelihoods* and Nutrition & health represent core development impacts on wellbeing
+- *Ecology* captures environmental benefits that contribute to long-term sustainability
+
+Feasibility objectives assess practical implementation considerations:
+- *Production & processing* evaluates technical and operational practicality
+- *Equity and Social Inclusion* address social and institutional implementation factors
+
+This chart shows the relationship between impact and feasibility for each intervention option, with a weighted composite average score for each. Bubble size represents the total weighted composite score. 
+
+```{r bubble_graph_fonio, echo=FALSE}
+
+# the median values of the data are the dividers for the quadrants, not the mathematical midpoint of the axis ranges
+
+unified_matrix = normalized_matrix_fonio_all
+
+# Extract objective weights and category definitions
+objective_weights <- unified_matrix %>%
+  filter(type == "score") %>%
+  select(objective, category, weight)
+
+# Extract intervention scores
+score_matrix <- unified_matrix %>%
+  filter(type == "score") %>%
+  select(-type, -category, -weight)
+
+# Calculate weighted scores 
+results <- score_matrix %>%
+  pivot_longer(cols = -objective, 
+               names_to = "intervention", 
+               values_to = "score") %>%
+  left_join(objective_weights, by = "objective") %>%
+  mutate(weighted_score = score * weight/100) %>% 
+  group_by(intervention, category) %>%
+  summarise(
+    category_score = sum(weighted_score),
+    .groups = "drop"
+  ) %>%
+  pivot_wider(names_from = category, values_from = category_score) %>%
+  mutate(total_score = impact + feasibility) %>%
+  arrange(desc(total_score))
+
+# Clean intervention names for display
+results <- results %>%
+  mutate(intervention_clean = str_replace_all(intervention, "_", " "))
+
+# Calculate plot boundaries with some padding
+xmin <- min(results$feasibility)
+xmax <- max(results$feasibility)
+ymin <- min(results$impact)
+ymax <- max(results$impact)
+x_range <- xmax - xmin
+y_range <- ymax - ymin
+
+# Add padding to boundaries
+xmin_plot <- xmin - 0.05 * x_range
+xmax_plot <- xmax + 0.05 * x_range
+ymin_plot <- ymin - 0.05 * y_range
+ymax_plot <- ymax + 0.05 * y_range
+
+# Calculate quadrant boundaries (using medians as dividers)
+x_median <- median(results$feasibility)
+y_median <- median(results$impact)
+
+# Create quadrant data for background rectangles
+quadrants <- data.frame(
+  xmin = c(xmin_plot, x_median, xmin_plot, x_median),
+  xmax = c(x_median, xmax_plot, x_median, xmax_plot),
+  ymin = c(y_median, y_median, ymin_plot, ymin_plot),
+  ymax = c(ymax_plot, ymax_plot, y_median, y_median),
+  quadrant = c("Upper Left", "Upper Right", "Lower Left", "Lower Right"),
+  fill_color = c("#FFF2CC", "#E1F5FE", "#FCE4EC", "#E8F5E8")
+)
+
+# Create the main plot
+p <- ggplot() +
+  # Add quadrant backgrounds
+  geom_rect(data = quadrants, 
+            aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_color),
+            alpha = 0.3) +
+  # Add points
+  geom_point(data = results, 
+             aes(x = feasibility, y = impact, size = total_score),
+             alpha = 0.7, color = "green") +
+  # Add labels
+  geom_text_repel(data = results,
+                  aes(x = feasibility, y = impact, label = intervention_clean), 
+                  size = 3, max.overlaps = 20) +
+  # Custom fill scale for quadrants
+  scale_fill_identity() +
+  # Size scale for bubbles
+  scale_size_continuous(range = c(3, 10), name = "Total Score") +
+  labs(title = "Strategic Investment Map: Impact vs Feasibility",
+       subtitle = "Coordinates show STAKEHOLDER-ELICITED aggregates | Size = overall value",
+       x = "Feasibility (Weighted Composite)", y = "Impact (Weighted Composite)") + 
+  theme_minimal() +
+  xlim(xmin_plot, xmax_plot) + 
+  ylim(ymin_plot, ymax_plot) +
+  # Add quadrant divider lines
+  geom_vline(xintercept = x_median, linetype = "dashed", alpha = 0.5) +
+  geom_hline(yintercept = y_median, linetype = "dashed", alpha = 0.5)
+
+# Create quadrant legend data
+quadrant_legend_data <- data.frame(
+  Meaning = c("Easy & Impactful", "Hard but Impactful", "Easy but Limited", "Hard & Limited"),
+  Color = c("#E1F5FE", "#FFF2CC", "#E8F5E8", "#FCE4EC")
+)
+
+# Create quadrant legend as a table
+quadrant_legend_grob <- tableGrob(quadrant_legend_data[, c("Meaning")], 
+                                 theme = ttheme_minimal(
+                                   core = list(bg_params = list(fill = quadrant_legend_data$Color, alpha = 0.5)),
+                                   colhead = list(bg_params = list(fill = "white"))
+                                 ),
+                                 rows = NULL)
+
+# Combine plot and legend
+grid.arrange(p, quadrant_legend_grob, 
+             ncol = 2, widths = c(3, 1))
+```
+
+## Comparative score composition *D. exilis*
+
+```{r scores_fonio, echo=FALSE}
+weight_breakdown <- score_matrix %>%
+  pivot_longer(cols = -objective, 
+               names_to = "intervention", 
+               values_to = "impact_score") %>%
+  left_join(objective_weights, by = "objective") %>%
+  mutate(weighted_impact = impact_score * weight/100)
+
+ggplot(weight_breakdown, aes(x = intervention, y = weighted_impact, fill = objective)) +
+  geom_col() +
+  labs(title = "What Drives Each Intervention's Score?",
+       subtitle = "Breakdown of weighted contributions by objective") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Comparative investment map by Gender *D. exilis* 
+
+### Fonio in Boukoumbe
+
+![](figures/combined_bubble_plot_fonio_boukoumbe.png)
+
+### Fonio in Natitingou
+
+![](figures/combined_bubble_plot_fonio_natitingou.png)
