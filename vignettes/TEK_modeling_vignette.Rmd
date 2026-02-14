@@ -27,23 +27,19 @@ We will show examples that use the following packages (install if you want to ru
 - ggplot2
 - purrr
 
-You can install them with:
-
-```r
-install.packages(c("bnlearn","gRain","dplyr","ggplot2","purrr"))
-```
+You can install them with `install.packages(c("bnlearn","gRain","dplyr","ggplot2","purrr"))`
 
 ---
 
 ## 1. Short motivation and data
 
-We often collect TEK as counts (k informants out of n) or qualitative categories (high/medium/low). A convenient approach is to convert counts into Beta (binary) or Dirichlet (categorical) priors and then sample from these priors inside a Monte Carlo loop to create CPTs for a BN.
+We often collect TEK as counts (k informants out of n) or qualitative categories (high/medium/low). A convenient approach is to convert counts into Beta (binary) or Dirichlet (categorical) priors and then sample from these priors inside a Monte Carlo loop to create Conditional Probability Tables (CPTs) for a Bayesian Network (BN).
 
 Below we illustrate the workflow with a tiny, didactic model: a management `Decision` (Harvest vs Conserve), a latent `Abundance` node (High/Low), and an `Impact` node (Recovery/Decline). The goal is to compare management options under TEK uncertainty.
 
-## 2. Example: encode TEK as Beta priors and sample CPTs (R code)
+## 2. Example: encode TEK as Beta priors and sample CPTs 
 
-#```{r set-up, eval=TRUE}
+```{r set-up, eval=TRUE}
 # Example: create Beta priors from TEK counts (k out of n informants say 'harvest causes decline')
 tek_k <- 7   # informants saying 'decline'
 tek_n <- 10  # total informants
@@ -70,11 +66,21 @@ Below we create a small simulated TEK survey with 20 informants. Each informant 
 ```{r sim-data, eval=TRUE}
 set.seed(42)
 n_inf <- 20
+# create a data frame
 informants <- data.frame(
   id = 1:n_inf,
-  says_decline = rbinom(n_inf, 1, 0.6),
-  abundance = sample(c("High","Medium","Low"), n_inf, replace=TRUE, prob=c(0.4,0.35,0.25)),
-  confidence = sample(3:5, n_inf, replace=TRUE, prob=c(0.2,0.6,0.2))
+  # binomial distribution with parameters n, size and prob
+  says_decline = rbinom(n = n_inf, size = 1, prob = 0.6),
+  # for abundance, take a sample of the specified size from the elements of x using either with or without replacement.
+  abundance = sample(x= c("High","Medium","Low"), 
+                     size = n_inf, 
+                     replace=TRUE, 
+                     prob = c(0.4,0.35,0.25)),
+  # take a sample again for confidence
+  confidence = sample(3:5, 
+                      size = n_inf, 
+                      replace=TRUE,
+                      prob=c(0.2,0.6,0.2))
 )
 
 knitr::kable(head(informants, 8))
@@ -147,10 +153,10 @@ Visualization ideas:
 - Density plots of expected utility for each option.
 - Fan chart showing quantiles across iterations.
 
-#```{r plot-idea, eval=TRUE}
-# Suppose we computed expected utility per decision across iterations into a data.frame `mc_util`
-# ggplot(mc_util, aes(x=utility, fill=decision)) + geom_density(alpha=0.4)
-```
+<!-- ```{r plot-idea, eval=TRUE} -->
+<!-- # Suppose we computed expected utility per decision across iterations into a data.frame `mc_util` -->
+<!-- ggplot(mc_util, aes(x=utility, fill=decision)) + geom_density(alpha=0.4) -->
+<!-- ``` -->
 
 ## 5. Practical notes on elicitation and aggregation
 
@@ -213,19 +219,302 @@ print(qual_alpha)
 
 All three approaches give you numeric pseudo-counts that can be used as Beta or Dirichlet parameters. Which is appropriate depends on your elicitation protocol and whether you want to weight informants by confidence or expertise.
 
-## 6. Next steps and reproducibility
+---
 
-- To make this vignette runnable in your environment, install the suggested packages and set the code chunks' `eval=TRUE`.
-- Consider adding an appendix with the TEK elicitation form and a small simulated dataset if you want self-contained reproducibility.
+# Appendix: TEK Elicitation Form and Simulated Dataset
+
+This appendix provides a practical TEK elicitation form template and a self-contained simulated dataset so you can reproduce all examples in this vignette without external data.
+
+## A. TEK Elicitation Form Template
+
+Below is a template form that can be adapted for your specific research context. The form is designed to elicit three types of information: (1) binary management perception, (2) categorical abundance assessment, and (3) confidence rating.
+
+### Informant Metadata
+
+```
+Informant ID: ___________
+Date of interview: __________
+Location / Community: ____________________
+Years of experience with this resource: ___________
+Primary use of resource: [ ] Subsistence  [ ] Commercial  [ ] Cultural  [ ] Other: _______
+Language of interview: [ ] English  [ ] Other: ________________
+Interviewer name: ____________________
+```
+
+### Question 1: Management Impact (Binary)
+
+**"In your experience, when people *harvest* [RESOURCE], does this cause the population to decline quickly?"**
+
+```
+[ ] Yes, harvesting causes the population to decline
+[ ] No, the population does not decline from harvesting
+[ ] Uncertain / Depends on context
+```
+
+### Question 2: Current Resource Status (Categorical)
+
+**"How would you assess the current abundance of [RESOURCE] in this area compared to your childhood or earlier years?"**
+
+```
+[ ] High - abundance is good, similar to or better than before
+[ ] Medium - abundance has declined somewhat, but the resource is still available
+[ ] Low - abundance has declined significantly; the resource is now scarce or rare
+[ ] Not sure
+```
+
+### Question 3: Management Recommendation (Categorical)
+
+**"What management approach do you think would be best for [RESOURCE]?"**
+
+```
+[ ] Harvest freely (no restrictions)
+[ ] Harvest with guidelines (seasonal or quantity limits)
+[ ] Conserve strictly (minimize or prohibit harvesting)
+[ ] Let it recover, then harvest sustainably
+[ ] Other: _______________________
+```
+
+### Question 4: Informant Confidence (Rating)
+
+**"How confident are you in your answers to the above questions?"**
+
+```
+Confidence score (1 = not confident, 5 = very confident): [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]
+```
+
+### Question 5: Contextual Notes
+
+**"Are there any other factors, changes, or context we should know about?"**
+
+```
+___________________________________________________________
+___________________________________________________________
+___________________________________________________________
+```
 
 ---
 
-### Appendix: minimal reproducible toy data
+## B. Complete Simulated Dataset for Reproducibility
 
-#```{r toy-data, eval=TRUE}
-# toy dataset of informant responses
-informants <- data.frame(id=1:10, says_decline=c(rep(1,7), rep(0,3)))
-# compute counts
-tek_k <- sum(informants$says_decline)
-tek_n <- nrow(informants)
+Below we generate a realistic simulated TEK dataset with 50 informants. You can use this dataset to run all the examples in the vignette and adapt them to your own data.
+
+### Generate the simulated dataset
+
+```{r generate-simulated-tek-data, eval=TRUE}
+# Set random seed for reproducibility
+set.seed(42)
+# Set number of informants
+n_informants <- 50
+
+# Create a data frame with informant characteristics
+# Create informant IDs from 1 to n_informants
+tek_survey_data <- data.frame(
+  informant_id = 1:n_informants,
+  # Generate years of experience from normal distribution: mean=25, sd=15, minimum=5
+  # rnorm: draw from normal distribution with specified mean and standard deviation
+  # pmax: ensure no values below 5
+  years_experience = pmax(5, round(rnorm(n_informants, mean = 25, sd = 15))),
+  # Generate primary use category: subsistence, commercial, or cultural
+  # sample: take a sample of the specified size from the elements without replacement
+  primary_use = sample(
+    x = c("Subsistence", "Commercial", "Cultural"),
+    size = n_informants,
+    replace = TRUE,
+    prob = c(0.5, 0.2, 0.3)
+  ),
+  # Initialize columns for responses (will fill in loops below)
+  says_harvest_declines = NA,
+  abundance_status = NA,
+  management_recommendation = NA,
+  confidence = NA
+)
+
+# Fill binary outcome: probability of saying "harvesting causes decline" increases with experience
+# Loop through each informant
+for (i in 1:n_informants) {
+  # Calculate probability based on years of experience (ranges from ~0.3 to 0.7)
+  p_decline <- 0.3 + (tek_survey_data$years_experience[i] / 100) * 0.4
+  # rbinom: draw from binomial distribution with size=1 (binary outcome) and probability p_decline
+  tek_survey_data$says_harvest_declines[i] <- rbinom(1, size = 1, prob = p_decline)
+}
+
+# Fill categorical abundance assessment: correlated with perception of harvest decline
+# Create a matrix of probabilities for abundance (High, Medium, Low) given each response
+# rows: "says decline"=1, "does not say decline"=0; columns: High, Medium, Low probabilities
+abundance_probs <- matrix(
+  c(0.3, 0.4, 0.3,  # if says decline: P(High)=0.3, P(Medium)=0.4, P(Low)=0.3
+    0.5, 0.3, 0.2), # if does not say decline: P(High)=0.5, P(Medium)=0.3, P(Low)=0.2
+  nrow = 2,
+  byrow = TRUE
+)
+
+# Loop through each informant to assign abundance status
+for (i in 1:n_informants) {
+  # Select probability row based on their answer about decline (add 1 to convert 0/1 to row 1/2)
+  row_idx <- tek_survey_data$says_harvest_declines[i] + 1
+  # sample: select one abundance category with probabilities from the appropriate row
+  tek_survey_data$abundance_status[i] <- sample(
+    x = c("High", "Medium", "Low"),
+    size = 1,
+    prob = abundance_probs[row_idx, ]
+  )
+}
+
+# Fill management recommendation: correlated with perception of decline and current abundance
+# Loop through each informant
+for (i in 1:n_informants) {
+  # If they say decline AND perceive low abundance: recommend conservation
+  if (tek_survey_data$says_harvest_declines[i] == 1 && 
+      tek_survey_data$abundance_status[i] == "Low") {
+    # sample: select one management option with specified probabilities
+    tek_survey_data$management_recommendation[i] <- sample(
+      c("Conserve strictly", "Harvest with guidelines", "Let it recover, then harvest"),
+      size = 1,
+      prob = c(0.6, 0.3, 0.1)
+    )
+  # Else if they perceive high abundance: less restrictive recommendations
+  } else if (tek_survey_data$abundance_status[i] == "High") {
+    tek_survey_data$management_recommendation[i] <- sample(
+      c("Harvest freely", "Harvest with guidelines", "Conserve strictly"),
+      size = 1,
+      prob = c(0.4, 0.4, 0.2)
+    )
+  # Otherwise: balanced distribution of recommendations
+  } else {
+    tek_survey_data$management_recommendation[i] <- sample(
+      c("Harvest freely", "Harvest with guidelines", "Conserve strictly", "Let it recover, then harvest"),
+      size = 1,
+      prob = c(0.2, 0.4, 0.25, 0.15)
+    )
+  }
+}
+
+# Fill confidence scores: higher for more experienced informants
+# Loop through each informant
+for (i in 1:n_informants) {
+  # Calculate probability of high confidence based on years of experience
+  p_high_conf <- 0.3 + (tek_survey_data$years_experience[i] / 100) * 0.3
+  # Assign confidence based on this probability
+  # runif: draw from uniform distribution (0 to 1)
+  if (runif(1) < p_high_conf) {
+    # High confidence: choose between 4 or 5
+    tek_survey_data$confidence[i] <- sample(4:5, 1, prob = c(0.4, 0.6))
+  } else {
+    # Lower confidence: choose between 2 or 3
+    tek_survey_data$confidence[i] <- sample(2:3, 1, prob = c(0.4, 0.6))
+  }
+}
+
+# Display first 10 rows of the dataset
+cat("TEK Survey Dataset - First 10 rows:\n\n")
+print(knitr::kable(head(tek_survey_data, 10)))
+
+# Print summary statistics
+cat("\n\nSummary of TEK Survey Data (n=", n_informants, ")\n")
+cat("================================\n")
+# mean: calculate average; round to 1 decimal place
+# min/max: find minimum and maximum values
+cat("Years of experience: Mean =", round(mean(tek_survey_data$years_experience), 1), 
+    ", Range =", min(tek_survey_data$years_experience), "-", 
+    max(tek_survey_data$years_experience), "\n")
+# table: count frequency of each category
+cat("Primary use breakdown:\n")
+print(table(tek_survey_data$primary_use))
+cat("\n\nBinary outcome (says harvesting declines):\n")
+print(table(tek_survey_data$says_harvest_declines))
+cat("\n\nAbundance status:\n")
+print(table(tek_survey_data$abundance_status))
+cat("\n\nManagement recommendations:\n")
+print(table(tek_survey_data$management_recommendation))
+cat("\n\nConfidence scores:\n")
+print(table(tek_survey_data$confidence))
+```
+
+### Using the simulated dataset with the aggregation methods
+
+You can now apply the three aggregation approaches from Section 5.1 to this complete dataset:
+
+```{r use-simulated-for-aggregation, eval=TRUE}
+# === Simple pooling: binary outcome ===
+# sum: count the total number of informants who said harvesting causes decline (1 = yes, 0 = no)
+k <- sum(tek_survey_data$says_harvest_declines)
+# nrow: count the total number of rows (informants)
+n <- nrow(tek_survey_data)
+# Beta distribution parameters with Laplace smoothing (add 1 to each)
+alpha_simple <- k + 1
+beta_simple <- n - k + 1
+cat("Binary outcome aggregation (Simple pooling):\n")
+# sprintf: format and print the Beta distribution parameters
+cat(sprintf("  P(harvesting causes decline) ~ Beta(%d, %d)\n", alpha_simple, beta_simple))
+# Calculate mean probability of the Beta distribution: alpha / (alpha + beta)
+cat(sprintf("  Mean probability: %.3f\n", alpha_simple / (alpha_simple + beta_simple)))
+
+# === Simple pooling: categorical outcome (abundance) ===
+# table: count frequency of each abundance category
+abundance_counts <- table(tek_survey_data$abundance_status)
+# Convert counts to Dirichlet parameters by adding 1 to each count
+abundance_alpha <- as.numeric(abundance_counts) + 1
+cat("\nAbundance status aggregation (Simple pooling):\n")
+cat("  Category counts:\n")
+print(abundance_counts)
+cat("  Dirichlet alpha (for Dirichlet prior):\n")
+print(abundance_alpha)
+
+# === Weighted pooling: by informant confidence ===
+# Divide each confidence score by the sum to create normalized weights (sum to 1)
+weights <- tek_survey_data$confidence / sum(tek_survey_data$confidence)
+# Multiply weighted responses by informant count and sum to get weighted pseudo-count
+# sum: add up the products of (informant response) * (normalized weight)
+weighted_k_decline <- sum(tek_survey_data$says_harvest_declines * weights) * nrow(tek_survey_data)
+# round: convert to integer for use as Beta parameter
+wk_decline <- round(weighted_k_decline)
+# Calculate Beta parameters with Laplace smoothing
+walpha_decline <- wk_decline + 1
+wbeta_decline <- n - wk_decline + 1
+cat("\nBinary outcome aggregation (Confidence-weighted):\n")
+cat(sprintf("  P(harvesting causes decline) ~ Beta(%d, %d)\n", walpha_decline, wbeta_decline))
+# Calculate mean probability of the weighted Beta distribution
+cat(sprintf("  Mean probability: %.3f\n", walpha_decline / (walpha_decline + wbeta_decline)))
+```
+
+---
+
+## C. Guidance for Adapting Form and Data
+
+- **Customize question text**: Replace `[RESOURCE]` with the actual resource you are studying (e.g., "yam," "mahogany," "mangrove").
+- **Add or remove questions**: You may want to add questions about specific threats, seasonal patterns, or restoration practices.
+- **Language and terminology**: Translate and adapt categories (High/Medium/Low) to match local terminology and concepts.
+- **Informant selection**: Consider stratifying by age, gender, duration of residence, or primary use to detect variation in TEK.
+- **Sample size**: The simulated dataset uses 50 informants; adjust based on your resources and the diversity of your study population.
+- **Data quality checks**: Record provenance (who, when, where) and verify consistency (e.g., informants who say harvesting declines should more often report low abundance).
+
+---
+
+## D. Example: Loading Your Own Data
+
+If you collect data using a form similar to the template in Section A, you can load and process it similarly to the simulated dataset:
+
+```{r example-load-own-data, eval=FALSE}
+# Load your survey data (replace 'your_data.csv' with your file)
+# read.csv: read a comma-separated values file and create a data frame
+my_tek_data <- read.csv("your_data.csv")
+
+# Check structure of your data
+# str: display internal structure of an R object, showing column names, types, and sample values
+str(my_tek_data)
+
+# Summarize binary outcome
+cat("Binary outcome:\n")
+# table: create a frequency table of the responses
+print(table(my_tek_data$says_harvest_declines))
+
+# Aggregate binary outcome using the methods from Section 5.1
+# sum: count the number of "yes" responses (1 = yes)
+k <- sum(my_tek_data$says_harvest_declines)
+# nrow: count the total number of rows (informants)
+n <- nrow(my_tek_data)
+# Calculate Beta distribution parameters with Laplace smoothing
+alpha <- k + 1; beta <- n - k + 1
+# sprintf: format the prior as a string and print it
+cat(sprintf("Prior: Beta(%d, %d)\n", alpha, beta))
 ```
