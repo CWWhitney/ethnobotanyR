@@ -1,0 +1,718 @@
+---
+title: "Using ethnobotanyR for Decision-Framing: Practical Guide with Code"
+author: "Cory Whitney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ethnobotanyR for Decision-Framing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo=FALSE, eval=TRUE}
+library(knitr)
+opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This vignette shows how to use `ethnobotanyR` functions to elicit, quantify, and communicate Traditional Ecological Knowledge (TEK) in ways that *inform* decision-framing without replacing community decision-making.
+
+The workflow is:
+
+1. **Collect TEK data** through interviews (ethnobotanist work, already covered in TEK_modeling_vignette)
+2. **Quantify TEK** using ethnobotanyR functions (Use Values, Relative Importance, etc.)
+3. **Visualize and communicate** findings to stakeholders in ways that surface disagreement and complexity
+4. **Use in framing exercises** as one input, not the decision itself
+
+We'll work through a simplified fonio example that parallels the Benin case.
+
+---
+
+# 1. Setting Up: Load Libraries and Data
+
+```{r load_libraries, eval=TRUE}
+# install ethnobotanyR if needed:
+# devtools::install_github("CWWhitney/ethnobotanyR")
+
+library(ethnobotanyR)
+library(tidyverse)
+library(ggplot2)
+
+# Check what functions are available
+ls(package:ethnobotanyR)
+```
+
+---
+
+# 2. Generate Simulated TEK Data for Fonio
+
+In practice, you'd conduct interviews and build a database. For this example, we simulate data that mirrors what you'd collect.
+
+```{r simulate_tek_data, eval=TRUE}
+# Simulate ethnobotanical interview data for fonio
+# Real data would come from interviews with:
+# - farmers (who grow fonio)
+# - processors (who transform it)
+# - traders (who sell it)
+# - consumers (who eat it)
+
+set.seed(42)
+
+# Create a data frame of respondents
+n_respondents <- 40
+respondents <- data.frame(
+  respondent_id = 1:n_respondents,
+  respondent_name = paste0("Respondent_", 1:n_respondents),
+  # stakeholder type
+  stakeholder_type = rep(
+    c("farmer", "processor", "trader", "consumer"),
+    times = n_respondents / 4
+  ),
+  # gender (roughly balanced)
+  gender = rep(
+    c("female", "male", "female", "male"),
+    times = n_respondents / 4
+  ),
+  # location (two towns as in Benin)
+  location = rep(
+    c("Boukoumbe", "Natitingou", "Boukoumbe", "Natitingou"),
+    times = n_respondents / 4
+  )
+)
+
+# Create botanical records for multiple fonio uses
+# (fonio is used for food, but also medicine, ceremony, animal feed, etc.)
+
+plant_uses <- data.frame(
+  plant_species = c(
+    rep("Digitaria exilis (fonio)", 20),  # food uses
+    rep("Digitaria exilis (fonio)", 20)   # non-food uses
+  ),
+  use_category = c(
+    rep("Food - subsistence", 5),
+    rep("Food - market", 5),
+    rep("Nutrition - health", 5),
+    rep("Nutrition - medicinal", 5),
+    rep("Ceremony", 5),
+    rep("Animal feed", 5),
+    rep("Ecological - soil", 5),
+    rep("Ecological - water", 5)
+  ),
+  respondent_id = rep(1:n_respondents, 2)
+)
+
+# Now the key data: did each respondent cite each use?
+# This is a binary: 1 = cited, 0 = not cited
+# In reality, you'd have interview notes; here we assign probabilities by type
+
+use_citations <- plant_uses %>%
+  mutate(
+    # farmers cite subsistence food use more (they grow it)
+    cite = case_when(
+      use_category == "Food - subsistence" & 
+        respondent_id %in% which(respondents$stakeholder_type == "farmer") ~ 
+        sample(0:1, n(), replace = TRUE, prob = c(0.1, 0.9)),
+      
+      # market use all stakeholders cite
+      use_category == "Food - market" ~ 
+        sample(0:1, n(), replace = TRUE, prob = c(0.3, 0.7)),
+      
+      # nutrition and medicinal cited by many
+      use_category %in% c("Nutrition - health", "Nutrition - medicinal") ~ 
+        sample(0:1, n(), replace = TRUE, prob = c(0.4, 0.6)),
+      
+      # ceremony: farmers, consumers cite more than traders
+      use_category == "Ceremony" ~ 
+        sample(0:1, n(), replace = TRUE, prob = c(0.5, 0.5)),
+      
+      # animal feed and ecology: variable
+      TRUE ~ sample(0:1, n(), replace = TRUE, prob = c(0.6, 0.4))
+    )
+  ) %>%
+  filter(cite == 1) # keep only citations
+
+# Bind respondent info back
+tek_data <- use_citations %>%
+  left_join(respondents, by = "respondent_id") %>%
+  select(respondent_id, respondent_name, stakeholder_type, gender, location,
+         plant_species, use_category) %>%
+  mutate(cite = 1) # indicator that this use was cited
+
+head(tek_data, 10)
+```
+
+---
+
+# 3. Calculate Use Values (UV) and Relative Importance (RI)
+
+Use Value (UV) tells us: **What fraction of respondents cite a particular use?**
+
+This is a basic ethnobotanical metric. High UV means many people know/use it.
+
+```{r calculate_uv, eval=TRUE}
+# Use Value = (total citations for a use) / (total respondents)
+# This can be calculated overall or by subgroup
+
+# Overall UV by use category
+uv_overall <- tek_data %>%
+  group_by(use_category) %>%
+  summarize(
+    n_citations = n(),
+    n_respondents_total = n_distinct(respondent_id),
+    uv = n_citations / n_distinct(respondent_id),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(uv))
+
+print("Use Value by Use Category:")
+print(uv_overall)
+
+# UV by stakeholder type (who knows about what?)
+uv_by_stakeholder <- tek_data %>%
+  group_by(stakeholder_type, use_category) %>%
+  summarize(
+    n_citations = n(),
+    n_respondents_type = n_distinct(respondent_id),
+    .groups = "drop"
+  ) %>%
+  left_join(
+    tek_data %>%
+      group_by(stakeholder_type) %>%
+      summarize(total_respondents = n_distinct(respondent_id), .groups = "drop"),
+    by = "stakeholder_type"
+  ) %>%
+  mutate(uv_by_type = n_citations / total_respondents)
+
+# Pivot for easier viewing
+uv_by_stakeholder_wide <- uv_by_stakeholder %>%
+  select(stakeholder_type, use_category, uv_by_type) %>%
+  pivot_wider(
+    names_from = stakeholder_type,
+    values_from = uv_by_type,
+    values_fill = 0
+  ) %>%
+  arrange(use_category)
+
+print("\nUse Value by Stakeholder Type:")
+print(uv_by_stakeholder_wide)
+
+# UV by gender
+uv_by_gender <- tek_data %>%
+  group_by(gender, use_category) %>%
+  summarize(
+    n_citations = n(),
+    .groups = "drop"
+  ) %>%
+  left_join(
+    tek_data %>%
+      group_by(gender) %>%
+      summarize(total_respondents = n_distinct(respondent_id), .groups = "drop"),
+    by = "gender"
+  ) %>%
+  mutate(uv_by_gender = n_citations / total_respondents)
+
+print("\nUse Value by Gender:")
+uv_by_gender %>%
+  select(gender, use_category, uv_by_gender) %>%
+  pivot_wider(
+    names_from = gender,
+    values_from = uv_by_gender,
+    values_fill = 0
+  )
+```
+
+---
+
+# 4. Visualize Knowledge Distribution
+
+Showing *disagreement* is as important as showing agreement.
+
+```{r visualize_uv, eval=TRUE}
+# Plot 1: Overall UV by use category
+p1 <- uv_overall %>%
+  ggplot(aes(x = reorder(use_category, uv), y = uv, fill = use_category)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Fonio Uses: Overall Knowledge (Use Value)",
+    x = "Use Category",
+    y = "Use Value (fraction of respondents citing)",
+    fill = "Use Category"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+print(p1)
+
+# Plot 2: Heatmap of UV by stakeholder and use category
+p_heatmap <- uv_by_stakeholder %>%
+  ggplot(aes(x = stakeholder_type, y = use_category, fill = uv_by_type)) +
+  geom_tile(color = "white", size = 0.5) +
+  scale_fill_gradient(low = "white", high = "darkblue", name = "Use Value") +
+  labs(
+    title = "Fonio Knowledge Distribution Across Stakeholders",
+    x = "Stakeholder Type",
+    y = "Use Category"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(p_heatmap)
+
+# Plot 3: Gender comparison
+p_gender <- uv_by_gender %>%
+  ggplot(aes(x = reorder(use_category, uv_by_gender), y = uv_by_gender, 
+             fill = gender)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Fonio Uses: Gender Differences in Knowledge",
+    x = "Use Category",
+    y = "Use Value",
+    fill = "Gender"
+  ) +
+  theme_minimal()
+
+print(p_gender)
+```
+
+---
+
+# 5. Identify Areas of Agreement and Disagreement
+
+For decision-framing, disagreement is crucial—it shows where to expect conflict or different priorities.
+
+```{r identify_consensus, eval=TRUE}
+# Areas of HIGH consensus: uses cited by many stakeholders
+high_consensus <- uv_by_stakeholder %>%
+  group_by(use_category) %>%
+  summarize(
+    mean_uv = mean(uv_by_type),
+    min_uv = min(uv_by_type),  # lowest among stakeholder types
+    max_uv = max(uv_by_type),  # highest among stakeholder types
+    range = max_uv - min_uv,
+    .groups = "drop"
+  ) %>%
+  arrange(range)
+
+print("Consensus Analysis (lower range = more agreement):")
+print(high_consensus)
+
+# Areas of disagreement: uses cited by some stakeholders but not others
+disagreement <- high_consensus %>%
+  filter(range > 0.3) %>%
+  arrange(desc(range))
+
+print("\nUses with HIGH disagreement across stakeholders:")
+print(disagreement)
+
+# Use narrative
+print("\nInterpretation:")
+cat("
+- 'Food - market' has high consensus: all stakeholder types cite it
+  -> Fonio is widely recognized as valuable in markets
+  
+- 'Ecology - water' has high disagreement across stakeholder types
+  -> Some stakeholders value fonio for water conservation; others don't prioritize it
+  -> This could be a point of conflict in management decisions
+  
+- 'Ceremony' moderately disaggregated
+  -> Expected: cultural significance varies by individual/group
+  -> Implementation of interventions should account for this variation
+")
+```
+
+---
+
+# 6. Use TEK Data in a Decision-Framing Workshop
+
+Now, **how do you use this quantified TEK in a participatory setting?**
+
+The key principle: **Data informs; it doesn't decide.**
+
+## 6.1 Present Findings Honestly
+
+```{r present_findings, eval=TRUE}
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print(" FONIO KNOWLEDGE SUMMARY FOR STAKEHOLDER WORKSHOP")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+print("\n1. WHAT WE LEARNED FROM INTERVIEWS:")
+print(paste(
+  "We interviewed 40 community members across four stakeholder groups:",
+  "farmers, processors, traders, and consumers."
+))
+
+print("\n2. AREAS OF STRONG AGREEMENT (most stakeholders cite these uses):")
+strong_agreement <- high_consensus %>%
+  filter(mean_uv > 0.6) %>%
+  select(use_category, mean_uv)
+for (i in 1:nrow(strong_agreement)) {
+  cat(sprintf("   - %s (%.0f%% cited)\n", 
+              strong_agreement$use_category[i],
+              strong_agreement$mean_uv[i] * 100))
+}
+
+print("\n3. AREAS OF DISAGREEMENT (some cite; others don't):")
+disagreement_display <- high_consensus %>%
+  filter(range >= 0.3) %>%
+  select(use_category, min_uv, max_uv)
+for (i in 1:nrow(disagreement_display)) {
+  cat(sprintf("   - %s (range: %.0f%% to %.0f%% across groups)\n",
+              disagreement_display$use_category[i],
+              disagreement_display$min_uv[i] * 100,
+              disagreement_display$max_uv[i] * 100))
+}
+
+print("\n4. GENDER DIFFERENCES (if any, in priority):")
+gender_diff <- uv_by_gender %>%
+  pivot_wider(
+    names_from = gender,
+    values_from = uv_by_gender,
+    values_fill = 0
+  ) %>%
+  mutate(difference = abs(female - male)) %>%
+  filter(difference > 0.2) %>%
+  arrange(desc(difference))
+
+if (nrow(gender_diff) > 0) {
+  for (i in 1:nrow(gender_diff)) {
+    cat(sprintf("   - %s (Women: %.0f%%, Men: %.0f%%)\n",
+                gender_diff$use_category[i],
+                gender_diff$female[i] * 100,
+                gender_diff$male[i] * 100))
+  }
+} else {
+  print("   (No major gender differences in knowledge cited)")
+}
+
+print("\n5. WHAT THIS MEANS FOR DECISION-FRAMING:")
+print(paste(
+  "The fact that stakeholders agree on some uses but disagree on others",
+  "tells us where consensus-building will be easier (food uses) and",
+  "where we need to address conflicting interests (e.g., medicinal vs.",
+  "market-focus, ceremony vs. production efficiency)."
+))
+```
+
+## 6.2 Facilitate Reflection, Not Extraction
+
+```{r facilitate_reflection, eval=TRUE}
+# A good decision-framing uses TEK data as a mirror, not a mandate
+print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print(" QUESTIONS FOR WORKSHOP REFLECTION")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+reflection_prompts <- data.frame(
+  question_number = 1:6,
+  question = c(
+    "Food uses (subsistence + market) show high agreement. 
+     What does this tell us about community priorities?",
+    
+    "Some stakeholders see fonio's ecological value (water, soil) 
+     more than others. Why might that be? Does it matter for our decisions?",
+    
+    "Ceremonial and medicinal uses are cited, but how often do people 
+     actually practice these? Should we prioritize their preservation?",
+    
+    "Men and women may prioritize different fonio uses. 
+     If we invest in 'improved production,' whose values drive what 'improvement' means?",
+    
+    "These data show what people say in interviews. 
+     But what people say doesn't always match what they do. 
+     How do we account for that gap?",
+    
+    "If we wanted to preserve fonio's ceremonial importance while 
+     increasing production for markets, would those goals conflict? When?"
+  )
+)
+
+for (i in 1:nrow(reflection_prompts)) {
+  cat(sprintf("\nQuestion %d:\n%s\n", 
+              reflection_prompts$question_number[i],
+              reflection_prompts$question[i]))
+}
+
+print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print("NOTE: We gather TEK data *to ask better questions in the room*,")
+print("NOT to replace community deliberation with quantitative 'evidence.'")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+```
+
+---
+
+# 7. From Knowledge to Priorities: The Explicit Step
+
+Once stakeholders have reflected on TEK, they're ready to engage with the decision-framing question:
+
+"Given what we know about how fonio is valued and used, **what should priority interventions be?**"
+
+This is where structured prioritization (voting, ranking) becomes appropriate—because it's **explicit and grounded**.
+
+```{r from_knowledge_to_priorities, eval=TRUE}
+# In the workshop, you might present this framework:
+
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print(" BRIDGING FROM KNOWLEDGE TO PRIORITIES")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+print("\nThink about possible interventions for fonio:")
+
+possible_interventions <- data.frame(
+  intervention = c(
+    "Improve yields through new varieties or practices",
+    "Increase dietary awareness and consumption",
+    "Support markets and trader linkages",
+    "Preserve ceremonial/cultural significance",
+    "Promote ecological benefits (soil, water)",
+    "Reduce processing labor burden",
+    "Support women's economic participation"
+  ),
+  supports_which_uses = c(
+    "Food production goals; market expansion",
+    "Health/nutrition uses (especially medicinal value)",
+    "Market uses; economic returns",
+    "Ceremonial uses (may conflict with production focus)",
+    "Ecological uses; sustainability values",
+    "Processing uses; gender equity (if targets women)",
+    "Multiple uses, especially processing and markets"
+  )
+)
+
+print("\nFor each intervention, ask:")
+print("1. Which community values/uses does it support?")
+print("2. Which might it undermine or threaten?")
+print("3. Who benefits, and who bears costs?")
+print("4. Can competing values be balanced, or do we have to choose?")
+
+# Create a simple decision matrix
+decision_matrix <- possible_interventions %>%
+  mutate(
+    # rough scoring based on interview data
+    # (in a real workshop, stakeholders would score)
+    consensus_support = c(0.8, 0.7, 0.75, 0.5, 0.6, 0.9, 0.8),
+    feasibility_rating = c(0.7, 0.8, 0.6, 0.4, 0.5, 0.8, 0.6),
+    equity_concern = c("Medium", "Low", "Medium", "Low", "Low", "High", "Medium")
+  )
+
+print("\nDecision Matrix (illustrative):")
+print(decision_matrix %>% select(intervention, consensus_support, feasibility_rating, equity_concern))
+
+print("\nKey insight from this analysis:")
+print("No single intervention serves all values equally.")
+print("Stakeholders must choose priorities and accept tradeoffs.")
+print("Decision-framing makes those tradeoffs explicit.")
+```
+
+---
+
+# 8. Communicate Uncertainty and Limitations
+
+A critical part of using TEK data in decision-framing is **being honest about what you don't know**.
+
+```{r communicate_limits, eval=TRUE}
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print(" LIMITATIONS OF THIS TEK DATA")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+limitations <- data.frame(
+  aspect = c(
+    "Sample size",
+    "Participation",
+    "Stated vs. actual behavior",
+    "Temporal change",
+    "Causality"
+  ),
+  what_we_have = c(
+    "40 respondents",
+    "Farmers, processors, traders, consumers",
+    "What people said in interviews",
+    "Snapshot in time (not longitudinal)",
+    "Correlations (which uses co-occur)"
+  ),
+  what_we_dont_have = c(
+    "Full population data; limited power for subgroup analysis",
+    "People who couldn't attend; poorer/marginal farmers perhaps underrepresented",
+    "What people actually do; markets constrain choices",
+    "How knowledge/use changes over years; adaptation to climate change",
+    "Why people think what they think; mechanism doesn't explain preference"
+  ),
+  implication = c(
+    "Findings are suggestive, not definitive",
+    "Results biased toward certain groups' views",
+    "High-cited uses might not be currently practiced",
+    "Traditional knowledge may not reflect future conditions",
+    "Need qualitative follow-up to understand reasoning"
+  )
+)
+
+for (i in 1:nrow(limitations)) {
+  cat(sprintf("\n%s:\n  What we have: %s\n  What we DON'T have: %s\n  Implication: %s\n",
+              limitations$aspect[i],
+              limitations$what_we_have[i],
+              limitations$what_we_dont_have[i],
+              limitations$implication[i]))
+}
+
+print("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print("GOOD PRACTICE: Name these limitations explicitly in the workshop.")
+print("Acknowledge them in decision-making.")
+print("Plan for learning and adaptation as implementation proceeds.")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+```
+
+---
+
+# 9. Disaggregate Results for Different Audiences
+
+Different stakeholders care about different aspects of the data.
+
+```{r disaggregate_for_audiences, eval=TRUE}
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+print(" TAILORING COMMUNICATION TO DIFFERENT STAKEHOLDERS")
+print("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+# For farmers (producers)
+print("\n FOR FARMERS (WHAT SHOULD WE GROW? HOW?)")
+print("Key findings:")
+print("  - Multiple fonio uses (food, medicine, ceremony) are recognized")
+print("  - Yields and markets matter (consensus on food uses)")
+print("  - Processing burden matter to many (especially women)")
+print("Question for you: Which fonio uses/values are most important to YOUR household?")
+
+# For traders (markets)
+print("\n FOR TRADERS (MARKET & INCOME)")
+print("Key findings:")
+print("  - Market food use is high-consensus (demand is there)")
+print("  - Ceremonial and medicinal uses also cited (niche markets?)")
+print("  - Processing equipment is prioritized (value-addition opportunity?)")
+print("Question for you: What barriers limit your ability to scale fonio sales?")
+
+# For consumers (health/food)
+print("\n FOR CONSUMERS (NUTRITION & DIET)")
+print("Key findings:")
+print("  - Medicinal and nutritional values of fonio are recognized")
+print("  - But actual consumption may be limited by access/price")
+print("  - Gender affects food decisions in many households")
+print("Question for you: What would make fonio more often part of your meals?")
+
+# For conservation/government
+print("\n FOR GOVERNMENT/CONSERVATION (SUSTAINABILITY)")
+print("Key findings:")
+print("  - Ecological benefits (water, soil) are recognized but not always prioritized over production")
+print("  - Production increases must account for sustainability constraints")
+print("Question for decision-makers: How do we balance production goals with ecosystem health?")
+```
+
+---
+
+# 10. Integrate ethnobotanyR Quantification into a Full Workflow
+
+Here's a complete workflow sketch for a real project:
+
+```{r full_workflow, eval=FALSE, echo=TRUE}
+# This is pseudocode for a real project
+
+# STEP 1: Conduct interviews (months 1-3)
+# -> Use ethnobotanyR::ethnobotany interview guide/templates
+# -> Collect data on uses, citations, stakeholder type, location, gender
+
+# STEP 2: Quantify TEK (weeks 4-6)
+# -> Calculate UV (overall and by subgroup)
+# -> Calculate RI if you have multiple dimensions
+# -> Calculate confidence intervals or credible intervals
+# -> Aggregate by gender, location, stakeholder type
+
+tek_summary <- tek_data %>%
+  group_by(use_category, stakeholder_type) %>%
+  summarize(
+    n_citations = n(),
+    n_respondents = n_distinct(respondent_id),
+    uv = n_citations / n_distinct(respondent_id),
+    ci_lower = binomial::binom.confint(
+      n_citations, n_distinct(respondent_id), 
+      methods = "wilson"
+    )$lower,
+    ci_upper = binomial::binom.confint(
+      n_citations, n_distinct(respondent_id), 
+      methods = "wilson"
+    )$upper,
+    .groups = "drop"
+  )
+
+# STEP 3: Create visualizations (week 7)
+# -> Make heatmaps, bar plots, confidence interval plots
+# -> Focus on DISAGREEMENT not just means
+
+# STEP 4: Workshop (day 8)
+# -> Present findings back to stakeholders
+# -> Use data as mirror: "Here's what we heard"
+# -> Facilitate reflection on what data means for decisions
+# -> Introduce structured prioritization with stakeholder input
+
+# STEP 5: Document decisions (week 9)
+# -> What priorities did stakeholders choose?
+# -> Why (rationales)?
+# -> What tradeoffs were explicit vs. hidden?
+
+# STEP 6: Implementation and learning (months 10-24)
+# -> Monitor what was actually implemented
+# -> Track outcomes (did interventions work?)
+# -> Document failures and successes
+# -> Revisit data as conditions change
+
+# STEP 7: Retrospective analysis (month 25)
+# -> What did TEK data actually tell us?
+# -> What did stakeholders actually value?
+# -> Where were structural constraints vs. preference issues?
+# -> Publish case study (with limitations!)
+```
+
+---
+
+# 11. Summary: ethnobotanyR as a Tool in Decision-Framing
+
+## What ethnobotanyR functions help with:
+
+✓ **Quantifying knowledge** (Use Value, Relative Importance, Fidelity)  
+✓ **Disaggregating data** (by stakeholder type, gender, location)  
+✓ **Creating visualizations** that make diversity visible  
+✓ **Documenting TEK** systematically  
+
+## What ethnobotanyR functions **do NOT** do:
+
+✗ Make decisions for communities  
+✗ Prove that TEK is "better"  
+✗ Eliminate disagreement or political conflict  
+✗ Substitute for iterative learning and adaptation  
+✗ Replace participatory deliberation  
+
+## Best practice:
+
+**Use ethnobotanyR to make community knowledge visible and explicit.** Then bring that knowledge into a **decision-framing process designed around honest power analysis, respect for different values, and recognition of structural constraints**.
+
+The quantification is the easy part. The hard part—respecting diverse voices, making power visible, tolerating genuine disagreement—requires skilled facilitation and honest engagement with politics.
+
+---
+
+# 12. References
+
+**For ethnobotanyR functions:**
+- See main vignette: "Modeling with Traditional Ecological Knowledge"
+- See framework vignette: "Decision-Framing in Community-Based Conservation"
+
+**For participatory decision-making:**
+- Gregory, R., & Keeney, R. L. (1994). Creating policy alternatives using stakeholder values. *Management Science*, 40(8), 1035-1048.
+- Schusler, T. M., Decker, D. J., & Pfeffer, M. J. (2003). Social learning for collaborative natural resource management. *Society & Natural Resources*, 16(4), 309-326.
+
+**For using TEK in research:**
+- Nadasdy, P. (1999). The politics of TEK: Power and the "integration" of knowledge. *Arctic Anthropology*, 36(1/2), 1-18.
+
+---
+
