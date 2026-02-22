@@ -34,6 +34,7 @@ Ethnobotany is fundamentally about **people's relationships with plants**. That'
 But in academic and policy contexts, you face pressure to **measure, rank, compare**. Numbers feel objective. A Use Value of 0.67 sounds more scientific than "most people know about this plant, but what that means varies."
 
 Indices exist because:
+
 - **Funders and policymakers want numbers.** "Biodiversity is important" is vague; "this ecosystem provides value to 1.2 million people" is actionable.
 - **Comparison requires a common scale.** If you're studying 30 plant species, you need a way to ask: which are most important to the community?
 - **Quantification looks like rigor.** When you report "Use Value = 0.63 ± 0.12," you appear scientific and defensible. (You're not, but you appear to be.)
@@ -353,6 +354,7 @@ This variation suggests specialized knowledge among healers. Conservation effort
 
 **Now the index becomes a springboard for insight, not a false consensus.**
 
+
 ## 6.3 Report Actual Frequencies, Not Just Percentages
 
 **Don't:**
@@ -366,6 +368,40 @@ This variation suggests specialized knowledge among healers. Conservation effort
 ```
 
 Raw numbers force readers to see sample sizes. They're less misleading than percentages alone.
+
+
+### Calculating All Indices and Confidence Intervals Easily
+> **Interpreting the confidence interval:**
+> The CI shows the range where the true proportion of informants citing each species likely falls, given your sample. If CIs overlap between species, differences are not statistically reliable. Wide intervals mean less certainty; overlapping intervals mean no clear difference between species.
+
+The `index_with_ci()` function in ethnobotanyR now calculates citation proportions and confidence intervals directly from your ethnobotany data. This approach is robust and transparent, matching the workflow of other package functions.
+
+**New Use Case:**
+
+You can use `index_with_ci()` to calculate the proportion of informants citing each species, along with a 95% confidence interval, using only your data frame. No need to manually count citations or call index functions first.
+
+**Example:**
+
+```r{index_with_ci}
+# Use built-in ethnobotany data
+index_with_ci(ethnobotanydata)
+```
+
+This returns a data frame with each species, the citation proportion, and the confidence interval.
+
+You can also use custom data:
+
+```r{index_with_ci_test}
+eb_data <- data.frame(
+  informant = c('User_1', 'User_2', 'User_3', 'User_4'),
+  sp_name = c('sp_1', 'sp_1', 'sp_2', 'sp_2'),
+  Use_A = c(1, 0, 1, 1),
+  Use_B = c(0, 1, 0, 1)
+)
+index_with_ci(eb_data)
+```
+
+This makes it easy to report both the citation proportion and its confidence interval for each species. For more complex indices, custom handling may be needed, but most standard proportion-based metrics are covered.
 
 ## 6.4 Avoid Causal or Predictive Language
 
@@ -431,6 +467,7 @@ Use indices as **one input** in a larger decision analysis that accounts for:
 ## 7.3 You Lack Important Context
 
 If you don't understand:
+
 - Why communities use plants the way they do (social, economic, historical context)
 - What constraints shape actual practice (poverty, policy, climate)
 - Power dynamics in the community (who influenced knowledge circulation, whose views dominant)
@@ -442,6 +479,7 @@ If you don't understand:
 If people in your study have fundamentally different ideas about what they're using a plant for, aggregating citations is misleading.
 
 **Example:**
+
 - Farmer A: "I use this plant as a nitrogen-fixing crop."
 - Farmer B: "I use this plant as fodder."
 - Farmer C: "I use it for ceremonies; it's not really food."
@@ -461,11 +499,10 @@ Same plant; different uses; different meanings. Aggregating into a single citati
 - **Standardization:** Everyone uses the same formula; results are comparable
 - **Transparency:** Code is visible; calculations are reproducible
 
-These are genuine goods.
-
 ## 8.2 The Danger
 
 Easy computation becomes incentive to compute without thought:
+
 - Researchers calculate UV for 50 species without understanding what variation means
 - Results get published as fact ("Use Value = 0.62") without caveats
 - Policy makers read the number and make decisions
@@ -520,6 +557,7 @@ See the TEK Modeling vignette in `ethnobotanyR` for practical examples.
 Use ethnobotanical knowledge to **inform** decisions, not **determine** them.
 
 Run structured decision-framing exercises that:
+
 - Surface stakeholder values and priorities
 - Name structural constraints (what's possible given tenure, markets, policy, climate)
 - Acknowledge tradeoffs (you can't optimize all values simultaneously)
@@ -530,6 +568,7 @@ See the Decision-Framing vignette in `ethnobotanyR` for methods.
 ## 9.5 Follow Up: Document Implementation and Outcomes
 
 The real test of ethnobotanical research is impact:
+
 - Did documented knowledge actually inform decisions?
 - Were interventions implemented as planned?
 - Did they achieve intended outcomes?
@@ -558,19 +597,21 @@ Operate by these principles:
 # 11. References
 
 **On limitations of ethnobotany indices:**
+
 - Nadasdy, P. (1999). The politics of TEK: Power and the "integration" of knowledge. *Arctic Anthropology*, 36(1/2), 1-18.
 - Agrawal, A. (2002). Indigenous knowledge and the politics of development. *Critique of Anthropology*, 22(2), 141-164.
 - Timbrook, B., & Groesbeck, A. S. (2004). Chumash ethnobotany: Aboriginal uses of California plants. The Huntington Library.
 
 **On responsible quantitative ethnobotany:**
+
 - Tardio, J., & Pardo-de-Santayana, M. (2008). Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain). *Economic Botany*, 62(1), 24-39.
 - Whitney, C. W., Bahati, J., & Gebauer, J. (2018). Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. *Ethnobiology Letters*, 9(2), 90-100.
 
 **On decision analysis and TEK integration:**
+
 - Gregory, R., & Keeney, R. L. (1994). Creating policy alternatives using stakeholder values. *Management Science*, 40(8), 1035-1048.
 
 **On Bayesian modeling of ethnobotanical knowledge:**
-- See companion vignette: TEK Modeling with Bayesian Networks
 
----
+- See companion vignette: TEK Modeling with Bayesian Networks
 

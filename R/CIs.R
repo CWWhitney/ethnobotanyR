@@ -41,7 +41,6 @@
 #'@export CIs
 #'
 CIs <- function(data) {
-  
   #Add error stops ####
     #Check that packages are loaded
     {

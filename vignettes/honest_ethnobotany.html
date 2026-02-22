@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Cory Whitney" />
+
+<meta name="date" content="2026-02-22" />
+
+<title>Honest Ethnobotany: Quantitative Indices, Their Limitations, and How to Use Them Responsibly</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Honest Ethnobotany: Quantitative Indices, Their Limitations, and How to Use Them Responsibly</h1>
+<h4 class="author">Cory Whitney</h4>
+<h4 class="date">2026-02-22</h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This vignette is a critical examination of quantitative ethnobotany indices—their appeal, their fundamental limitations, when they’re useful, and when they mislead.</p>
+<p><strong>This is not a how-to guide.</strong> It’s a reality check.</p>
+<p>The standard ethnobotany indices (Use Value, Relative Frequency of Citation, Relative Importance, etc.) are widely used and widely misused. They create an appearance of scientific rigor that often masks weak reasoning and methodological problems. We’ll be honest about that.</p>
+<p>But indices aren’t worthless. Used carefully, with awareness of their constraints, they can serve a purpose: <strong>describing the distribution of knowledge in a community and making implicit patterns explicit for dialogue.</strong></p>
+<p>The paradox is that <code>ethnobotanyR</code> makes these indices easy to calculate. That ease is both a strength (accessibility) and a danger (false confidence in the robustness of results).</p>
+<p>This vignette exists so you can’t claim ignorance.</p>
+<hr />
+</div>
+<div id="the-appeal-why-indices-exist-and-why-theyre-seductive" class="section level1">
+<h1>1. The Appeal: Why Indices Exist and Why They’re Seductive</h1>
+<div id="the-human-impulse-to-quantify" class="section level2">
+<h2>1.1 The Human Impulse to Quantify</h2>
+<p>Ethnobotany is fundamentally about <strong>people’s relationships with plants</strong>. That’s qualitative, complex, embedded in culture and history.</p>
+<p>But in academic and policy contexts, you face pressure to <strong>measure, rank, compare</strong>. Numbers feel objective. A Use Value of 0.67 sounds more scientific than “most people know about this plant, but what that means varies.”</p>
+<p>Indices exist because: - <strong>Funders and policymakers want numbers.</strong> “Biodiversity is important” is vague; “this ecosystem provides value to 1.2 million people” is actionable. - <strong>Comparison requires a common scale.</strong> If you’re studying 30 plant species, you need a way to ask: which are most important to the community? - <strong>Quantification looks like rigor.</strong> When you report “Use Value = 0.63 ± 0.12,” you appear scientific and defensible. (You’re not, but you appear to be.) - <strong>Methods feel replicable.</strong> “Calculate UV as (number of citations) / (number of respondents)” is clear and cookbook-style. Qualitative description seems subjective.</p>
+<p>These are reasonable impulses. But they collide with reality.</p>
+<hr />
+</div>
+</div>
+<div id="the-problems-a-harsh-critique" class="section level1">
+<h1>2. The Problems: A Harsh Critique</h1>
+<div id="false-precision" class="section level2">
+<h2>2.1 False Precision</h2>
+<p><strong>The core problem:</strong> An index compresses multidimensional, context-dependent knowledge into a single number.</p>
+<div id="example" class="section level3">
+<h3>Example:</h3>
+<p>You interview 20 farmers about use of <em>Digitaria exilis</em> (fonio). You code responses: - “Yes, it’s important for family food” → 1 citation - “My mother grows it; I eat it sometimes” → 1 citation - “I know about it but don’t grow it” → 1 citation - “It’s used in ceremonies” → 1 citation</p>
+<p><strong>Calculation:</strong> 4 citations / 5 informants = Use Value of 0.80.</p>
+<p>But wait: These four citations are <strong>not equivalent</strong>. One reflects deep, nutritional reliance; one reflects episodic consumption; one reflects knowledge without practice; one reflects cultural significance. Averaging them into 0.80 <strong>obscures that diversity</strong> while appearing to quantify it precisely.</p>
+<p><strong>The precision is false.</strong> You’ve collapsed qualitative variation into a false quantitative consensus.</p>
+</div>
+<div id="worse-confidence-intervals-hide-the-problem." class="section level3">
+<h3>Worse: Confidence intervals hide the problem.</h3>
+<p>If you calculate a 95% confidence interval around UV = 0.80, you get something like 0.52 to 0.97 (very wide). That rightfully tells you the estimate is uncertain. But it still looks like you’ve measured something objective. You haven’t. You’ve encoded <strong>interpretation decisions</strong> (what counts as a citation? are all citations equal?) into a distribution.</p>
+<p><strong>The precision suggests more rigor than you actually have.</strong></p>
+</div>
+</div>
+<div id="incommensurability-collapsed-into-commensurability" class="section level2">
+<h2>2.2 Incommensurability Collapsed into Commensurability</h2>
+<p>Different “uses” of a plant are not commensurate categories, yet indices treat them as if they are.</p>
+<div id="example-1" class="section level3">
+<h3>Example:</h3>
+<p>Consider three uses of <em>Moringa oleifera</em> (moringa): 1. <strong>Nutrition:</strong> Leaves are nutritious; parents feed them to children 2. <strong>Medicine:</strong> Bark is used to treat infections; knowledge held by healers 3. <strong>Ceremony:</strong> Trees are planted in sacred spaces; connected to spiritual practices</p>
+<p>You calculate Use Value for each: - Nutrition: UV = 0.65 (13 of 20 informants cite) - Medicine: UV = 0.45 (9 of 20 cite) - Ceremony: UV = 0.35 (7 of 20 cite)</p>
+<p><strong>What does this ranking mean?</strong></p>
+<p>The indices suggest nutrition is “more important” because more people cite it. But: - Nutrition importance is about livelihood and health - Medicine importance is about healing expertise and trust - Ceremony importance is about community identity and spiritual relationships</p>
+<p>These are <strong>incommensurable</strong>—they answer different questions and serve different purposes. Ranking them on the same scale is like asking: “Is a mother more important than a friend?” You can’t answer that; the categories aren’t comparable.</p>
+<p><strong>Yet indices force comparability.</strong> This obscures rather than clarifies what communities actually value.</p>
+</div>
+</div>
+<div id="what-gets-counted-vs.-what-matters" class="section level2">
+<h2>2.3 What Gets Counted vs. What Matters</h2>
+<p>An index counts <strong>citations</strong>. But citation frequency ≠ use frequency ≠ importance ≠ ecosystem impact ≠ livelihood dependence.</p>
+<div id="example-2" class="section level3">
+<h3>Example:</h3>
+<p>Two species, both with Use Value of 0.60 (12 of 20 informants cite):</p>
+<p><strong>Species A:</strong> - Cited by 12 farmers as a emergency food (once per 3 years during drought) - Used rarely, but critical for survival in extreme events - No market; purely subsistence</p>
+<p><strong>Species B:</strong> - Cited by 12 traders as a commercial product - Traded daily; high market value - Widely marketed regionally</p>
+<p>Same Use Value. Vastly different ecological impact, livelihood importance, and conservation priority.</p>
+<p><strong>The index treats them as equivalent. In reality, they’re fundamentally different.</strong></p>
+</div>
+</div>
+<div id="power-and-access-invisible" class="section level2">
+<h2>2.4 Power and Access Invisible</h2>
+<p>An index assumes all knowledge is equally valid and all people have equal access to plants.</p>
+<p>They don’t.</p>
+<div id="example-3" class="section level3">
+<h3>Example:</h3>
+<p>You interview 20 people about medicinal plants. You calculate UV for “Treatment of malaria” = 0.65 (13 cite).</p>
+<p>But who cited it? - Healers (expert knowledge): all 5 mention it → knowledgeable about dosage, preparation, efficacy - Farmers: 5 mention hearing about it → secondhand knowledge, maybe tried it once - Traders: 3 mention it’s bought in markets → commercial awareness, not personal use</p>
+<p><strong>Same citation count; wildly different knowledge quality and authority.</strong></p>
+<p>An unweighted index treats all three citations equally. <strong>It doesn’t.</strong></p>
+<p>Worse: The index hides <strong>who benefits and who doesn’t</strong>. If plant access is controlled by a powerful family, high UV might reflect that family’s interest (pushing others to adopt) rather than genuine independent use.</p>
+<p><strong>The index makes invisible the very power dynamics that shape ethnobotanical knowledge.</strong></p>
+</div>
+</div>
+<div id="assumes-stable-preferences-in-unstable-times" class="section level2">
+<h2>2.5 Assumes Stable Preferences in Unstable Times</h2>
+<p>Indices are calculated at a moment in time. But knowledge, use, and preferences change:</p>
+<ul>
+<li><strong>Market shocks:</strong> A traditionally used crop becomes too expensive; people switch to cheaper alternatives</li>
+<li><strong>Climate change:</strong> A plant that thrived in traditional climate becomes unreliable; knowledge about it becomes outdated</li>
+<li><strong>Policy changes:</strong> A medicinal plant is banned; knowledge is suppressed (even if practice continues underground)</li>
+<li><strong>Social change:</strong> Younger generations have different knowledge and values than elders; practices are forgotten</li>
+</ul>
+<p>An index says: <strong>“At this moment, this is what people know and use.”</strong></p>
+<p>But within months or years, that snapshot may be obsolete. <strong>Indices create false stability.</strong></p>
+</div>
+<div id="almost-zero-predictive-power" class="section level2">
+<h2>2.6 Almost Zero Predictive Power</h2>
+<p>Here’s the critical failure: <strong>Quantitative ethnobotany indices don’t predict conservation outcomes, livelihood impacts, or policy success.</strong></p>
+<div id="evidence" class="section level3">
+<h3>Evidence:</h3>
+<ul>
+<li>High Use Value for a species doesn’t predict whether conservation efforts will succeed</li>
+<li>High Relative Importance doesn’t predict whether a livelihood intervention will work</li>
+<li>Knowledge of a medicinal plant doesn’t predict whether communities will adopt it at scale</li>
+<li>Agreement among informants doesn’t predict whether adoption is sustainable</li>
+</ul>
+<p>Why? Because <strong>knowledge ≠ practice ≠ outcomes.</strong></p>
+<p>A community may know a species is nutritious (high citation) but can’t afford to grow it (poverty constraints). A species may have high value (high UV) but be inaccessible (land tenure). A medicine may be well-known (high citations) but people may prefer hospital care (preference shift).</p>
+<p><strong>Indices describe knowledge. They don’t predict what happens in the real world.</strong></p>
+<p>This is a fundamental limitation that is almost never acknowledged when indices are cited as evidence for conservation or development interventions.</p>
+<hr />
+</div>
+</div>
+</div>
+<div id="statistical-limitations-the-numbers-behind-the-numbers" class="section level1">
+<h1>3. Statistical Limitations (The Numbers Behind the Numbers)</h1>
+<div id="confidence-intervals-are-usually-wide" class="section level2">
+<h2>3.1 Confidence Intervals Are Usually Wide</h2>
+<p>With typical ethnobotany sample sizes (n = 20-50 informants), confidence intervals around indices are wide.</p>
+<div id="example-4" class="section level3">
+<h3>Example:</h3>
+<p>If 12 of 20 informants cite a use: - UV = 0.60 - 95% Confidence Interval (Wilson method): [0.36, 0.81]</p>
+<p><strong>That’s a range of ±0.22 around the point estimate.</strong></p>
+<p>If another species has UV = 0.55 (11 of 20), its CI is roughly [0.31, 0.76].</p>
+<p><strong>The two intervals overlap substantially.</strong> You cannot claim one UV is meaningfully higher than the other.</p>
+<p>Yet papers routinely rank species by UV without acknowledging this overlap. They present differences that, statistically, are indistinguishable.</p>
+</div>
+</div>
+<div id="power-to-detect-differences-is-low" class="section level2">
+<h2>3.2 Power to Detect Differences Is Low</h2>
+<p>Most ethnobotany papers don’t report statistical power. If they did, they’d find:</p>
+<ul>
+<li>To reliably detect a difference of UV = 0.60 vs. 0.40 with α = 0.05 and 80% power, you need n ≈ 56 per group</li>
+<li>Most ethnobotany studies have smaller samples</li>
+<li><strong>Conclusion: Many published “differences” in UV between groups are not statistically reliable</strong></li>
+</ul>
+</div>
+<div id="multiple-comparisons-problem" class="section level2">
+<h2>3.3 Multiple Comparisons Problem</h2>
+<p>If you calculate indices for 30 plant species across 10 categories of use, that’s 300 different statistics. Even if there’s no real pattern, random noise will produce some “significant” differences by chance.</p>
+<p>Few ethnobotany papers correct for multiple comparisons. They report the apparent findings without acknowledging the multiple testing inflation.</p>
+</div>
+<div id="representativeness-is-usually-unknown" class="section level2">
+<h2>3.4 Representativeness Is Usually Unknown</h2>
+<p>Who did you interview? - Gender balance? (Usually weighted toward older males, who are assumed “elders”) - Wealth representation? (Wealthier people often more accessible; poorer farmers harder to reach) - Age range? (Youth often underrepresented; dying knowledge is often overrepresented) - Geographic coverage? (Easy to over-sample in villages near roads; remote areas undersampled)</p>
+<p><strong>Yet indices are reported as if they represent “the community.”</strong> They usually represent “the people we could conveniently access.”</p>
+<hr />
+</div>
+</div>
+<div id="validity-questions-what-do-indices-actually-measure" class="section level1">
+<h1>4. Validity Questions: What Do Indices Actually Measure?</h1>
+<div id="are-you-measuring-use-or-knowledge" class="section level2">
+<h2>4.1 Are You Measuring Use or Knowledge?</h2>
+<p><strong>Use Value</strong> is based on citation frequency in interviews. But citations measure <strong>knowledge</strong>, not <strong>actual use</strong>.</p>
+<ul>
+<li>Someone might cite a use they heard about but never practice</li>
+<li>Someone might practice a use but forget to mention it (salience bias)</li>
+<li>Someone might hide use due to stigma or fear (social desirability bias)</li>
+</ul>
+<div id="example-5" class="section level3">
+<h3>Example:</h3>
+<p>Interview question: “What do you use <em>Artemisia annua</em> for?”</p>
+<p>Response: “My grandmother used it for fever; I think it helps.”</p>
+<p><strong>Does this count as a citation?</strong> The person hasn’t used it; they have secondhand knowledge.</p>
+<p>Different researchers would code this differently. The same Use Value number obscures these disagreements.</p>
+</div>
+</div>
+<div id="are-you-measuring-frequency-or-salience" class="section level2">
+<h2>4.2 Are You Measuring Frequency or Salience?</h2>
+<p>People cite plants they think about frequently, not necessarily plants they use most.</p>
+<ul>
+<li>A medicinal plant used once in emergencies might be highly salient (memorable) and get many citations</li>
+<li>A staple food eaten every day might be so routine people forget to mention it</li>
+<li>A ceremonial plant might be cited for its cultural weight, not its use frequency</li>
+</ul>
+<p>Use Value captures <strong>salience, not objective use.</strong></p>
+</div>
+<div id="are-you-measuring-importance-or-accessibility" class="section level2">
+<h2>4.3 Are You Measuring Importance or Accessibility?</h2>
+<p>A plant might be cited by many people not because it’s important but because it’s <strong>available</strong>.</p>
+<ul>
+<li>If everyone lives near a particular tree, they all know about it and cite it</li>
+<li>That creates high UV, but it doesn’t mean the tree is uniquely important</li>
+<li>It means it’s locally abundant</li>
+</ul>
+<p><strong>Yet the index doesn’t distinguish between “important” and “available.”</strong></p>
+<hr />
+</div>
+</div>
+<div id="when-indices-are-actually-useful" class="section level1">
+<h1>5. When Indices Are Actually Useful</h1>
+<p><strong>Given all those problems, are indices worth anything?</strong></p>
+<p>Yes. But only in limited contexts, with caveats.</p>
+<div id="describing-knowledge-distribution-not-predicting-outcomes" class="section level2">
+<h2>5.1 Describing Knowledge Distribution (Not Predicting Outcomes)</h2>
+<p><strong>What indices can do:</strong> Show which plants/uses are widely known vs. specialized knowledge.</p>
+<div id="example-6" class="section level3">
+<h3>Example:</h3>
+<p>UV = 0.85 (excellent knowledge distribution; most community members cite it)</p>
+<p>This tells you: “This plant is widely known.”</p>
+<p>It doesn’t tell you: - Whether it’s widely used (people know about it but don’t use it) - Whether use is sustainable (it might be overexploited) - Whether it will remain important (climate change might make it unreliable) - Whether conservation efforts will protect it (knowledge ≠ action)</p>
+<p><strong>But it does tell you:</strong> This is not specialized knowledge; it’s common understanding.</p>
+</div>
+</div>
+<div id="surfacing-disagreement-and-variation" class="section level2">
+<h2>5.2 Surfacing Disagreement and Variation</h2>
+<p><strong>The real value of indices</strong> is not the single number but <strong>what variation around it reveals.</strong></p>
+<p>If Use Value for a medicinal plant averages 0.60 across the community, but disaggregating shows: - Older women = 0.85 - Younger women = 0.40 - Men = 0.50</p>
+<p><strong>You’ve just discovered something important:</strong> Knowledge is not evenly distributed. Gender and age matter. This variation is actionable for program design.</p>
+<p><strong>Indices are useful for forcing yourself to disaggregate and show variation, not for producing a comparable single metric.</strong></p>
+</div>
+<div id="facilitating-dialogue-not-decision-making" class="section level2">
+<h2>5.3 Facilitating Dialogue (Not Decision-Making)</h2>
+<p>In a workshop, if you present “Use Value of 0.67,” people hear: “This plant is 67% important—it’s scientific.”</p>
+<p>That’s misleading. But if you present: “14 of 20 community members cited this plant; 11 of 14 women cited it as nutritious, but only 5 of 9 men did,” you’ve opened a conversation.</p>
+<p><strong>The index becomes a prompt for dialogue,</strong> not the answer itself.</p>
+<p>This is honest use of indices: - Calculate them - Report why different groups cite differently - Let people discuss what that variation means - Make decisions <em>about</em> the variation, not <em>based on</em> the index</p>
+</div>
+<div id="communicating-to-non-expert-audiences" class="section level2">
+<h2>5.4 Communicating to Non-Expert Audiences</h2>
+<p>Sometimes you need to explain complex knowledge to people unfamiliar with ethnobotany. A simple number can be a communication tool.</p>
+<p>“68% of interviewed farmers recognize this species’ nutritional value” is more accessible than a 20-page qualitative description.</p>
+<p><strong>But add the caveats:</strong> Sample size, what “recognize” means, which farmers, what changed afterward.</p>
+<hr />
+</div>
+</div>
+<div id="responsible-reporting-how-to-use-indices-if-you-use-them" class="section level1">
+<h1>6. Responsible Reporting: How to Use Indices if You Use Them</h1>
+<p>If you calculate ethnobotany indices, <strong>report them responsibly.</strong></p>
+<div id="always-report-confidence-intervals" class="section level2">
+<h2>6.1 Always Report Confidence Intervals</h2>
+<p><strong>Don’t:</strong></p>
+<pre><code>Use Value of Digitaria exilis = 0.73</code></pre>
+<p><strong>Do:</strong></p>
+<pre><code>Use Value of Digitaria exilis = 0.73 (95% CI: 0.51–0.88, n = 20 informants)</code></pre>
+<p>The confidence interval shows you’re aware that the point estimate is uncertain. It invites readers to see the margin of error.</p>
+</div>
+<div id="disaggregate-by-stakeholder-type-gender-age-wealth-at-minimum" class="section level2">
+<h2>6.2 Disaggregate by Stakeholder Type, Gender, Age, Wealth (At Minimum)</h2>
+<p><strong>Don’t:</strong></p>
+<pre><code>Use Value of medicinal plants ranges from 0.42 to 0.89</code></pre>
+<p><strong>Do:</strong></p>
+<pre><code>Use Value of medicinal plants differs markedly by informant type:
+- Healers: 0.85 (7 of 8; 95% CI: 0.55–0.96)
+- Farmers: 0.62 (8 of 13; 95% CI: 0.40–0.79)
+- Traders: 0.40 (2 of 5; 95% CI: 0.11–0.74)
+
+This variation suggests specialized knowledge among healers. Conservation efforts targeting medicinal plants should engage healers directly, as they hold knowledge others may not have.</code></pre>
+<p><strong>Now the index becomes a springboard for insight, not a false consensus.</strong></p>
+</div>
+<div id="report-actual-frequencies-not-just-percentages" class="section level2">
+<h2>6.3 Report Actual Frequencies, Not Just Percentages</h2>
+<p><strong>Don’t:</strong></p>
+<pre><code>85% of respondents cited nutritional use</code></pre>
+<p><strong>Do:</strong></p>
+<pre><code>17 of 20 respondents cited nutritional use (85%; 95% CI: 67–95%)</code></pre>
+<p>Raw numbers force readers to see sample sizes. They’re less misleading than percentages alone.</p>
+</div>
+<div id="avoid-causal-or-predictive-language" class="section level2">
+<h2>6.4 Avoid Causal or Predictive Language</h2>
+<p><strong>Don’t:</strong></p>
+<pre><code>High Use Value (0.78) indicates this plant is critical for community nutrition.
+Therefore, conservation should prioritize this species.</code></pre>
+<p><strong>Do:</strong></p>
+<pre><code>16 of 20 respondents cited nutritional uses of this plant (Use Value = 0.78; 95% CI: 0.62–0.88).
+However, actual consumption depends on market prices, land access, and dietary preferences—all of which vary. 
+To assess conservation priority, we would need to document: (1) actual consumption patterns, 
+(2) population trends of the wild species, (3) sustainability of current harvest levels, and 
+(4) substitutability if the species becomes unavailable.
+This index contributes one piece of that picture; it is not sufficient for strategy alone.</code></pre>
+<p><strong>This frames the index as what it is: one input among many, not the decision itself.</strong></p>
+</div>
+<div id="name-what-you-dont-know" class="section level2">
+<h2>6.5 Name What You Don’t Know</h2>
+<p><strong>Don’t hide the limitations. Name them:</strong></p>
+<pre><code>Limitations of this analysis:
+- Sample size (n = 20) produces wide confidence intervals; differences between groups 
+  may not be statistically reliable.
+- Participants were selected through convenience sampling; results may overrepresent 
+  accessible community members and underrepresent those unable to attend interviews.
+- Data collection was cross-sectional (single point in time); seasonal, annual, or 
+  multi-year variation in use is not captured.
+- The analysis describes what informants said they know and use; actual consumption 
+  patterns may differ.
+- Citation frequency reflects salience, not necessarily frequency of use.</code></pre>
+<p><strong>Being honest about limitations is not weakness; it’s credibility.</strong></p>
+<hr />
+</div>
+</div>
+<div id="when-not-to-use-indices" class="section level1">
+<h1>7. When NOT to Use Indices</h1>
+<p>Stop. Don’t calculate an index if:</p>
+<div id="your-sample-size-is-less-than-15-per-group" class="section level2">
+<h2>7.1 Your Sample Size Is Less Than ~15 Per Group</h2>
+<p>With n = 10, confidence intervals are so wide that rankings are meaningless. You’re reporting noise as signal.</p>
+<p><strong>Instead:</strong> Describe patterns qualitatively. Quote informants. Show the range of knowledge and practice.</p>
+</div>
+<div id="youre-making-high-stakes-decisions" class="section level2">
+<h2>7.2 You’re Making High-Stakes Decisions</h2>
+<p>If you’re allocating millions in conservation funding, designing policy, or determining land use, <strong>don’t rest that on indices.</strong></p>
+<p>Use indices as <strong>one input</strong> in a larger decision analysis that accounts for: - Actual conservation outcomes (species population trends, ecosystem health) - Livelihood impacts (income, food security, gender equity) - Feasibility (cost, institutional capacity, market conditions) - Values (whose priorities are you serving?)</p>
+</div>
+<div id="you-lack-important-context" class="section level2">
+<h2>7.3 You Lack Important Context</h2>
+<p>If you don’t understand:</p>
+<ul>
+<li>Why communities use plants the way they do (social, economic, historical context)</li>
+<li>What constraints shape actual practice (poverty, policy, climate)</li>
+<li>Power dynamics in the community (who influenced knowledge circulation, whose views dominant)</li>
+</ul>
+<p><strong>Don’t pretend an index captures that.</strong> Indices will mislead you without context.</p>
+</div>
+<div id="different-interpretations-of-whats-being-cited" class="section level2">
+<h2>7.4 Different Interpretations of What’s Being Cited</h2>
+<p>If people in your study have fundamentally different ideas about what they’re using a plant for, aggregating citations is misleading.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Farmer A: “I use this plant as a nitrogen-fixing crop.”</li>
+<li>Farmer B: “I use this plant as fodder.”</li>
+<li>Farmer C: “I use it for ceremonies; it’s not really food.”</li>
+</ul>
+<p>Same plant; different uses; different meanings. Aggregating into a single citation obscures this diversity.</p>
+<p><strong>Better approach:</strong> Show the different uses separately. Let the variation speak for itself.</p>
+<hr />
+</div>
+</div>
+<div id="the-paradox-why-ethnobotanyr-exists-and-why-its-critical" class="section level1">
+<h1>8. The Paradox: Why ethnobotanyR Exists, and Why It’s Critical</h1>
+<div id="the-attraction" class="section level2">
+<h2>8.1 The Attraction</h2>
+<p><code>ethnobotanyR</code> makes it easy to calculate indices. That’s useful: - <strong>Accessibility:</strong> Non-statisticians can compute complex measures - <strong>Standardization:</strong> Everyone uses the same formula; results are comparable - <strong>Transparency:</strong> Code is visible; calculations are reproducible</p>
+</div>
+<div id="the-danger" class="section level2">
+<h2>8.2 The Danger</h2>
+<p>Easy computation becomes incentive to compute without thought:</p>
+<ul>
+<li>Researchers calculate UV for 50 species without understanding what variation means</li>
+<li>Results get published as fact (“Use Value = 0.62”) without caveats</li>
+<li>Policy makers read the number and make decisions</li>
+<li>Communities are affected by decisions resting on incomplete understanding</li>
+</ul>
+<p><strong>The package’s accessibility paradoxically increases the risk of misuse.</strong></p>
+</div>
+<div id="our-responsibility" class="section level2">
+<h2>8.3 Our Responsibility</h2>
+<p>As maintainers and users of <code>ethnobotanyR</code>, we bear responsibility:</p>
+<ul>
+<li><strong>We should not encourage false precision.</strong> Every function in the package should include documentation of limitations.</li>
+<li><strong>We should make disaggregation the default, not an afterthought.</strong> If you calculate an index, calculate it by subgroup, not just overall.</li>
+<li><strong>We should teach via examples that show responsible and irresponsible use.</strong> Make the consequences of misuse clear.</li>
+<li><strong>We should steer users toward robust methods</strong> (Bayesian modeling, decision analysis, qualitative synthesis) rather than stopping at indices.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="forward-what-robust-ethnobotanical-research-looks-like" class="section level1">
+<h1>9. Forward: What Robust Ethnobotanical Research Looks Like</h1>
+<p>If you want to make ethnobotanical knowledge useful for conservation or development, indices alone are insufficient. This is what responsible work includes:</p>
+<div id="quantify-but-with-caveats" class="section level2">
+<h2>9.1 Quantify, but With Caveats</h2>
+<ul>
+<li>Calculate Use Value, RI, etc.</li>
+<li>Always report confidence intervals</li>
+<li>Always disaggregate by stakeholder type, gender, age, wealth, geography</li>
+<li>Never report an index without the raw frequency data</li>
+<li>Name study limitations (sample size, representativeness, temporal snapshot)</li>
+</ul>
+</div>
+<div id="triangulate-connect-knowledge-to-actual-practice" class="section level2">
+<h2>9.2 Triangulate: Connect Knowledge to Actual Practice</h2>
+<ul>
+<li>Interview: What do people say they know and use?</li>
+<li>Observe: What do they actually do? (Market data, harvesting patterns, food diaries)</li>
+<li>Compare: Where do reported and observed diverge? Why?</li>
+<li>Explain: What barriers or incentives explain the gap?</li>
+</ul>
+<p><strong>Knowledge is not practice. You must document both.</strong></p>
+</div>
+<div id="model-under-uncertainty-use-bayesian-methods" class="section level2">
+<h2>9.3 Model Under Uncertainty: Use Bayesian Methods</h2>
+<p>Instead of presenting a single point estimate (Use Value = 0.73), use Bayesian networks to show: - What we know about plant use (elicited from interviews) - What we’re uncertain about - How decisions change with different assumptions - What would convince us to change our minds</p>
+<p>See the TEK Modeling vignette in <code>ethnobotanyR</code> for practical examples.</p>
+</div>
+<div id="frame-decisions-explicitly" class="section level2">
+<h2>9.4 Frame Decisions Explicitly</h2>
+<p>Use ethnobotanical knowledge to <strong>inform</strong> decisions, not <strong>determine</strong> them.</p>
+<p>Run structured decision-framing exercises that:</p>
+<ul>
+<li>Surface stakeholder values and priorities</li>
+<li>Name structural constraints (what’s possible given tenure, markets, policy, climate)</li>
+<li>Acknowledge tradeoffs (you can’t optimize all values simultaneously)</li>
+<li>Build in learning and adaptation (plans will change; that’s okay)</li>
+</ul>
+<p>See the Decision-Framing vignette in <code>ethnobotanyR</code> for methods.</p>
+</div>
+<div id="follow-up-document-implementation-and-outcomes" class="section level2">
+<h2>9.5 Follow Up: Document Implementation and Outcomes</h2>
+<p>The real test of ethnobotanical research is impact:</p>
+<ul>
+<li>Did documented knowledge actually inform decisions?</li>
+<li>Were interventions implemented as planned?</li>
+<li>Did they achieve intended outcomes?</li>
+<li>What unexpected consequences emerged?</li>
+<li>What would you do differently?</li>
+</ul>
+<p>Most ethnobotany papers stop at the index or workshop. <strong>Research that stops there doesn’t really know whether it mattered.</strong></p>
+<hr />
+</div>
+</div>
+<div id="summary-the-principles" class="section level1">
+<h1>10. Summary: The Principles</h1>
+<p><strong>Use ethnobotany indices as a communication tool and a prompt for dialogue, not as the foundation of decisions.</strong></p>
+<p>Operate by these principles:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Transparency:</strong> Show all assumptions, methods, and limitations.</li>
+<li><strong>Disaggregation:</strong> Reveal variation; don’t hide it in means.</li>
+<li><strong>Humility:</strong> Acknowledge what you don’t know.</li>
+<li><strong>Triangulation:</strong> Triangulate knowledge against practice, outcomes, and context.</li>
+<li><strong>Responsibility:</strong> Never report a number without context; never let a number substitute for judgment.</li>
+<li><strong>Integration:</strong> Use indices as one input in larger frameworks (decision analysis, Bayesian modeling, participatory processes).</li>
+</ol>
+<hr />
+</div>
+<div id="references" class="section level1">
+<h1>11. References</h1>
+<p><strong>On limitations of ethnobotany indices:</strong> - Nadasdy, P. (1999). The politics of TEK: Power and the “integration” of knowledge. <em>Arctic Anthropology</em>, 36(1/2), 1-18. - Agrawal, A. (2002). Indigenous knowledge and the politics of development. <em>Critique of Anthropology</em>, 22(2), 141-164. - Timbrook, B., &amp; Groesbeck, A. S. (2004). Chumash ethnobotany: Aboriginal uses of California plants. The Huntington Library.</p>
+<p><strong>On responsible quantitative ethnobotany:</strong> - Tardio, J., &amp; Pardo-de-Santayana, M. (2008). Cultural Importance Indices: A Comparative Analysis Based on the Useful Wild Plants of Southern Cantabria (Northern Spain). <em>Economic Botany</em>, 62(1), 24-39. - Whitney, C. W., Bahati, J., &amp; Gebauer, J. (2018). Ethnobotany and agrobiodiversity; valuation of plants in the homegardens of southwestern Uganda. <em>Ethnobiology Letters</em>, 9(2), 90-100.</p>
+<p><strong>On decision analysis and TEK integration:</strong> - Gregory, R., &amp; Keeney, R. L. (1994). Creating policy alternatives using stakeholder values. <em>Management Science</em>, 40(8), 1035-1048.</p>
+<p><strong>On Bayesian modeling of ethnobotanical knowledge:</strong> - See companion vignette: TEK Modeling with Bayesian Networks</p>
+<hr />
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
