@@ -12,13 +12,10 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
-#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
-#' @importFrom stats qt sd
 #' 
-#' @importFrom dplyr filter summarize select left_join group_by slice rename arrange mutate
+#' @importFrom dplyr filter summarize select left_join group_by slice
 #' @importFrom magrittr %>%
 #' @importFrom reshape2 melt
-#' @importFrom stats complete.cases
 #' 
 #' @keywords arith math logic methods misc survey
 #'
@@ -46,7 +43,7 @@
 #' 
 #' @export FLs
 #' 
-FLs <- function(data, calculate_ci = FALSE) {
+FLs <- function(data) {
   
   #Add error stops ####
    #Check that packages are loaded
@@ -107,20 +104,5 @@ FLspdata <- dplyr::left_join(Iu, Ip, by = "sp_name")
    dplyr::arrange(sp_name)%>%
    dplyr::mutate(FLs = round(FLs, 2))
   
-  if (!calculate_ci) {
-    return(as.data.frame(FLs))
-  } else {
-    mean_FL <- FLspdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize(
-        mean_FL = mean(FLs, na.rm = TRUE),
-        sd_FL = sd(FLs, na.rm = TRUE),
-        n = dplyr::n()
-      )
-    error <- qt(0.975, mean_FL$n - 1) * mean_FL$sd_FL / sqrt(mean_FL$n)
-    mean_FL$lower <- mean_FL$mean_FL - error
-    mean_FL$upper <- mean_FL$mean_FL + error
-    mean_FL <- mean_FL %>% dplyr::arrange(-mean_FL)
-    attr(mean_FL, "note") <- "Confidence interval is for the mean fidelity level per informant for each species (95% CI, t-distribution)."
-    return(as.data.frame(mean_FL))
-  }
+  as.data.frame(FLs)
 }

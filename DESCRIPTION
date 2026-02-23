@@ -22,6 +22,21 @@ URL: https://CRAN.R-project.org/package=ethnobotanyR
 BugReports: https://github.com/CWWhitney/ethnobotanyR/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
-Suggests: broom, knitr, rmarkdown, tidyr, stringr, purrr, tibble, vegan, bnlearn, causaleffect, gRain, pbapply, tidyselect, tidyverse
+RoxygenNote: 7.3.3
+Suggests: 
+    broom, 
+    knitr,
+    rmarkdown, 
+    tidyr,
+    stringr,
+    purrr,
+    tibble,
+    vegan,
+    AnthroTools,
+    bnlearn,
+    causaleffect,
+    gRain,
+    pbapply,
+    tidyselect,
+    tidyverse
 VignetteBuilder: knitr

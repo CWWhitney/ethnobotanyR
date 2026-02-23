@@ -8,8 +8,6 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
-#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
-#' @importFrom stats qt sd
 #' 
 #' @keywords arith math logic methods misc survey
 #'
@@ -41,7 +39,7 @@
 #' 
 #' @export RIs
 #' 
-RIs <- function(data, calculate_ci = FALSE) {
+RIs <- function(data) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -114,18 +112,5 @@ RIs <- function(data, calculate_ci = FALSE) {
       dplyr::select(sp_name, RIs) %>%
       dplyr::mutate(RIs = round(RIs, 3))
 
-    if (!calculate_ci) {
-      return(as.data.frame(RIs))
-    } else {
-      mean_RI <- RIs %>% dplyr::summarize(
-        mean_RI = mean(RIs),
-        sd_RI = sd(RIs),
-        n = dplyr::n()
-      )
-      error <- qt(0.975, mean_RI$n - 1) * mean_RI$sd_RI / sqrt(mean_RI$n)
-      mean_RI$lower <- mean_RI$mean_RI - error
-      mean_RI$upper <- mean_RI$mean_RI + error
-      attr(mean_RI, "note") <- "Confidence interval is for the mean relative importance index for all species (95% CI, t-distribution)."
-      return(as.data.frame(mean_RI))
-    }
+    as.data.frame(RIs)
 }

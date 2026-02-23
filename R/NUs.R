@@ -8,8 +8,6 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
-#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
-#' @importFrom stats qt sd
 #' 
 #' @keywords arith math logic methods misc survey
 #' 
@@ -20,9 +18,8 @@
 #' Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
 #' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 #' 
-#' @importFrom dplyr select mutate_if arrange
-#' @importFrom magrittr %>%
-#' @importFrom stats aggregate complete.cases
+#' @importFrom dplyr select
+#' @importFrom stats aggregate
 #' 
 #' @examples
 #' 
@@ -40,7 +37,7 @@
 #' NUs(eb_data)
 #' 
 #'@export NUs
-NUs <- function(data, calculate_ci = FALSE) {
+NUs <- function(data) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -75,28 +72,18 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
   NUdata <- NUdataaggr <- NUs <- informant <- sp_name <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   NUdata <- data #create complete subset-able data
-  NUdata$NUps <- dplyr::select(NUdata, -informant, -sp_name) %>% rowSums()
-  if (!calculate_ci) {
-    #Calculate NUs
+  
+  #Calculate NUs
     NUdataaggr <- stats::aggregate(dplyr::select(NUdata, -informant, -sp_name),
         by = list(sp_name = data$sp_name),FUN = sum)
+    
     NUdataaggr <- NUdataaggr %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
+    
     NUdataaggr$NUs <- NUdataaggr %>% dplyr::select(-sp_name) %>% rowSums()
+    
+    #change sort order
     NUs <- dplyr::select(NUdataaggr, sp_name, NUs) %>%
-      dplyr::arrange(-NUs)
-    return(as.data.frame(NUs))
-  } else {
-    mean_NU <- NUdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize(
-        mean_NU = mean(NUps),
-        sd_NU = sd(NUps),
-        n = dplyr::n()
-      )
-    error <- qt(0.975, mean_NU$n - 1) * mean_NU$sd_NU / sqrt(mean_NU$n)
-    mean_NU$lower <- mean_NU$mean_NU - error
-    mean_NU$upper <- mean_NU$mean_NU + error
-    mean_NU <- mean_NU %>% dplyr::arrange(-mean_NU)
-    attr(mean_NU, "note") <- "Confidence interval is for the mean number of uses per informant for each species (95% CI, t-distribution)."
-    return(as.data.frame(mean_NU))
-  }
+      dplyr::arrange(-NUs) 
+    
+    as.data.frame(NUs)
 }

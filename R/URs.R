@@ -21,9 +21,8 @@
 #' Identification for informants and species must be listed by the names 'informant' and 'sp_name' respectively in the data set.
 #' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 #' 
-#' @importFrom dplyr filter summarize select left_join group_by arrange mutate select
+#' @importFrom dplyr filter summarize select left_join group_by 
 #' @importFrom magrittr %>%
-#' @importFrom stats complete.cases
 #' 
 #' @examples
 #' 
@@ -41,7 +40,7 @@
 #' 
 #' @export URs
 #' 
-URs <- function(data, calculate_ci = FALSE) {
+URs <- function(data) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -82,30 +81,13 @@ URs <- function(data, calculate_ci = FALSE) {
   
   # Set the variables to NULL first, appeasing R CMD check
   URdata <- URs <- sp_name <- informant <- URps <- NULL
-
-  URdata <- data #create complete subset-able data
-  URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
-
-  if (!calculate_ci) {
+  
+   URdata <- data #create complete subset-able data
+   
+   URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
     URs <- URdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize(URs = sum(URps)) %>%
-      dplyr::arrange(-URs)
-    return(as.data.frame(URs))
-  } else {
-    # Calculate mean UR per informant per species
-    mean_UR <- URdata %>% dplyr::group_by(sp_name) %>%
-      dplyr::summarize(
-        mean_UR = mean(URps),
-        sd_UR = sd(URps),
-        n = dplyr::n()
-      )
-    # Calculate confidence interval for mean (t-distribution)
-    # Always use 95% confidence interval
-    error <- qt(0.975, mean_UR$n - 1) * mean_UR$sd_UR / sqrt(mean_UR$n)
-    mean_UR$lower <- mean_UR$mean_UR - error
-    mean_UR$upper <- mean_UR$mean_UR + error
-    mean_UR <- mean_UR %>% dplyr::arrange(-mean_UR)
-    attr(mean_UR, "note") <- "Confidence interval is for the mean number of use reports per informant for each species (95% CI, t-distribution)."
-    return(as.data.frame(mean_UR))
-  }
+                dplyr::summarize (URs = sum(URps)) %>%
+      dplyr::arrange(-URs) 
+    
+    as.data.frame(URs)
 }
