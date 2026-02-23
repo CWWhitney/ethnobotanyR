@@ -12,7 +12,7 @@
 
 <meta name="author" content="Cory Whitney" />
 
-<meta name="date" content="2026-02-22" />
+<meta name="date" content="2026-02-23" />
 
 <title>Honest Ethnobotany: Quantitative Indices, Their Limitations, and How to Use Them Responsibly</title>
 
@@ -29,6 +29,108 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -47,7 +149,7 @@
 
 <h1 class="title toc-ignore">Honest Ethnobotany: Quantitative Indices, Their Limitations, and How to Use Them Responsibly</h1>
 <h4 class="author">Cory Whitney</h4>
-<h4 class="date">2026-02-22</h4>
+<h4 class="date">2026-02-23</h4>
 
 
 
@@ -282,6 +384,33 @@
 <p><strong>Do:</strong></p>
 <pre><code>Use Value of Digitaria exilis = 0.73 (95% CI: 0.51–0.88, n = 20 informants)</code></pre>
 <p>The confidence interval shows you’re aware that the point estimate is uncertain. It invites readers to see the margin of error.</p>
+<div id="example-calculating-a-bayesian-credible-interval-for-use-value-in-r" class="section level3">
+<h3>Example: Calculating a Bayesian Credible Interval for Use Value in R</h3>
+<p>You can use a simple Bayesian approach to calculate a credible interval for Use Value (UV) using the Beta-binomial model. This is robust for small samples and easy to interpret:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppose 12 citations out of 20 informants</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">12</span>  <span class="co"># citations</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span>  <span class="co"># informants</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior parameters for Beta(1,1) prior</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>alpha_post <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>beta_post <span class="ot">&lt;-</span> n <span class="sc">-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior mean</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>mean_uv <span class="ot">&lt;-</span> alpha_post <span class="sc">/</span> (alpha_post <span class="sc">+</span> beta_post)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># mean</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>mean_uv</span></code></pre></div>
+<pre><code>## [1] 0.5909091</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% credible interval</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ci_uv <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), alpha_post, beta_post)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># upper </span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ci_uv[<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 0.3843544</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lower </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ci_uv[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 0.7818031</code></pre>
+<p><strong>Interpretation:</strong> This gives the probability that the true Use Value lies within the interval 0.3843544 to 0.7818031, given your data and a uniform prior. You can repeat this for each species or group.</p>
+</div>
 </div>
 <div id="disaggregate-by-stakeholder-type-gender-age-wealth-at-minimum" class="section level2">
 <h2>6.2 Disaggregate by Stakeholder Type, Gender, Age, Wealth (At Minimum)</h2>
@@ -350,23 +479,13 @@ This index contributes one piece of that picture; it is not sufficient for strat
 </div>
 <div id="you-lack-important-context" class="section level2">
 <h2>7.3 You Lack Important Context</h2>
-<p>If you don’t understand:</p>
-<ul>
-<li>Why communities use plants the way they do (social, economic, historical context)</li>
-<li>What constraints shape actual practice (poverty, policy, climate)</li>
-<li>Power dynamics in the community (who influenced knowledge circulation, whose views dominant)</li>
-</ul>
+<p>If you don’t understand: - Why communities use plants the way they do (social, economic, historical context) - What constraints shape actual practice (poverty, policy, climate) - Power dynamics in the community (who influenced knowledge circulation, whose views dominant)</p>
 <p><strong>Don’t pretend an index captures that.</strong> Indices will mislead you without context.</p>
 </div>
 <div id="different-interpretations-of-whats-being-cited" class="section level2">
 <h2>7.4 Different Interpretations of What’s Being Cited</h2>
 <p>If people in your study have fundamentally different ideas about what they’re using a plant for, aggregating citations is misleading.</p>
-<p><strong>Example:</strong></p>
-<ul>
-<li>Farmer A: “I use this plant as a nitrogen-fixing crop.”</li>
-<li>Farmer B: “I use this plant as fodder.”</li>
-<li>Farmer C: “I use it for ceremonies; it’s not really food.”</li>
-</ul>
+<p><strong>Example:</strong> - Farmer A: “I use this plant as a nitrogen-fixing crop.” - Farmer B: “I use this plant as fodder.” - Farmer C: “I use it for ceremonies; it’s not really food.”</p>
 <p>Same plant; different uses; different meanings. Aggregating into a single citation obscures this diversity.</p>
 <p><strong>Better approach:</strong> Show the different uses separately. Let the variation speak for itself.</p>
 <hr />
@@ -377,16 +496,11 @@ This index contributes one piece of that picture; it is not sufficient for strat
 <div id="the-attraction" class="section level2">
 <h2>8.1 The Attraction</h2>
 <p><code>ethnobotanyR</code> makes it easy to calculate indices. That’s useful: - <strong>Accessibility:</strong> Non-statisticians can compute complex measures - <strong>Standardization:</strong> Everyone uses the same formula; results are comparable - <strong>Transparency:</strong> Code is visible; calculations are reproducible</p>
+<p>These are genuine goods.</p>
 </div>
 <div id="the-danger" class="section level2">
 <h2>8.2 The Danger</h2>
-<p>Easy computation becomes incentive to compute without thought:</p>
-<ul>
-<li>Researchers calculate UV for 50 species without understanding what variation means</li>
-<li>Results get published as fact (“Use Value = 0.62”) without caveats</li>
-<li>Policy makers read the number and make decisions</li>
-<li>Communities are affected by decisions resting on incomplete understanding</li>
-</ul>
+<p>Easy computation becomes incentive to compute without thought: - Researchers calculate UV for 50 species without understanding what variation means - Results get published as fact (“Use Value = 0.62”) without caveats - Policy makers read the number and make decisions - Communities are affected by decisions resting on incomplete understanding</p>
 <p><strong>The package’s accessibility paradoxically increases the risk of misuse.</strong></p>
 </div>
 <div id="our-responsibility" class="section level2">
@@ -432,25 +546,12 @@ This index contributes one piece of that picture; it is not sufficient for strat
 <div id="frame-decisions-explicitly" class="section level2">
 <h2>9.4 Frame Decisions Explicitly</h2>
 <p>Use ethnobotanical knowledge to <strong>inform</strong> decisions, not <strong>determine</strong> them.</p>
-<p>Run structured decision-framing exercises that:</p>
-<ul>
-<li>Surface stakeholder values and priorities</li>
-<li>Name structural constraints (what’s possible given tenure, markets, policy, climate)</li>
-<li>Acknowledge tradeoffs (you can’t optimize all values simultaneously)</li>
-<li>Build in learning and adaptation (plans will change; that’s okay)</li>
-</ul>
+<p>Run structured decision-framing exercises that: - Surface stakeholder values and priorities - Name structural constraints (what’s possible given tenure, markets, policy, climate) - Acknowledge tradeoffs (you can’t optimize all values simultaneously) - Build in learning and adaptation (plans will change; that’s okay)</p>
 <p>See the Decision-Framing vignette in <code>ethnobotanyR</code> for methods.</p>
 </div>
 <div id="follow-up-document-implementation-and-outcomes" class="section level2">
 <h2>9.5 Follow Up: Document Implementation and Outcomes</h2>
-<p>The real test of ethnobotanical research is impact:</p>
-<ul>
-<li>Did documented knowledge actually inform decisions?</li>
-<li>Were interventions implemented as planned?</li>
-<li>Did they achieve intended outcomes?</li>
-<li>What unexpected consequences emerged?</li>
-<li>What would you do differently?</li>
-</ul>
+<p>The real test of ethnobotanical research is impact: - Did documented knowledge actually inform decisions? - Were interventions implemented as planned? - Did they achieve intended outcomes? - What unexpected consequences emerged? - What would you do differently?</p>
 <p>Most ethnobotany papers stop at the index or workshop. <strong>Research that stops there doesn’t really know whether it mattered.</strong></p>
 <hr />
 </div>
