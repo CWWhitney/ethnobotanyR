@@ -13,7 +13,9 @@
 #' 
 #' @return Data frame of species and frequency of citation (FC) values.
 #' 
-#' @importFrom dplyr filter summarize select left_join group_by 
+#' @importFrom dplyr filter summarize select left_join group_by arrange mutate
+#' @importFrom magrittr %>%
+#' @importFrom stats complete.cases
 #' @importFrom magrittr %>%
 #' 
 #' @examples

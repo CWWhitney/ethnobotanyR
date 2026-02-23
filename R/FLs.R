@@ -13,9 +13,10 @@
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
 #' 
-#' @importFrom dplyr filter summarize select left_join group_by slice
+#' @importFrom dplyr filter summarize select left_join group_by slice rename arrange mutate
 #' @importFrom magrittr %>%
 #' @importFrom reshape2 melt
+#' @importFrom stats complete.cases
 #' 
 #' @keywords arith math logic methods misc survey
 #'

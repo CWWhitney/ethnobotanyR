@@ -31,7 +31,9 @@
 #' Most quantitative ethnobotany tools are not equipped for cases where the theoretical maximum number of use reports in one category, for one species by one informant is >1. 
 #' This function and the bayes_boot function may be useful to work with these richer datasets for the Bayes consensus analysis.
 #' 
-#' @importFrom dplyr filter summarize select left_join group_by 
+#' @importFrom dplyr filter summarize select left_join group_by select
+#' @importFrom magrittr %>%
+#' @importFrom stats complete.cases
 #' @importFrom ggridges geom_density_ridges theme_ridges
 #' 
 #' @examples

@@ -22,7 +22,7 @@
 #' The rest of the columns should all represent separate identified ethnobotany use categories. These data should be populated with counts of uses per informant (should be 0 or 1 values).
 #' 
 #' @importFrom magrittr %>%
-#' @importFrom dplyr filter summarize select left_join group_by mutate
+#' @importFrom dplyr filter summarize select left_join group_by mutate arrange
 #'
 #' @examples
 #'

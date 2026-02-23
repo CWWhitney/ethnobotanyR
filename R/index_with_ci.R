@@ -7,6 +7,9 @@
 #' @param data A data frame with columns 'informant', 'sp_name', and use categories (numeric, 0/1).
 #' @param conf.level Confidence level for the interval (default 0.95).
 #'
+#' @importFrom dplyr select all_of group_by summarise arrange mutate pick n_distinct
+#' @importFrom stats prop.test complete.cases
+#' @importFrom magrittr %>%
 #' @return Data frame with columns: sp_name, citations, proportion, lower, upper.
 #'
 #' @note
