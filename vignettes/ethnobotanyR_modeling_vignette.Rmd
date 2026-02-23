@@ -27,7 +27,6 @@ knitr::opts_chunk$set(
 
 load("ethnobotanydata.rda")
 # devtools::install_github('alastair-JL/AnthroTools')
-library(AnthroTools)
 library(dplyr)
 library(ethnobotanyR)
 library(ggalluvial)
@@ -38,7 +37,6 @@ library(magrittr)
 # rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
 
 knitr::write_bib(c(.packages(), 
-                   "AnthroTools",
                    "dplyr",
                    "ethnobotanyR",
                    "ggalluvial",
@@ -133,7 +131,7 @@ ggplot2::ggplot(ethno_boot_melt, aes(x = value,
                 labs(y= "", x = "Example Bayesian bootstraps of the probability of use for two species")
 ```
 
-The `ethno_bayes_consensus` function is inspired by `AnthroTools` package [@R-AnthroTools]. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. 
+The `ethno_bayes_consensus` function is inspired by `AnthroTools` package. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. 
 
 The inputs to the function are informant responses to the use category for each plant, an estimate of informants \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
 
