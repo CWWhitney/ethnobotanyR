@@ -334,6 +334,36 @@ Use Value of Digitaria exilis = 0.73 (95% CI: 0.51–0.88, n = 20 informants)
 
 The confidence interval shows you're aware that the point estimate is uncertain. It invites readers to see the margin of error.
 
+
+### Example: Calculating a Bayesian Credible Interval for Use Value in R
+
+You can use a simple Bayesian approach to calculate a credible interval for Use Value (UV) using the Beta-binomial model. This is robust for small samples and easy to interpret:
+
+```{r}
+# Suppose 12 citations out of 20 informants
+k <- 12  # citations
+n <- 20  # informants
+
+# Posterior parameters for Beta(1,1) prior
+alpha_post <- k + 1
+beta_post <- n - k + 1
+
+# Posterior mean
+mean_uv <- alpha_post / (alpha_post + beta_post)
+# mean
+mean_uv
+
+# 95% credible interval
+ci_uv <- qbeta(c(0.025, 0.975), alpha_post, beta_post)
+
+# upper 
+ci_uv[1]
+# lower 
+ci_uv[2]
+```
+
+**Interpretation:** This gives the probability that the true Use Value lies within the interval `r ci_uv[1]` to `r ci_uv[2]`, given your data and a uniform prior. You can repeat this for each species or group.
+
 ## 6.2 Disaggregate by Stakeholder Type, Gender, Age, Wealth (At Minimum)
 
 **Don't:**
