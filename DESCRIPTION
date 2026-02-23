@@ -23,19 +23,5 @@ BugReports: https://github.com/CWWhitney/ethnobotanyR/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
-    Suggests: broom, 
-        knitr,
-        rmarkdown, 
-        tidyr,
-        stringr,
-        purrr,
-        tibble,
-        vegan,
-        bnlearn,
-        causaleffect,
-            gRain
-            gRain,
-        pbapply,
-        tidyselect,
-        tidyverse
-    VignetteBuilder: knitr
+Suggests: broom, knitr, rmarkdown, tidyr, stringr, purrr, tibble, vegan, bnlearn, causaleffect, gRain, pbapply, tidyselect, tidyverse
+VignetteBuilder: knitr
