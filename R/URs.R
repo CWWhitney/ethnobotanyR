@@ -41,7 +41,7 @@
 #' 
 #' @export URs
 #' 
-URs <- function(data) {
+URs <- function(data, calculate_ci = FALSE) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -82,13 +82,30 @@ URs <- function(data) {
   
   # Set the variables to NULL first, appeasing R CMD check
   URdata <- URs <- sp_name <- informant <- URps <- NULL
-  
-   URdata <- data #create complete subset-able data
-   
-   URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
+
+  URdata <- data #create complete subset-able data
+  URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
+
+  if (!calculate_ci) {
     URs <- URdata %>% dplyr::group_by(sp_name) %>%
-                dplyr::summarize (URs = sum(URps)) %>%
-      dplyr::arrange(-URs) 
-    
-    as.data.frame(URs)
+      dplyr::summarize(URs = sum(URps)) %>%
+      dplyr::arrange(-URs)
+    return(as.data.frame(URs))
+  } else {
+    # Calculate mean UR per informant per species
+    mean_UR <- URdata %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(
+        mean_UR = mean(URps),
+        sd_UR = sd(URps),
+        n = dplyr::n()
+      )
+    # Calculate confidence interval for mean (t-distribution)
+    # Always use 95% confidence interval
+    error <- qt(0.975, mean_UR$n - 1) * mean_UR$sd_UR / sqrt(mean_UR$n)
+    mean_UR$lower <- mean_UR$mean_UR - error
+    mean_UR$upper <- mean_UR$mean_UR + error
+    mean_UR <- mean_UR %>% dplyr::arrange(-mean_UR)
+    attr(mean_UR, "note") <- "Confidence interval is for the mean number of use reports per informant for each species (95% CI, t-distribution)."
+    return(as.data.frame(mean_UR))
+  }
 }

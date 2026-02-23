@@ -8,6 +8,8 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
+#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
+#' @importFrom stats qt sd
 #'
 #' @keywords arith math logic methods misc survey
 #'
@@ -37,7 +39,7 @@
 #' 
 #' @export RFCs
 #' 
-RFCs <- function(data) {
+RFCs <- function(data, calculate_ci = FALSE) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -72,20 +74,27 @@ RFCs <- function(data) {
   
   #calculate FC per species (FCps)
   RFCdata$FCps <- rowSums(dplyr::select(RFCdata, -informant, -sp_name) > 0)
-  
-  #all UR greater than zero to count of '1' FC per species 
   RFCdata$FCps <- (RFCdata$FCps > 0) * 1
-  
-  #calculate N (in case some informants do not have '0' rows for non-mentioned species)
   N <- length(unique(RFCdata$informant))
-  
-  #calculate and create data set of RFCs
-  RFCs <- RFCdata %>% 
-    dplyr::group_by(sp_name) %>% 
-    dplyr::summarize(RFCs = sum(FCps)/N) %>% 
-    dplyr::arrange(-RFCs) %>% 
-    dplyr::mutate(RFCs = round(RFCs, 3))
-
-    as.data.frame(RFCs)
-    }
-
+  if (!calculate_ci) {
+    RFCs_out <- RFCdata %>% 
+      dplyr::group_by(sp_name) %>% 
+      dplyr::summarize(RFCs = sum(FCps)/N) %>% 
+      dplyr::arrange(-RFCs) %>% 
+      dplyr::mutate(RFCs = round(RFCs, 3))
+    return(as.data.frame(RFCs_out))
+  } else {
+    mean_RFC <- RFCdata %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(
+        mean_RFC = mean(FCps),
+        sd_RFC = sd(FCps),
+        n = dplyr::n()
+      )
+    error <- qt(0.975, mean_RFC$n - 1) * mean_RFC$sd_RFC / sqrt(mean_RFC$n)
+    mean_RFC$lower <- mean_RFC$mean_RFC - error
+    mean_RFC$upper <- mean_RFC$mean_RFC + error
+    mean_RFC <- mean_RFC %>% dplyr::arrange(-mean_RFC)
+    attr(mean_RFC, "note") <- "Confidence interval is for the mean relative frequency of citation per informant for each species (95% CI, t-distribution)."
+    return(as.data.frame(mean_RFC))
+  }
+}

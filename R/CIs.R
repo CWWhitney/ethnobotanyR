@@ -10,6 +10,8 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per informant (should be 0 or 1 values).
+#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
+#' @importFrom stats qt sd
 #' 
 #' @keywords arith math logic methods misc survey
 #' 
@@ -40,7 +42,7 @@
 #'
 #'@export CIs
 #'
-CIs <- function(data) {
+CIs <- function(data, calculate_ci = FALSE) {
   #Add error stops ####
     #Check that packages are loaded
     {
@@ -70,19 +72,27 @@ CIs <- function(data) {
   CI <- CIs <- URdata  <- data_Ci <- data_URs <- URps <- sp_name <- informant <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   URdata <- data #create complete subset-able data
-  
-  data_URs <- URs(URdata) #calculate URs()
-    
-    #create new subset-able data
+  URdata$URps <- dplyr::select(URdata, -informant, -sp_name) %>% rowSums()
+  if (!calculate_ci) {
+    data_URs <- URs(URdata)
     data_Ci <- data_URs
-    
-    #calcualte CI (UR/N)
     data_Ci$CI <- data_URs$URs/(length(unique(URdata$informant)))
-    
-    #change sort order, arrange and round
     CIs <- data_Ci %>% dplyr::select(-URs) %>%
       dplyr::arrange(-CI) %>%
       dplyr::mutate(CI = round(CI, 3))
-    
-    as.data.frame(CIs)
+    return(as.data.frame(CIs))
+  } else {
+    mean_CI <- URdata %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(
+        mean_CI = mean(URps),
+        sd_CI = sd(URps),
+        n = dplyr::n()
+      )
+    error <- qt(0.975, mean_CI$n - 1) * mean_CI$sd_CI / sqrt(mean_CI$n)
+    mean_CI$lower <- mean_CI$mean_CI - error
+    mean_CI$upper <- mean_CI$mean_CI + error
+    mean_CI <- mean_CI %>% dplyr::arrange(-mean_CI)
+    attr(mean_CI, "note") <- "Confidence interval is for the mean cultural importance index per informant for each species (95% CI, t-distribution)."
+    return(as.data.frame(mean_CI))
+  }
 }

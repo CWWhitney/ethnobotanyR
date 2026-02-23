@@ -6,7 +6,10 @@ Apple clang version 16.0.0 (clang-1600.0.26.6)
        GNU Fortran (GCC) 14.2.0
 
 ## R CMD check results
-I ran devtools::build() and checked the package with devtools::check(), which also runs devtools::document()
+I ran roxygen2::roxygenise() to generate all documentation from the roxygen comments in my R/ source files.
+I ran devtools::build() 
+I also ran devtools::document()
+I checked the package with devtools::check()
 There were no ERRORs, WARNINGs or NOTEs
 All is well
 

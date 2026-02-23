@@ -8,6 +8,8 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
+#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
+#' @importFrom stats qt sd
 #' 
 #' @keywords arith math logic methods misc survey
 #' 
@@ -32,7 +34,7 @@
 #'
 #'@export FCs
 #'
-FCs <- function(data) {
+FCs <- function(data, calculate_ci = FALSE) {
   
   #Add error stops ####
   #Check that packages are loaded
@@ -63,14 +65,27 @@ FCs <- function(data) {
   FCps <- sp_name <- informant <- FCdata <- FCs <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
   FCdata <- data #create complete subset-able data
-  
   FCdata$FCps <- dplyr::select(FCdata, -informant, -sp_name) %>% rowSums()
   FCdata <- FCdata %>% dplyr::mutate_if(is.numeric, ~1 * (. != 0))
+  if (!calculate_ci) {
     FCs <- FCdata %>% 
       dplyr::group_by(sp_name) %>% 
       dplyr::summarize(FCs = sum(FCps))%>%
-      dplyr::arrange(-FCs) 
-    
-    as.data.frame(FCs)
+      dplyr::arrange(-FCs)
+    return(as.data.frame(FCs))
+  } else {
+    mean_FC <- FCdata %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(
+        mean_FC = mean(FCps),
+        sd_FC = sd(FCps),
+        n = dplyr::n()
+      )
+    error <- qt(0.975, mean_FC$n - 1) * mean_FC$sd_FC / sqrt(mean_FC$n)
+    mean_FC$lower <- mean_FC$mean_FC - error
+    mean_FC$upper <- mean_FC$mean_FC + error
+    mean_FC <- mean_FC %>% dplyr::arrange(-mean_FC)
+    attr(mean_FC, "note") <- "Confidence interval is for the mean frequency of citation per informant for each species (95% CI, t-distribution)."
+    return(as.data.frame(mean_FC))
+  }
 }
 

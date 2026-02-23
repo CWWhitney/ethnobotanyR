@@ -11,6 +11,8 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
+#' @param calculate_ci Logical. If TRUE, returns 95% confidence intervals for the mean per species.
+#' @importFrom stats qt sd
 #' 
 #' @keywords quantitative ethnobotany cultural importance use value
 #'
@@ -40,11 +42,28 @@
 #' 
 #'@export UVs
 #'
-UVs <- function(data) {
+UVs <- function(data, calculate_ci = FALSE) {
   
 UVs <- CI <- NULL # Set variables to NULL first, appeasing R CMD check
   
-  UVs <- CIs(data)
-  dplyr::rename(UVs, UV = CI)
-  
+  data$UVps <- dplyr::select(data, -informant, -sp_name) %>% rowSums()
+  if (!calculate_ci) {
+    UVs_out <- data %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(UV = mean(UVps)) %>%
+      dplyr::arrange(-UV)
+    return(as.data.frame(UVs_out))
+  } else {
+    mean_UV <- data %>% dplyr::group_by(sp_name) %>%
+      dplyr::summarize(
+        mean_UV = mean(UVps),
+        sd_UV = sd(UVps),
+        n = dplyr::n()
+      )
+    error <- qt(0.975, mean_UV$n - 1) * mean_UV$sd_UV / sqrt(mean_UV$n)
+    mean_UV$lower <- mean_UV$mean_UV - error
+    mean_UV$upper <- mean_UV$mean_UV + error
+    mean_UV <- mean_UV %>% dplyr::arrange(-mean_UV)
+    attr(mean_UV, "note") <- "Confidence interval is for the mean use value per informant for each species (95% CI, t-distribution)."
+    return(as.data.frame(mean_UV))
+  }
 }
