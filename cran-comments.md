@@ -13,9 +13,6 @@ All is well
 I checked spelling with devtools::spell_check()
 All is fine
 
-I checked R-hub with devtools::check_rhub()
-All is great
-
 ## Downstream dependencies
 I accessed all dependencies with devtools::install_deps(dependencies = TRUE)
 I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with revdepcheck::revdep_check() on downstream dependencies. All packages passed 
