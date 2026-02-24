@@ -12,7 +12,7 @@ output: github_document
 [![](https://cranlogs.r-pkg.org/badges/last-week/ethnobotanyR?color=green)](https://cran.r-project.org/package=ethnobotanyR)
 <!-- badges: end -->
 
-[!["Buy Me A Coffee"](https://buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cwhitney)
+[!["Buy Me A Coffee"](https://buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/cwhitney)
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(

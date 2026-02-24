@@ -13,7 +13,7 @@ Status](https://r-pkg.org/badges/version/ethnobotanyR?color=yellow)](https://cra
 <!-- badges: end -->
 
 [![“Buy Me A
-Coffee”](https://buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cwhitney)
+Coffee”](https://buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/cwhitney)
 
 # ethnobotanyR
 
