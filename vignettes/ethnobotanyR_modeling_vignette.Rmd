@@ -134,6 +134,7 @@ ggplot2::ggplot(ethno_boot_melt, aes(x = value,
 The `ethno_bayes_consensus` function is inspired by `AnthroTools` package. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. 
 
 The inputs to the function are informant responses to the use category for each plant, an estimate of informants \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
+The `ethno_bayes_consensus` function gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986].
 
 Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function `filter`  [@R-dplyr] to subset to a single species and create a ridge plot. 
 

@@ -6,7 +6,7 @@ Version: 0.2.0
 Authors@R: c( 
     person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre"))
     )
-Date: 2026-03-23
+Date: 2026-02-24
 Depends: R (>= 3.2.0)
 Imports:
     circlize,
