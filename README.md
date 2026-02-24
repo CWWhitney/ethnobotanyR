@@ -23,20 +23,18 @@ latest version.
 
     To cite package 'ethnobotanyR' in publications use:
 
-      Whitney C (2022). _ethnobotanyR: Calculate Quantitative Ethnobotany
-      Indices_. doi:10.32614/CRAN.package.ethnobotanyR
-      <https://doi.org/10.32614/CRAN.package.ethnobotanyR>, R package
-      version 0.1.9, <https://CRAN.R-project.org/package=ethnobotanyR>.
+      Whitney C (2026). _ethnobotanyR: Ethnobotanical Analysis,
+      Decision-Framing, and TEK Modeling_. R package version 0.2.0,
+      <https://CRAN.R-project.org/package=ethnobotanyR>.
 
     A BibTeX entry for LaTeX users is
 
       @Manual{,
-        title = {ethnobotanyR: Calculate Quantitative Ethnobotany Indices},
+        title = {ethnobotanyR: Ethnobotanical Analysis, Decision-Framing, and TEK Modeling},
         author = {Cory Whitney},
-        year = {2022},
-        note = {R package version 0.1.9},
+        year = {2026},
+        note = {R package version 0.2.0},
         url = {https://CRAN.R-project.org/package=ethnobotanyR},
-        doi = {10.32614/CRAN.package.ethnobotanyR},
       }
 
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for
