@@ -6,10 +6,12 @@ Apple clang version 16.0.0 (clang-1600.0.26.6)
        GNU Fortran (GCC) 14.2.0
 
 ## R CMD check results
-I built functions with roxygen2::roxygenise(),
-I ran devtools::build(),
+I built functions with roxygen2::roxygenise()
+I ran devtools::build()
 I checked the package with devtools::check(),
 I ran devtools::document(),
+I ran urlchecker::url_check(),
+I ran rcmdcheck::rcmdcheck()
 There were no ERRORs, WARNINGs or NOTEs
 All is well
 
