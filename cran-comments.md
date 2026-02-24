@@ -9,8 +9,8 @@ Apple clang version 16.0.0 (clang-1600.0.26.6)
 I built functions with roxygen2::roxygenise()
 I ran devtools::build()
 I checked the package with devtools::check(),
-I ran devtools::document(),
-I ran urlchecker::url_check(),
+I ran devtools::document()
+I ran urlchecker::url_check()
 I ran rcmdcheck::rcmdcheck()
 There were no ERRORs, WARNINGs or NOTEs
 All is well
