@@ -19,7 +19,7 @@ I checked spelling with devtools::spell_check()
 All is fine
 
 ## Downstream dependencies
-I accessed all dependencies with devtools::install_deps(dependencies = TRUE)
+I accessed all dependencies with pak::local_install_deps()
 I used the devtools::install_github("r-lib/revdepcheck") to run R CMD check with revdepcheck::revdep_check() on downstream dependencies. All packages passed 
 **After running this I removed the revdep files and submitted with devtools::submit_cran() **
 
