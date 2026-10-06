@@ -337,7 +337,7 @@ The confidence interval shows you're aware that the point estimate is uncertain.
 
 ### Example: Calculating a Bayesian Credible Interval for Use Value in R
 
-You can use a simple Bayesian approach to calculate a credible interval for Use Value (UV) using the Beta-binomial model. This is robust for small samples and easy to interpret:
+You can use a simple Bayesian approach to calculate a credible interval for the share of informants citing a use using the Beta-binomial model (`ethno_beta()` does this per species and use). It applies to 0/1 citations per informant, not to UV, which can exceed 1. This is robust for small samples and easy to interpret:
 
 ```{r}
 # Suppose 12 citations out of 20 informants
@@ -356,9 +356,9 @@ mean_uv
 # 95% credible interval
 ci_uv <- qbeta(c(0.025, 0.975), alpha_post, beta_post)
 
-# upper 
+# lower
 ci_uv[1]
-# lower 
+# upper
 ci_uv[2]
 ```
 
