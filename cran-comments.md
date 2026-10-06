@@ -1,4 +1,11 @@
-devtools::release()
+<!-- Release workflow (devtools 2.5+):
+usethis::use_release_issue()  # creates the checklist; work through it
+devtools::document(); devtools::test(); devtools::check(args = "--as-cran")
+urlchecker::url_check(); devtools::spell_check()
+devtools::check_win_devel(); rhub::rhub_check()
+devtools::submit_cran()  # then confirm by email; tag the release after acceptance
+Deprecated, do not use: devtools::release(), build_vignettes(), check_rhub(), test_file(), reload(), create(), github_release()
+-->
 
 ## Test environments
 * local macOS, R 4.5.1
