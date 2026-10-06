@@ -2,6 +2,7 @@
 <img src="vignettes/ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%"/>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![CRAN
@@ -23,9 +24,8 @@ latest version.
     To cite package 'ethnobotanyR' in publications use:
 
       Whitney C (2026). _ethnobotanyR: Ethnobotanical Analysis,
-      Decision-Framing, and TEK Modeling_. R package version 0.2.0, commit
-      9f92b4085baabfca7bbd78b62291d5ffcfec1c9e,
-      <https://github.com/CWWhitney/ethnobotanyR>.
+      Decision-Framing, and TEK Modeling_. R package version 0.3.0,
+      <https://CRAN.R-project.org/package=ethnobotanyR>.
 
     A BibTeX entry for LaTeX users is
 
@@ -33,8 +33,8 @@ latest version.
         title = {ethnobotanyR: Ethnobotanical Analysis, Decision-Framing, and TEK Modeling},
         author = {Cory Whitney},
         year = {2026},
-        note = {R package version 0.2.0, commit 9f92b4085baabfca7bbd78b62291d5ffcfec1c9e},
-        url = {https://github.com/CWWhitney/ethnobotanyR},
+        note = {R package version 0.3.0},
+        url = {https://CRAN.R-project.org/package=ethnobotanyR},
       }
 
 The goal of `ethnobotanyR` is to provide an easy-to-use platform for
@@ -51,25 +51,25 @@ developing meaningful research questions.
 
 <!-- Links: start -->
 
-| Quick Links                                                                                                                                                                         |
-|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Installing ethnobotanyR**](https://github.com/CWWhitney/ethnobotanyR#Installation)                                                                                               |
-| [**ethnobotanyR CRAN Version**](https://cran.r-project.org/package=ethnobotanyR)                                                                                                    |
+| Quick Links |
+|:---|
+| [**Installing ethnobotanyR**](https://github.com/CWWhitney/ethnobotanyR#Installation) |
+| [**ethnobotanyR CRAN Version**](https://cran.r-project.org/package=ethnobotanyR) |
 | [**Quantitative ethnobotany analysis with ethnobotanyR**](http://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyr_vignette.html) |
-| [**Modeling with ethnobotanyR**](https://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyR_modeling_vignette.html)                |
-| [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki)                                                                                                             |
+| [**Modeling with ethnobotanyR**](https://htmlpreview.github.io/?https://github.com/CWWhitney/ethnobotanyR/blob/master/vignettes/ethnobotanyR_modeling_vignette.html) |
+| [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki) |
 
 <!-- Links: end -->
 
 ## Which method when
 
-| Question                                          | Function                  | Notes                                 |
-|:--------------------------------------------------|:--------------------------|:--------------------------------------|
-| How likely is a use, with uncertainty?            | `ethno_beta()`            | Default; small samples and rare uses  |
-| Is the sample large enough?                       | `ethno_saturation()`      | Rising curve means no                 |
-| What is the consensus answer, and who knows most? | `ethno_consensus()`       | 10+ informants; one shared answer key |
-| Consensus with competence I set                   | `ethno_bayes_consensus()` | Competence is an input                |
-| Uncertainty for any statistic                     | `ethno_boot()`            | Not for rare uses                     |
+| Question | Function | Notes |
+|:---|:---|:---|
+| How likely is a use, with uncertainty? | `ethno_beta()` | Default; small samples and rare uses |
+| Is the sample large enough? | `ethno_saturation()` | Rising curve means no |
+| What is the consensus answer, and who knows most? | `ethno_consensus()` | 10+ informants; one shared answer key |
+| Consensus with competence I set | `ethno_bayes_consensus()` | Competence is an input |
+| Uncertainty for any statistic | `ethno_boot()` | Not for rare uses |
 
 ## Installation
 
