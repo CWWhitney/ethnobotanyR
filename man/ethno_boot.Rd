@@ -5,7 +5,7 @@
 \title{Bootstrap analyses of ethnobotany indices}
 \usage{
 ethno_boot(data, statistic, n1 = 1000, 
-n2 = 1000, ...)
+n2 = NULL, use_weights = FALSE, ...)
 }
 \arguments{
 \item{data}{Can be either a vector, matrix or a data.frame.}
@@ -14,7 +14,9 @@ n2 = 1000, ...)
 
 \item{n1}{The size of the bootstrap sample.}
 
-\item{n2}{The sample size used to calculate the statistic for each bootstrap draw.}
+\item{n2}{The sample size used to calculate the statistic for each bootstrap draw. Defaults to the number of observations. Ignored if 'use_weights = TRUE'.}
+
+\item{use_weights}{If TRUE the statistic is called as 'statistic(data, w)' with Dirichlet weights 'w' (e.g. 'weighted.mean'), the exact Bayesian bootstrap with no extra resampling noise. Default FALSE resamples 'n2' observations with the weights as probabilities.}
 
 \item{...}{Further arguments passed on to the statistic function.}
 }
@@ -24,6 +26,11 @@ Bayesian bootstrap of chosen ethnobotany indices in ethnobotanyR package.
 \description{
 Creates a non-parametric bootstrap as a Bayesian Model \url{https://www.sumsar.net/blog/2015/04/the-non-parametric-bootstrap-as-a-bayesian-model/}. This is meant to be applied for ethnobotany data and indices in the ethnobotanyR package. Performs a Bayesian bootstrap and returns a sample of size 'n1' representing the posterior distribution of the chosen statistic (i.e. 'mean'). The function returns a vector if the statistic is one-dimensional (like for mean(...)) or a data.frame if the statistic is multi-dimensional (like for the coefficients 'coefs.' of a regression model 'lm').
 }
+\section{Limitations}{
+
+The bootstrap only reweights observed values. If all observations are identical (e.g. a use cited by 0 of n informants) every draw is identical and the interval has zero width, which is not credible for rare uses; the function warns in this case. For a binary use, a Beta-binomial posterior such as 'rbeta(n1, k + 1, n - k + 1)' is more appropriate. Rows are treated as independent, so clustering by informant, species or village is ignored.
+}
+
 \section{Application}{
 
 

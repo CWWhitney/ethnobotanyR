@@ -7,17 +7,21 @@
 #' Rubin, Donald B. “The Bayesian Bootstrap.” Annals of Statistics 9, no. 1 (January 1981): 130–34. \doi{10.1214/aos/1176345338}.
 #' 
 #' @usage ethno_boot(data, statistic, n1 = 1000, 
-#' n2 = 1000, ...)
+#' n2 = NULL, use_weights = FALSE, ...)
 #' 
 #' @param data Can be either a vector, matrix or a data.frame.
 #' @param statistic A function that accepts data as its first argument. Should return a numeric vector.
 #' @param n1 The size of the bootstrap sample.
-#' @param n2 The sample size used to calculate the statistic for each bootstrap draw.
+#' @param n2 The sample size used to calculate the statistic for each bootstrap draw. Defaults to the number of observations. Ignored if 'use_weights = TRUE'.
+#' @param use_weights If TRUE the statistic is called as 'statistic(data, w)' with Dirichlet weights 'w' (e.g. 'weighted.mean'), the exact Bayesian bootstrap with no extra resampling noise. Default FALSE resamples 'n2' observations with the weights as probabilities.
 #' @param ... Further arguments passed on to the statistic function.
 #' 
 #' @keywords Bayes Bayesian graphs arith math logic methods misc survey
 #'
 #' @return Bayesian bootstrap of chosen ethnobotany indices in ethnobotanyR package.
+#'
+#' @section Limitations:
+#' The bootstrap only reweights observed values. If all observations are identical (e.g. a use cited by 0 of n informants) every draw is identical and the interval has zero width, which is not credible for rare uses; the function warns in this case. For a binary use, a Beta-binomial posterior such as 'rbeta(n1, k + 1, n - k + 1)' is more appropriate. Rows are treated as independent, so clustering by informant, species or village is ignored.
 #' 
 #' @section Application:
 #' 
@@ -66,7 +70,8 @@
 #' 
 ethno_boot <- function(data, statistic, 
                        n1 = 1000, 
-                       n2 = 1000, 
+                       n2 = NULL,
+                       use_weights = FALSE,
                          ...) {
   
   ## Use 'complete.cases' from stats to get to the collection of obs without NA
@@ -78,6 +83,11 @@ ethno_boot <- function(data, statistic,
   # Set the variables to NULL first, appeasing R CMD check
   value <-  meltURdata <- URdata <- URs <- sp_name <- informant <- URps <- NULL # Setting the variables to NULL first, appeasing R CMD check
   
+  if (is.null(n2)) n2 <- NROW(data)
+  if (length(unique(as.vector(as.matrix(data)))) == 1) {
+    warning("All observations are identical, so the bootstrap has no variation (zero-width interval). Consider a Beta-binomial posterior for rare uses.")
+  }
+
   #Bayes boot
   
     # Draw from a uniform Dirichlet distribution with alpha set to rep(1, n_dim).
@@ -88,7 +98,9 @@ ethno_boot <- function(data, statistic,
     dirichlet_weights <- dirichlet_weights / 
       rowSums(dirichlet_weights)
     
-      if(is.null(dim(data)) || length(dim(data)) < 2) { 
+      if (use_weights) {
+        boot_sample <- apply(dirichlet_weights, 1, function(w) statistic(data, w, ...))
+      } else if(is.null(dim(data)) || length(dim(data)) < 2) { 
         # data is a list type of object
         boot_sample <- apply(dirichlet_weights, 1, function(w) {
           data_sample <- sample(data, size = n2, 
