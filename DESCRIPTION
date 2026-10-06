@@ -23,6 +23,7 @@ BugReports: https://github.com/CWWhitney/ethnobotanyR/issues
 Encoding: UTF-8
 LazyData: true
 Suggests: 
+    testthat,
     broom, 
     knitr,
     rmarkdown, 
