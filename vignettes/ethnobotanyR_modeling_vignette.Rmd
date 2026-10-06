@@ -25,28 +25,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-load("ethnobotanydata.rda")
-# devtools::install_github('alastair-JL/AnthroTools')
 library(dplyr)
 library(ethnobotanyR)
-library(ggalluvial)
 library(ggplot2)
 library(ggridges)
 library(magrittr)
-# in case of rendering issues render with 
-# rmarkdown::render('vignettes/ethnobotanyr_vignette.Rmd', output_file='ethnobotanyr_vignette.html', output_dir='vignettes')
-
-knitr::write_bib(c(.packages(), 
-                   "dplyr",
-                   "ethnobotanyR",
-                   "ggalluvial",
-                   "ggplot2",
-                   "ggridges",
-                   "magrittr",
-                   "knitr",
-                   "magrittr",
-                   "Taxonstand"), file = "references/model_packages.bib")
-
+# The .bib is not rewritten at build time; regenerate it by hand if packages change
 ```
 
 <img src="ethnobotanyR.png" alt="ethnobotanyR logo" align="right" width = "25%" height="25%" style="background:none; border:none; box-shadow:none;"/>
@@ -57,191 +41,172 @@ Please remember to cite the `ethnobotanyR` package if you use it in your publica
 citation("ethnobotanyR")
 ```
 
-Here we will use an example data set called `ethnobotanydata`, which is provided to show how standard ethnobotany data should be formatted to interface with the `ethnobotanyR` package  [@R-ethnobotanyR]. This is an ethnobotany data set including one column of `r length(unique(ethnobotanydata$informant))` knowledge holder identifiers `informant` and one of `r length(unique(ethnobotanydata$sp_name))` species names `sp_name`. The rest of the columns are the identified ethnobotany use categories. The data in the use categories is populated with counts of uses per person (should be 0 or 1 values). ^[The example `ethnobotanydata` is included with the `ethnobotanyR` package but can also be downloaded from GitHub <https://github.com/CWWhitney/ethnobotanyR/tree/master/data>.]
+## Data
 
-Many of the functions in `ethnobotanyR` make use of `select()` and `filter_all()` functions of the `dplyr` package [@R-dplyr] and pipe functions `%>%` from the `magrittr` package [@R-magrittr]. These are easy to use and understand and allow users the chance to pull the code for these functions and change anything they see fit.
+We use `homegardens`, included in the package: plants and their uses in 102 homegardens in southwestern Uganda. Each garden is an informant. The data are described in @whitneyHomegardensFutureFood2017 and analysed in @whitneyEthnobotanyAgrobiodiversityValuation2018. Please cite both papers when you use these data.
 
-```{r, echo= FALSE}
-knitr::kable(head(ethnobotanydata), digits = 2, caption = "First six rows of the example ethnobotany data included with ethnobotanyR")
+Rows are one species in one garden. Columns after `informant` and `sp_name` are the 14 use categories, 0 = not used, 1 = used (same format as `ethnobotanydata`). Gardens only have rows for species they grow, so `n` differs by species.
+
+```{r data_head, echo=FALSE}
+knitr::kable(head(homegardens[, 1:8]), caption = "First six rows of the homegardens data (first six use categories shown)")
 ```
 
-## `ethnobotanyR` modeling functions
+```{r data_dims}
+dim(homegardens)
+nlevels(homegardens$informant)  # gardens
+nlevels(homegardens$sp_name)    # species
+```
 
-Applying quantitative approaches in ethnobotany requires a number of preliminary steps as a foundation for the research. **1.** We should be clear about the aims and objectives of our work. **2.** We should have a sound footing in the theoretical background and body of existing literature on our topic of interest. 
+`homegardens_info` has garden covariates and `homegardens_species` has life form, family and native status.
 
-Assuming that all this is in place we can start to model systems of interest. Here we will dig in to some holistic assessments and analyses that can be performed in ethnobotany.
+## Modeling functions
 
-The `ethnobotanyR` package provides tools to move beyond descriptive statistics and model the underlying cultural and ecological systems. This vignette demonstrates two complementary approaches:
+Before modeling, be clear about the aims and objectives, and ground the work in the existing literature. The functions here move from description to uncertainty and shared knowledge:
 
-- The Non-Parametric Bayesian Bootstrap `ethno_boot`: This method helps us understand the uncertainty around our estimates (e.g., the probability of a use). It answers the question: "If we repeated this study many times in this population, what range of results might we get?"
+| Question | Function |
+|:--|:--|
+| How likely is a use, with uncertainty? | `ethno_beta()` |
+| Is the sample large enough? | `ethno_saturation()` |
+| Which uses are in the consensus, and who knows most? | `ethno_consensus()` |
+| Consensus with competence you set | `ethno_bayes_consensus()` |
+| Uncertainty for any statistic | `ethno_boot()` |
 
-- The Bayesian Cultural Consensus Model `ethno_bayes_consensus`: This method helps us account for varying informant expertise and estimate the "culturally correct" answer for whether a plant has a use. It answers the question: "Given that some informants are more knowledgeable than others, what does the culture truly hold to be a use for this plant?"
+### Beta-binomial probability of use
+
+`ethno_beta()` is the default for the probability that a garden growing a species uses it for a purpose. It works for small samples and rare uses.
+
+```{r ethno_beta}
+beta_hg <- ethno_beta(homegardens, level = 0.9)
+# species grown in at least 50 gardens with the highest use probabilities
+beta_hg[beta_hg$n >= 50, ] %>%
+  arrange(desc(mean)) %>%
+  head(8)
+```
+
+Intervals are wide when `n` is small. A species grown in 20 gardens cannot support a precise use probability.
+
+```{r ethno_beta_plot, fig.width=6, fig.height=3.5}
+coffee <- beta_hg[beta_hg$sp_name == "Coffea canephora" & beta_hg$k > 0, ]
+ggplot(coffee, aes(x = mean, y = reorder(use, mean))) +
+  geom_pointrange(aes(xmin = lower, xmax = upper)) +
+  labs(x = "Share of gardens using Coffea canephora (90% interval)", y = "")
+```
 
 ### The non-parametric Bayesian bootstrap
 
-When we collect ethnobotany data, we're usually working with a sample of people from a larger community. The Bayesian bootstrap helps us answer: "How much might our results change if we had interviewed different people?"
+`ethno_boot()` resamples the informants to show how much a statistic could change with different informants. It works for any statistic. Here, how often are avocado (*Persea americana*) and common bean (*Phaseolus vulgaris*) sold?
 
-Think of it like this: If you randomly re-interviewed people from the same community many times, you'd get slightly different answers each time. The bootstrap simulates this process to show us the range of plausible results.^[Simply put, a bootstrap is any test or metric that uses random sampling with replacement, it is just one of many resampling methods. The common R function `sample()` is one example of a resampling method.]
+```{r ethno_boot_uses}
+avocado <- homegardens$sale[homegardens$sp_name == "Persea americana"]
+bean <- homegardens$sale[homegardens$sp_name == "Phaseolus vulgaris"]
 
-```{r ethno_boot_uses_a}
-sp_a_data <- ethnobotanydata %>% filter(sp_name == "sp_a") 
+set.seed(1)
+avocado_boot <- ethno_boot(avocado, statistic = mean, n1 = 1000)
+bean_boot <- ethno_boot(bean, statistic = mean, n1 = 1000)
 
-sp_a_use <- ethno_boot(sp_a_data$Use_3, statistic = mean, n1 = 1000)
+quantile(avocado_boot, c(0.05, 0.95))
+quantile(bean_boot, c(0.05, 0.95))
 ```
 
-The `ethno_boot` function takes our actual data about species `sp_a` and `Use_3` it simulates re-sampling from the community 1000 times (n1 = 1000). For each simulation `ethno_boot` calculates the average use (`statistic = mean`). It then gives us 1,000 (`n1 = 1000`) plausible average use values
+Compare the species with the difference of the paired draws, not by eye:
 
-The `ethno_boot` function runs a non-parametric Bayesian bootstrap, with the ability to estimate a population distribution from a set of observations, i.e. it can help us to estimate the larger population of data from which our smaller sample was derived. The procedure begins by estimating the population distribution from the data set. It then simulates the sampling process that led to the set of observations. Finally, for each sampling, the method calculates a sample statistic of interest (i.e. the mean). To calculate that sample statistic the function runs a large number of iterations, each one generating a new bootstrap replicate, and for each bootstrap replicate we calculate the sample estimate of the statistic. ^[Technically, the function uses the Dirichlet distribution as a way to model the randomness of a probability mass function (PMF) with unlimited options for finite sets (e.g. an unlimited amount of dice in a bag). A probability mass function (PMF) is also called a frequency function, it gives probabilities for random variables that are discrete such as UR (there can be only 1 or 0 UR) or for discrete counts like plant uses where there can only be max 'n' people interviewed.]
-
-Here we are interested in the differences (either '0' no use, or '1' use) between species 'a' and species 'b' or a particular use category. This could be, for example, the differences the use for a specific disease treatment between one species and another. We are using `Use_3` in our data set as the specific use. 
-
-```{r ethno_boot_uses_b}
-
-sp_b_data <- ethnobotanydata %>% filter(sp_name == "sp_b") 
-
-sp_b_use <- ethno_boot(sp_b_data$Use_3, statistic = mean, n1 = 1000)
-
+```{r ethno_boot_diff}
+quantile(bean_boot - avocado_boot, c(0.05, 0.95))
+mean(bean_boot > avocado_boot)  # probability beans are sold more often
 ```
 
-We can calculate the 90% credible interval to determine the lower bound of `r round(quantile(sp_a_use, c(0.05, 0.95)), 2)[1]` and upper bound of `r round(quantile(sp_a_use, c(0.05, 0.95)), 2)[2]` for species 'a' and `r round(quantile(sp_b_use, c(0.05, 0.95)), 2)[1]` and upper bound of `r round(quantile(sp_b_use, c(0.05, 0.95)), 2)[2]` for species 'b'.
-
-```{r ethno_boot_URs}
-quantile(sp_a_use, c(0.05, 0.95))
-quantile(sp_b_use, c(0.05, 0.95))
+```{r plot_boot_ridges, fig.width=7, fig.height=3.5}
+boot_long <- data.frame(species = rep(c("Persea americana", "Phaseolus vulgaris"), each = 1000),
+                        value = c(avocado_boot, bean_boot))
+ggplot(boot_long, aes(x = value, y = species, fill = species)) +
+  ggridges::geom_density_ridges() +
+  ggridges::theme_ridges() +
+  theme(legend.position = "none") +
+  labs(y = "", x = "Bayesian bootstrap of the share of gardens selling the plant")
 ```
 
-Running `ethno_boot` returns a posterior distribution of the result, i.e. it gives us an estimation, based on our observations, of what a reasonable distribution of the actual population might look like. Plotting these can give some visual probability estimation of differences between the species or informants according to the various indices. 
+The bootstrap only reweights observed values. If no garden reports a use, every draw is zero and the interval has zero width, which is not credible for rare uses. `ethno_boot()` warns in this case; use `ethno_beta()` instead.
 
-Create a data frame and use the `melt` function to reshape data for the `ggplot2` plotting functions [@R-ggplot2].
-
-```{r fig.width=7, fig.height=7}
-boot_data <- data.frame(sp_a_use, sp_b_use)
-
-ethno_boot_melt <- reshape2::melt(boot_data)
+```{r ethno_boot_rare}
+no_use <- homegardens$hygiene[homegardens$sp_name == "Persea americana"]
+sum(no_use)  # no garden reports this use
+quantile(ethno_boot(no_use, mean), c(0.05, 0.95))
+persea <- ethno_beta(homegardens[homegardens$sp_name == "Persea americana", ])
+persea[persea$use == "hygiene", ]
 ```
 
-Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms [@R-ggplot2; @R-ggridges].
+### Is the sample large enough?
 
-```{r plot_boot_ridges, fig.width=7, fig.height=4}
-ggplot2::ggplot(ethno_boot_melt, aes(x = value, 
-                y = variable, fill = variable)) +
-                ggridges::geom_density_ridges() +
-                ggridges::theme_ridges() + 
-                theme(legend.position = "none") +
-                labs(y= "", x = "Example Bayesian bootstraps of the probability of use for two species")
+`ethno_saturation()` shows how many distinct species-use citations each added garden finds. A curve still rising means more gardens would add new species and uses.
+
+```{r ethno_saturation, fig.width=5, fig.height=3.5}
+sat <- ethno_saturation(homegardens, n_perm = 100)
+ggplot(sat, aes(n_informants, mean)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3) +
+  geom_line() +
+  labs(x = "Gardens", y = "Distinct species-use pairs")
 ```
 
-The `ethno_bayes_consensus` function is inspired by `AnthroTools` package. It gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. 
+The curve is still rising at 102 gardens: new species-use combinations keep appearing.
 
-The inputs to the function are informant responses to the use category for each plant, an estimate of informants \code{prior_for_answers} with the plant, and the number of possible answers. This can be calculated with `URsum` or given as a value.
-The `ethno_bayes_consensus` function gives us a measure of the confidence we can have in the reported uses by creating a matrix of probability values. These represent the probability that informant citations for a given use are 'correct' [see @oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986].
+### Consensus with estimated competence
 
-Depending on the size of the data this function can return a rather large set of probabilities. There are several ways to perform simple visualizations of these probabilities. Here we use the base R function `heatmap` [@R-base] and the the `dplyr` function `filter`  [@R-dplyr] to subset to a single species and create a ridge plot. 
+`ethno_consensus()` estimates each garden's competence from agreement with other gardens across species-use questions, and returns the probability each species-use is in the consensus answer key. It assumes one shared answer key, so minority knowledge counts as error, and it needs enough shared questions. Here we keep the 36 species grown in at least 30 gardens. Gardens that do not grow a species have no answer for it (missing, not zero).
 
-```{r ethno_sp_a }
-ethno_sp_a <- dplyr::filter(ethnobotanydata, sp_name == "sp_a")
+```{r ethno_consensus}
+common <- names(which(table(homegardens$sp_name) >= 30))
+hg_common <- droplevels(homegardens[homegardens$sp_name %in% common, ])
+cons <- ethno_consensus(hg_common)
+cons$converged
+summary(cons$competence$D)
+head(cons$truth[order(-cons$truth$p_used), ], 8)
 ```
 
-Generate prior probabilities for all answers as a matrix. If this is not provided the function assumes a uniform distribution `(prior = -1)`. The probability table should have the same number of columns as uses in the provided ethnobotany data and the same number of rows as there are possible answers for the consensus.
+Read the probabilities as ranks, not calibrated certainty: they become extreme as informants are added. Check whether low-competence gardens are a different knowledge group (for example by district) before treating them as error.
 
-First we set the number of possible answers to '2'. This means informants can either agree it is 'used' or 'not used'.
-
-```{r answers}
-  answers <- 2
+```{r competence_district, fig.width=6, fig.height=3.5}
+comp <- merge(cons$competence, homegardens_info, by = "informant")
+ggplot(comp, aes(district, D)) +
+  geom_boxplot() +
+  labs(x = "", y = "Estimated competence (D)")
 ```
 
-It is also possible to build the probability table manually using `prop.table` [@R-base]. This can be easier if there are many answers or if there is not always a clear preference about where the higher probability should be for the various answers. This matrix must sum up to 100% chance for either 'use' or 'no use'.
+### Consensus with fixed competence
 
-Here we use the `dplyr` function `recode` to reset the informant name factor variable as numeric [@R-dplyr]. This way we can set a prior for the informants skill for the `prior_for_answers` input. Assuming that informants have a varying degree of skill that we can assign as a prior for the likelihood that the data we have are correct for `sp_a`.
+`ethno_bayes_consensus()` takes competence from you, one value per row. Here we use the estimates from `ethno_consensus()` for the gardens growing one species. This is the Bayesian consensus for a single species (@oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986).
 
-```{r ethno_compet_sp_a}
-ethno_compet_sp_a <- dplyr::recode(ethno_sp_a$informant, 
-    inform_a = 0.9,inform_b = 0.5,inform_c = 0.5,
-    inform_d = 0.9, inform_e = 0.9, inform_f = 0.5,
-    inform_g = 0.7,inform_h = 0.5,inform_i = 0.9,
-    inform_j= 0.9, inform_eight = 0.9,inform_five = 0.6,
-    inform_four = 0.5,inform_nine = 0.9, 
-    inform_one = 0.5, inform_seven = 0.5,
-    inform_six= 0.9, inform_ten = 0.9, 
-    inform_three = 0.9, inform_two = 0.5)
+```{r ethno_bayes_consensus}
+coffee_data <- hg_common[hg_common$sp_name == "Coffea canephora", ]
+coffee_D <- cons$competence$D[match(coffee_data$informant, cons$competence$informant)]
+coffee_consensus <- ethno_bayes_consensus(coffee_data, answers = 2,
+                                          prior_for_answers = coffee_D)
+round(coffee_consensus["1", ], 3)  # probability each use is in the consensus
 ```
 
-Run the `ethno_bayes_consensus` function on the subset data of `sp_a`. 
+Responses can also be counts: use `answers = 11` for 0 to 10 reports per cell.
 
-```{r ethno_sp_a_bayes}
-ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a, 
-                    answers = 2,
-                    #here we keep the default normal distribution with `prior = -1`
-                    prior_for_answers = ethno_compet_sp_a) 
+### Modeling uses with covariates
+
+`homegardens_info` and `homegardens_species` join to `homegardens`. Does a plant's life form or native status predict medicinal use? Gardens are repeated measures, so a mixed model with a garden random effect is the right tool; `lme4::glmer` is shown if installed.
+
+```{r homegardens_model}
+hg <- merge(merge(homegardens, homegardens_species, by = "sp_name"),
+            homegardens_info, by = "informant")
+hg <- droplevels(hg[hg$type != "Palm", ])  # one palm species: too few to estimate
+fit <- glm(medicine ~ type + native + nearest_market_km, data = hg, family = binomial)
+round(summary(fit)$coefficients, 2)
 ```
 
-Create a simple heatmap of the results. The `heatmap` function in R [@R-base] provides a good initial assessment of the results and can be a nice first look at the probability matrix that comes out of the `ethno_bayes_consensus` function. It includes the `hclust` hierarchical cluster analysis using euclidean distance for relationships among both the answers and the uses. This may be useful for looking for similarities among a number of uses or possible answers when there are more than just 'use' and 'non use' (see below). 
-
-```{r heatmap}
-heatmap(ethno_sp_a_bayes)
+```{r homegardens_mixed, eval = requireNamespace("lme4", quietly = TRUE)}
+fit_mixed <- lme4::glmer(medicine ~ type + native + scale(nearest_market_km) + (1 | informant),
+                         data = hg, family = binomial)
+round(summary(fit_mixed)$coefficients, 2)
 ```
 
-Here the '1' and '2' represent 'use' and 'no use' (y-axis). The colors are the probabilities (darker is greater). The `hclust` for these is not very informative since there are only 2. However, the `hclust` for the various uses (x-axis) might be helpful in thinking about how the strength of the information about different use categories for `sp_a` are grouped together. 
+For a fully Bayesian version use `brms` with `(1 | informant) + (1 | sp_name)`.
 
-### Richer response data
+## Summary
 
-So far, we've modeled data where an informant either confirms (1) or denies (0) a use. However, ethnobotanical data is often richer. An informant might list multiple specific ways a plant is used within a single category (e.g., 5 different food preparations). The `ethno_bayes_consensus` function can model this kind of count data. In this example, we'll simulate a dataset where informants can report up to 10 distinct uses per category.
-
-Users often have a large number of counts in cells of the data set after categorization (i.e one user cites ten different 'food' uses but this is just one category). Let's say that the theoretical maximum number of use reports in one category, for one species by one informant is 10. It may be useful to work with these richer datasets for the Bayes consensus analysis. The `ggplot2` and `ggridges` libraries can be used to plot the data as smooth histograms. Here we generate some ethnobotany data with up to 10 citations in a single use category for a species by one informant.
-
-```{r ethno_sp_a_rich}
-set.seed(123) #make random number reproducible
-ethno_sp_a_rich <- data.frame(replicate(3,sample(0:10,20,rep=TRUE)))
-  names(ethno_sp_a_rich) <- 
-  gsub(x = names(ethno_sp_a_rich), 
-  pattern = "X", replacement = "Use_")  
-  ethno_sp_a_rich$informant <- sample(c('User_1', 'User_2'), 
-  20, replace=TRUE)
-  ethno_sp_a_rich$sp_name <- sample(c('sp_a'), 
-  20, replace=TRUE)
-```
-
-Define the `prior_for_answers` of the data from these new informants in the simulated ethnobotany data. With `User_1` we have high confidence because perhaps we gather this information through 'walk in the woods' or another method we feel good about. With `User_2` we assign less confidence. Maybe did our work in a rush or gathered in another way that gives us less confidence. 
-
-```{r}
-# Assign prior competencies: higher values (e.g., 0.9) indicate we trust that informant's data more.
-ethno_compet_sp_a_rich <- 
-          dplyr::recode(ethno_sp_a_rich$informant,
-          User_1 = 0.9, User_2 = 0.5)
-```
-
-We keep a normal prior for the data and the knowledge of the informants. 
-
-```{r fig.width=7, fig.height=7}
-ethno_sp_a_bayes <- ethnobotanyR::ethno_bayes_consensus(ethno_sp_a_rich,
-       answers = 10, 
-       prior_for_answers = ethno_compet_sp_a_rich, 
-       prior=-1) #keep a normal prior in this example with -1
-```
-
-Create a data frame and melt for the `ggplot2` plotting functions.
-
-```{r fig.width=7, fig.height=7}
-ethno_sp_a_bayes_melt <-  ethno_sp_a_bayes %>%
-  as.data.frame() %>%
-  reshape2::melt()
-```
-
-Use the `ggplot2` and `ggridges` libraries to plot the data as smooth histograms.
-
-```{r fig.width=7, fig.height=4}
-ggplot2::ggplot(ethno_sp_a_bayes_melt, aes(x = value, 
-                y = variable, fill = variable)) +
-                ggridges::geom_density_ridges() +
-                ggridges::theme_ridges() + 
-                theme(legend.position = "none")+
-                labs(y= "", x = "Example ethno_bayes_consensus of use categories for sp_a")
-```
-
-Visualizing the variation in outcomes can be useful for assessing the amount of confidence we have in the cultural use of the plant across categories. 
-
-This vignette has demonstrated how to use ethnobotanyR for two powerful modeling techniques. The Bayesian bootstrap allows you to quantify uncertainty in your estimates, while the cultural consensus model helps you infer shared cultural knowledge from individual responses, accounting for differences in informant competence.
-
-These models provide a robust, quantitative foundation for understanding plant-use systems. For a deeper dive into the theory behind these methods, please see the key references [@oraveczBayesianCulturalConsensus2014; @romneyCultureConsensusTheory1986]. To explore more basic descriptive functions in the package, see the 'Introduction to ethnobotanyR' vignette.
+Use `ethno_beta()` for honest uncertainty in use probabilities, `ethno_saturation()` to judge sample size, and the consensus functions when you want a shared answer key and informant competence. For the theory behind the consensus models see @oraveczBayesianCulturalConsensus2014 and @romneyCultureConsensusTheory1986. For the descriptive indices see the 'Introduction to ethnobotanyR' vignette. Data: @whitneyHomegardensFutureFood2017 and @whitneyEthnobotanyAgrobiodiversityValuation2018.
 
 ## References
