@@ -10,13 +10,15 @@ ethno_bayes_consensus(data, answers = 2, prior_for_answers, prior = -1)
 \item{data}{is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).}
 
-\item{answers}{The number of answers available for each question. These are set to '2' because the way the package works at the moment users can have either a '1' or a '0' in the table. It is however, possible to have more.}
+\item{answers}{The number of possible answers per question. Responses must be whole numbers from 0 to answers - 1: use 2 for 0/1 data, or 11 for counts of 0 to 10.}
 
-\item{prior_for_answers}{A matrix representing the probability of a given use being more likely. If not provided the function assumes a uniform distribution across uses.}
+\item{prior_for_answers}{Informant competence (probability of knowing the answer, 0 to 1): a single value or one value per row of data. Required. Competence is supplied, not estimated.}
 
 \item{prior}{a prior distribution of probabilities over all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1).}
 }
 \value{
+A matrix of posterior probabilities: rows are the answers 0 to answers - 1 (for binary data 0 = not used, 1 = used), columns are use categories.
+
 A matrix, where columns represent plant use categories and rows represent responses per person and plant (matching the data). Each value represents the bayes_consensus that an answer was 'correct' for a particular use, within the cultural consensus framework.
 }
 \description{
@@ -53,7 +55,7 @@ eb_data$sp_name <- sample(c('sp_1', 'sp_2', 'sp_3', 'sp_4'), 20, replace=TRUE)
 #assign a non-informative prior to prior_for_answers
 eb_prior_for_answers <- rep(0.5, len = nrow(eb_data))
 
-ethno_bayes_consensus(eb_data, answers = 5, prior_for_answers = eb_prior_for_answers)
+ethno_bayes_consensus(eb_data, answers = 2, prior_for_answers = eb_prior_for_answers)
 
 }
 \references{

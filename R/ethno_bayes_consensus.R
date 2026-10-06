@@ -2,6 +2,7 @@
 #'
 #' Determine the probability that informant citations for a given use are 'correct' given informant responses to the use category for each plant, an estimate of each person's prior_for_answers with this plant and use, and the number of possible answers about this plant use.
 #' @usage ethno_bayes_consensus(data, answers = 2, prior_for_answers, prior = -1)
+#' @return A matrix of posterior probabilities: rows are the answers 0 to answers - 1 (for binary data 0 = not used, 1 = used), columns are use categories.
 #' 
 #' @references 
 #' Oravecz, Z., Vandekerckhove, J., & Batchelder, W. H. (2014). Bayesian Cultural Consensus Theory. Field Methods, 1525822X13520280. \doi{10.1177/1525822X13520280} 
@@ -10,8 +11,8 @@
 #' 
 #' @param data is an ethnobotany data set with column 1 'informant' and 2 'sp_name' as row identifiers of informants and of species names respectively.
 #' The rest of the columns are the identified ethnobotany use categories. The data should be populated with counts of uses per person (should be 0 or 1 values).
-#' @param answers The number of answers available for each question. These are set to '2' because the way the package works at the moment users can have either a '1' or a '0' in the table. It is however, possible to have more. 
-#' @param prior_for_answers A matrix representing the probability of a given use being more likely. If not provided the function assumes a uniform distribution across uses.
+#' @param answers The number of possible answers per question. Responses must be whole numbers from 0 to answers - 1: use 2 for 0/1 data, or 11 for counts of 0 to 10. 
+#' @param prior_for_answers Informant competence (probability of knowing the answer, 0 to 1): a single value or one value per row of data. Required. Competence is supplied, not estimated.
 #' @param prior a prior distribution of probabilities over all answers as a matrix. If this is not provided the function assumes a uniform distribution (prior = -1).
 #' 
 #' @keywords Bayes Bayesian ethnobotany consensus arith math logic methods misc survey
@@ -48,74 +49,75 @@
 #' #assign a non-informative prior to prior_for_answers
 #' eb_prior_for_answers <- rep(0.5, len = nrow(eb_data))
 #' 
-#' ethno_bayes_consensus(eb_data, answers = 5, prior_for_answers = eb_prior_for_answers)
+#' ethno_bayes_consensus(eb_data, answers = 2, prior_for_answers = eb_prior_for_answers)
 #' 
 #' @export ethno_bayes_consensus
 #' 
 ethno_bayes_consensus <-
-  function(data, answers = 2, prior_for_answers, prior=-1){
-    
-    #Add error stops ####
-    #Check that packages are loaded
-    {
-      if (!requireNamespace("dplyr", quietly = TRUE)) {
-        stop("Package \"dplyr\" needed for this function to work. Please install it.", 
-             call. = FALSE)
-      }
-    }# end package check
-    
-    ## Check that use categories are greater than zero
-    if (!any(sum(dplyr::select(data, -informant, -sp_name)>0))){
-      warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
-      data<-data[stats::complete.cases(data), ]
+  function(data, answers = 2, prior_for_answers, prior = -1){
+
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+      stop("Package \"dplyr\" needed for this function to work. Please install it.",
+           call. = FALSE)
     }
-    
-    ## Use 'complete.cases' from stats to get to the collection of obs without NA
+
     if (any(is.na(data))) {
       warning("Some of your observations included \"NA\" and were removed. Consider using \"0\" instead.")
-      data<-data[stats::complete.cases(data), ]
-    } 
-    
-    # Set variables to NULL before use, appeasing R CMD check
-    sp_name <- informant <- UVps <- NULL 
-    
-    #create a subsettable numeric data frame
-    bayesdata <- dplyr::select(data, -informant, -sp_name)
-    
-    if (prior == -1) {
-      prior <- matrix(1/answers, answers, ncol(bayesdata))
+      data <- data[stats::complete.cases(data), ]
     }
-     if ( !all(abs(colSums(prior) -1)<0.001) ){
-       warning('Your prior for every question should add up to 1.')
-     }
 
-    if ( !all(prior>=0) ){
-      stop('For this to work your prior needs to assign non-negative probability to all possible outcomes.')    
+    bayesdata <- as.matrix(dplyr::select(data, -informant, -sp_name))
+
+    if (!is.numeric(bayesdata) || any(bayesdata != round(bayesdata)) ||
+        any(bayesdata < 0) || any(bayesdata > answers - 1)) {
+      stop("Responses must be whole numbers from 0 to answers - 1 (e.g. 0/1 for answers = 2, 0:10 for answers = 11).")
     }
-    
-    if ( ncol(prior)!=ncol(bayesdata) || nrow(prior)!=answers){
-      stop('Something is wrong with the prior. It may have a different number of rows or columns than the data.')    
-    }  #end error stops
-    
-    
-    # generate a probability matrix
-    bayes_consensus <- matrix(0, answers, ncol(bayesdata))
-    # move column names from the ethnobotany data
-    colnames(bayes_consensus) <- colnames(bayesdata)
-    # rownames continue for each possible answer
-    rownames(bayes_consensus) <- c(1:answers)
-    # calculate prior chance of consensus
-    prior_of_consensus <- (1-prior_for_answers) * (answers-1) / answers
-    # calculate prior chance of non consensus
-    prior_non_consensus <- 1-prior_of_consensus
-    # for loops to calculate bayes consensus equation
-    for (consensus in 1:ncol(bayesdata)) {
-      for (non_consensus in 1:answers) {
-        bayes_consensus[non_consensus,consensus] <- prod(ifelse(test = bayesdata[,consensus] == non_consensus, 
-          yes = prior_non_consensus, no = prior_of_consensus) )      
+    if (sum(bayesdata) == 0) {
+      warning("The sum of all UR is not greater than zero. Perhaps not all uses have values or are not numeric.")
+    }
+
+    if (missing(prior_for_answers)) {
+      stop("'prior_for_answers' (informant competence, 0 to 1) is required: one value, or one per row of data.")
+    }
+    if (!length(prior_for_answers) %in% c(1, nrow(bayesdata))) {
+      stop("'prior_for_answers' must have length 1 or one value per row of data.")
+    }
+    if (any(prior_for_answers < 0 | prior_for_answers > 1)) {
+      stop("'prior_for_answers' must be between 0 and 1.")
+    }
+    competence <- rep_len(prior_for_answers, nrow(bayesdata))
+
+    if (is.matrix(prior)) {
+      if (ncol(prior) != ncol(bayesdata) || nrow(prior) != answers) {
+        stop("Something is wrong with the prior. It may have a different number of rows or columns than the data.")
       }
-      bayes_consensus[,consensus] <- bayes_consensus[,consensus] * prior[,consensus]    
-      bayes_consensus[,consensus] <- bayes_consensus[,consensus] / sum(bayes_consensus[,consensus])    
-    }  
-    return(bayes_consensus)
+      if (any(prior < 0)) {
+        stop("For this to work your prior needs to assign non-negative probability to all possible outcomes.")
+      }
+      if (!all(abs(colSums(prior) - 1) < 0.001)) {
+        warning("Your prior for every question should add up to 1.")
+      }
+    } else if (identical(as.numeric(prior), -1)) {
+      prior <- matrix(1 / answers, answers, ncol(bayesdata))
+    } else {
+      stop("'prior' must be -1 (uniform) or a matrix with one row per answer and one column per use.")
+    }
+
+    # Answer categories are the values 0, 1, ..., answers - 1
+    # Likelihood of a response given the true answer k (Batchelder & Romney 1988):
+    # P(match) = D + (1 - D) / L; P(any one specific wrong answer) = (1 - D) / L
+    p_match <- competence + (1 - competence) / answers
+    p_wrong <- (1 - competence) / answers
+
+    bayes_consensus <- matrix(0, answers, ncol(bayesdata),
+                              dimnames = list(0:(answers - 1), colnames(bayesdata)))
+    for (use in seq_len(ncol(bayesdata))) {
+      for (k in seq_len(answers)) {
+        loglik <- sum(log(ifelse(bayesdata[, use] == k - 1, p_match, p_wrong)))
+        bayes_consensus[k, use] <- loglik + log(prior[k, use])
+      }
+      lp <- bayes_consensus[, use]
+      bayes_consensus[, use] <- exp(lp - max(lp)) / sum(exp(lp - max(lp)))
+    }
+    bayes_consensus
   }
