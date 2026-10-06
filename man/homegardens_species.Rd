@@ -14,7 +14,7 @@ A data frame with 225 rows and 4 variables:
 }
 }
 \source{
-\url{https://github.com/CWWhitney/Uganda_Homegarden_Agrobiodiv} (\code{data/AllRawNoWeeds_v7.csv}).
+Survey data of Whitney et al. (2017, 2018), file AllRawNoWeeds_v7.csv.
 }
 \usage{
 homegardens_species

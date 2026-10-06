@@ -17,7 +17,7 @@ A data frame with 102 rows and 7 variables:
 }
 }
 \source{
-\url{https://github.com/CWWhitney/Uganda_Homegarden_Agrobiodiv} (\code{data/GardenStats.csv}).
+Survey data of Whitney et al. (2017, 2018), file GardenStats.csv.
 }
 \usage{
 homegardens_info

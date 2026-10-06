@@ -13,13 +13,13 @@ A data frame with 2870 rows and 16 variables:
 }
 }
 \source{
-Original survey data: \url{https://github.com/CWWhitney/Uganda_Homegarden_Agrobiodiv} (\code{data/AllRawNoWeeds_v7.csv}, \code{data/GardenStats.csv}). Rebuilt by \code{data-raw/homegardens.R} in the package source.
+Survey data of Whitney et al. (2017, 2018), held by the author (GitHub repository CWWhitney/Uganda_Homegarden_Agrobiodiv, files AllRawNoWeeds_v7.csv and GardenStats.csv). Rebuilt by data-raw/homegardens.R in the package source.
 }
 \usage{
 homegardens
 }
 \description{
-Plants recorded in 102 homegardens in southwestern Uganda, with 14 use categories. Each informant is one family's garden. Same format as \code{ethnobotanydata}. This is the data set analysed in Whitney et al. (2018); see also Whitney et al. (2017).
+Plants recorded in 102 homegardens in southwestern Uganda, with 14 use categories. Each informant is one family's garden. Same format as \code{ethnobotanydata}. This is the data set analyzed in Whitney et al. (2018); see also Whitney et al. (2017).
 }
 \details{
 One row is one species in one garden. Gardens only have rows for species they grow, so the number of informants differs by species: \code{ethno_beta()} estimates the share of gardens growing a species that use it. Use columns are 0/1 (1 = the species is used for that purpose in that garden); one species can have several uses. The data match the published analysis: 3,961 use reports, 225 species, 102 gardens. Only plants recorded on the first visit and identified were kept (as in the paper); the 'weed' category is excluded. Species names are as recorded in the survey, reduced to genus and epithet (or Musa group). Some uses are rare (for example, manure has 2 use reports); drop or merge sparse categories before modeling.

@@ -43,7 +43,7 @@ citation("ethnobotanyR")
 
 ## Data
 
-We use `homegardens`, included in the package: plants and their uses in 102 homegardens in southwestern Uganda. Each garden is an informant. The data are described in @whitneyHomegardensFutureFood2017 and analysed in @whitneyEthnobotanyAgrobiodiversityValuation2018. Please cite both papers when you use these data.
+We use `homegardens`, included in the package: plants and their uses in 102 homegardens in southwestern Uganda. Each garden is an informant. The data are described in @whitneyHomegardensFutureFood2017 and analyzed in @whitneyEthnobotanyAgrobiodiversityValuation2018. Please cite both papers when you use these data.
 
 Rows are one species in one garden. Columns after `informant` and `sp_name` are the 14 use categories, 0 = not used, 1 = used (same format as `ethnobotanydata`). Gardens only have rows for species they grow, so `n` differs by species.
 
