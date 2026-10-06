@@ -1,24 +1,36 @@
 # ethnobotanyR News
 
-# version 0.2.0 News
+# version 0.3.0 News
 
-Repositions the package from an indices calculator to a framework for integrating Traditional Ecological Knowledge (TEK) into conservation and development decisions.
+New models, data and tests; fixes to `ethno_bayes_consensus()` and `ethno_boot()`.
 
-## New functions
+## Breaking change
+
+- `ethno_bayes_consensus()`: responses must be whole numbers from 0 to `answers - 1` (0/1 for binary data) and result rows are labelled 0 and 1. Earlier results were wrong because 0 responses were ignored. Competence (`prior_for_answers`) is required.
+
+## New functions and data
 
 - `ethno_beta()`: Beta-binomial probability of use per species and use. Default for small samples and rare uses.
 - `ethno_saturation()`: informant saturation curve.
 - `ethno_consensus()`: consensus with competence estimated from the data (EM).
-- `homegardens`: 102 homegardens in southwestern Uganda, 225 species, 14 uses, 3,961 use reports, as analysed in Whitney et al. (2018). One informant per garden. Companion tables `homegardens_info` (garden covariates) and `homegardens_species` (life form, family, native).
-- Modeling and TEK vignettes now use `homegardens`; the TEK vignette adds a network learned from the survey.
-- Tests added (`testthat`).
+- `homegardens`: 102 homegardens in southwestern Uganda, 225 species, 14 uses, 3,961 use reports, as analyzed in Whitney et al. (2018). One informant per garden. Companion tables `homegardens_info` (garden covariates) and `homegardens_species` (life form, family, native).
+- Tests (`testthat`).
 
 ## Bug fixes
 
-- `ethno_bayes_consensus()`: 0 responses now count as evidence for "no use". Responses must be whole numbers from 0 to `answers - 1`. Corrected the likelihood for more than two answers. Competence (`prior_for_answers`) is required and user-supplied.
+- `ethno_bayes_consensus()`: corrected the likelihood for more than two answers.
 - `ethno_boot()`: `n2` defaults to the number of observations. New `use_weights` argument. Warns when all observations are identical (zero-width interval).
-- Vignettes no longer rewrite `.bib` files at build time. Fixed swapped lower/upper labels in `honest_ethnobotany`.
+- Vignettes no longer rewrite `.bib` files at build time.
+- `honest_ethnobotany`: fixed swapped lower/upper labels.
 - TEK modeling vignette: network chunk runs and compares decisions. Weighted pooling uses effective sample size. Removed arbitrary pseudo-count mapping.
+
+## Vignettes
+
+- Modeling and TEK vignettes use `homegardens`. The TEK vignette adds a network learned from the survey.
+
+# version 0.2.0 News
+
+Repositions the package from an indices calculator to a framework for integrating Traditional Ecological Knowledge (TEK) into conservation and development decisions.
 
 ## New vignettes
 
