@@ -2,11 +2,11 @@ Package: ethnobotanyR
 Type: Package
 Title: Ethnobotanical Analysis, Decision-Framing, and TEK Modeling
 Description: Tools for quantifying Traditional Ecological Knowledge (TEK), modeling TEK in decision frameworks, and designing structured decision-framing exercises in conservation and development contexts. The package implements quantitative ethnobotany indices (Use Value, Relative Frequency of Citation, etc.) but positions them within a larger framework of Bayesian modeling and participatory decision analysis. Includes critical assessment of indices' limitations and case studies of participatory workshops.
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c( 
     person("Cory", "Whitney", email = "whitney.cory@gmail.com", role = c("aut", "cre"))
     )
-Date: 2026-02-24
+Date: 2026-10-06
 Depends: R (>= 3.2.0)
 Imports:
     circlize,
