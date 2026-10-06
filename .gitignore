@@ -29,3 +29,5 @@ rsconnect/
 #revdep
 revdep/
 .DS_Store
+/doc/
+/Meta/

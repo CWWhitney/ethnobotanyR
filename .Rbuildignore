@@ -8,3 +8,6 @@
 
 
 ^CRAN-SUBMISSION$
+^data-raw$
+^doc$
+^Meta$
