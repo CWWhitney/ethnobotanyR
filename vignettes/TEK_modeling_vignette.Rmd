@@ -41,6 +41,7 @@ Below we illustrate the workflow with a tiny, didactic model: a management `Deci
 ## 2. Example: encode TEK as Beta priors and sample CPTs 
 
 ```{r set-up, eval=TRUE}
+library(ethnobotanyR)
 # Informants are gardens. k of n gardens growing avocado (Persea americana) sell it.
 avocado <- homegardens[homegardens$sp_name == "Persea americana", ]
 tek_k <- sum(avocado$sale)  # gardens that sell avocado
