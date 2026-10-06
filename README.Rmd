@@ -45,11 +45,29 @@ Users of `ethnobotanyR` may find it useful to read the background papers and boo
 | [**ethnobotanyR Wiki**](https://github.com/CWWhitney/ethnobotanyR/wiki) |
 <!-- Links: end -->
 
+## Which method when
+
+| Question | Function | Notes |
+|:--|:--|:--|
+| How likely is a use, with uncertainty? | `ethno_beta()` | Default; small samples and rare uses |
+| Is the sample large enough? | `ethno_saturation()` | Rising curve means no |
+| What is the consensus answer, and who knows most? | `ethno_consensus()` | 10+ informants; one shared answer key |
+| Consensus with competence I set | `ethno_bayes_consensus()` | Competence is an input |
+| Uncertainty for any statistic | `ethno_boot()` | Not for rare uses |
+
 ## Installation
 
 Install the released version of ethnobotanyR from [CRAN](https://CRAN.R-project.org) with `install.packages("ethnobotanyR")`.
 
 Install the working version of ethnobotanyR from [GitHub](https://github.com) with `devtools::install_github("CWWhitney/ethnobotanyR")`.
+
+## Data
+
+`homegardens`, `homegardens_info` and `homegardens_species` are real survey data from 102 homegardens in southwestern Uganda. Please cite both papers when you use them:
+
+Whitney, C. W., Tabuti, J. R. S., Hensel, O., Yeh, C., Gebauer, J., and Luedeling, E. (2017). Homegardens and the future of food and nutrition security in southwest Uganda. Agricultural Systems, 154, 133-144. [doi.org/10.1016/j.agsy.2017.03.009](https://doi.org/10.1016/j.agsy.2017.03.009).
+
+Whitney, C. W., Bahati, J., and Gebauer, J. (2018). Ethnobotany and agrobiodiversity: valuation of plants in the homegardens of southwestern Uganda. Ethnobiology Letters, 9(2), 90-100. [doi.org/10.14237/ebl.9.2.2018.503](https://doi.org/10.14237/ebl.9.2.2018.503).
 
 ## References
 
