@@ -6,6 +6,8 @@ devtools::release()
 ## R CMD check results
 `devtools::check(args = "--as-cran")`: 0 errors, 0 warnings, 0 notes.
 
+`rcmdcheck::rcmdcheck(args = "--as-cran")`: 0 errors, 0 warnings, 1 note. The note is local only: HTML validation skipped because the installed HTML Tidy is old.
+
 `urlchecker::url_check()`: all URLs correct.
 
 `devtools::spell_check()`: only names, citations and technical terms flagged.
