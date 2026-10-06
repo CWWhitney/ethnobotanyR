@@ -2,130 +2,121 @@
 
 # version 0.2.0 News
 
-This is a major update repositioning the package from a quantitative indices calculator to a comprehensive framework for integrating Traditional Ecological Knowledge (TEK) into conservation and development decision-making.
+Repositions the package from an indices calculator to a framework for integrating Traditional Ecological Knowledge (TEK) into conservation and development decisions.
 
-## Major Changes
+## New functions
 
-**New vignettes:**
-- `vignette("honest_ethnobotany")` - Critical assessment of quantitative ethnobotany indices: what they can tell you, what they cannot tell you, when they're useful, and when they mislead. A no-holds-barred examination of both limitations and responsible use.
-- `vignette("decision_framing_guide")` - Comprehensive framework for structured decision-framing in community-based conservation. Covers decision theory, participatory ethics, epistemological foundations, multiple contrasting cases (successes and failures), and principles for defensible practice.
-- `vignette("benin_case_study")` - Critical case study of a fonio value-chain workshop in Benin. Shows what the workshop achieved, what it doesn't tell us, what follow-up is needed, and how to avoid treating a single successful event as a replicable methodology.
-- `vignette("ethnobotanyr_decision_framing_practical")` - Practical guide with worked code examples for using ethnobotanyR functions in participatory decision-framing workshops. Shows how to calculate indices responsibly and use them as prompts for dialogue rather than decision-drivers.
+- `ethno_beta()`: Beta-binomial probability of use per species and use. Default for small samples and rare uses.
+- `ethno_saturation()`: informant saturation curve.
+- `ethno_consensus()`: consensus with competence estimated from the data (EM).
+- `homegardens`: 102 homegardens in southwestern Uganda, 225 species, 14 uses, 3,961 use reports, as analysed in Whitney et al. (2018). One informant per garden. Companion tables `homegardens_info` (garden covariates) and `homegardens_species` (life form, family, native).
+- Modeling and TEK vignettes now use `homegardens`; the TEK vignette adds a network learned from the survey.
+- Tests added (`testthat`).
 
-**Reframed README:**
-- Now emphasizes three user pathways (describe knowledge, model decisions, run participatory exercises) rather than indices as the primary product
-- Explicitly states what the package does NOT do (make decisions, offer robust proof via indices, replace engagement)
-- Directs users to `vignette("honest_ethnobotany")` before using indices
-- Repositions indices as descriptive tools within larger frameworks
+## Bug fixes
 
-**Emphasis shift:**
-- Moved from "indices as the main product" to "decision-framing and Bayesian modeling as primary methods"
-- Indices now positioned as one tool for communication and exploration, not as foundational to conservation/development decisions
-- Elevated Bayesian network modeling and structured decision-framing as the robust, defensible approaches
+- `ethno_bayes_consensus()`: 0 responses now count as evidence for "no use". Responses must be whole numbers from 0 to `answers - 1`. Corrected the likelihood for more than two answers. Competence (`prior_for_answers`) is required and user-supplied.
+- `ethno_boot()`: `n2` defaults to the number of observations. New `use_weights` argument. Warns when all observations are identical (zero-width interval).
+- Vignettes no longer rewrite `.bib` files at build time. Fixed swapped lower/upper labels in `honest_ethnobotany`.
+- TEK modeling vignette: network chunk runs and compares decisions. Weighted pooling uses effective sample size. Removed arbitrary pseudo-count mapping.
 
-## What This Means
+## New vignettes
 
-Users should now:
-1. **Start with the framework vignettes if planning participatory work** (decision-framing guide, Benin case study)
-2. **Read the honest critique before using indices** (honest_ethnobotany vignette)
-3. **Use indices for disaggregation and communication, not prediction** (practical guide with examples)
-4. **Model uncertainty when making high-stakes decisions** (TEK modeling with Bayesian networks)
+- `honest_ethnobotany`: what indices can and cannot show, and responsible use.
+- `decision_framing_guide`: structured decision framing for community-based conservation.
+- `benin_case_study`: critique of a fonio value-chain workshop in Benin.
+- `ethnobotanyr_decision_framing_practical`: worked code for participatory workshops.
+- `TEK_modeling_vignette`: Beta/Dirichlet pooling, Bayesian networks, Monte Carlo.
 
-The package now acknowledges both the utility and the substantial limitations of quantitative ethnobotany indices, and provides a path toward scientifically defensible, ethically grounded decision-making that integrates TEK.
+## README
+
+- Three pathways: describe knowledge, model decisions, run participatory exercises.
+- States what the package does not do: make decisions, prove with indices, replace engagement.
+
+## Where to start
+
+1. Participatory work: decision framing guide, Benin case study.
+2. Before using indices: `honest_ethnobotany`.
+3. Use indices to disaggregate and communicate, not predict.
+4. High-stakes decisions: model uncertainty (TEK modeling vignette).
 
 ---
 
 # version 0.1.9.2 News
 
-# This version 0.1.9.2 of ethnobotanyR is a working version (thus the redundant trailing '.2'):
+Working version (hence the trailing '.2').
 
 ## Enhancements
-- Improved the TPL function to handle infraspecific ranks more robustly.
-- Enhanced speed when processing large species lists.
-- Ultimately removed all taxonomy step sand vignettes for now
+- `TPL` handles infraspecific ranks more robustly.
+- Faster processing of large species lists.
+- Removed taxonomy steps and vignettes for now.
 
 ## Bug Fixes
-- Fixed an issue where the function returned an error with certain Genus-Species combinations.
-- Resolved a bug related to data format inconsistencies.
+- Fixed error for certain Genus-Species combinations.
+- Fixed data format inconsistencies.
 
 ## References
-- Whitney, C. et al. (2018). Ethnobotany and Agrobiodiversity. Ethnobiology Letters, 9(2), 90–100.
-      
+- Whitney, C. W., Bahati, J., & Gebauer, J. (2018). Ethnobotany and Agrobiodiversity: Valuation of Plants in the Homegardens of Southwestern Uganda. Ethnobiology Letters, 9(2), 90–100. <https://doi.org/10.14237/ebl.9.2.2018.503> (checked against Crossref, 2026-10-06)
+
 # version 0.1.9.1 News
 
-This version 0.1.9.1 of ethnobotanyR is a working version (thus the redundant trailing '.1'):
+Working version (hence the trailing '.1').
 
-Adding new vignettes for species names and for modeling
-Starting the process of dismantling the quantitative indices stuff in favor of some modeling - adding more modeling and removing - or at least scaling back argumentation about - the quantitative indices
+- New vignettes for species names and modeling.
+- Scaling back the quantitative indices in favor of modeling.
 
 # version 0.1.9 News
 
-This version 0.1.9 of ethnobotanyR is a patch (Whitney 2022):
+Patch (Whitney 2022). Updated for R 4.2.0.
 
 ## Enhancements
-
-Updated for R 4.2.0 "Vigorous Calisthenics":
-
-- Added color options for `ethno_alluvial()` and `radial_Plot()` 
-- Add error checks for use observations with more than count '1'
-- Add corrections for those same use observations
-- Added a new vignette `Modeling with ethnobotanyR` (split the existing into one about indices and one about modeling and expanded on both)
-- Add more visual output options in `ggplot2` (...)
-- Update the non-parametric bootstrap as a Bayesian Model `ethno_boot()`
-
+- Color options for `ethno_alluvial()` and `radial_Plot()`.
+- Error checks and corrections for use counts above 1.
+- New vignette `Modeling with ethnobotanyR`; existing vignette split into indices and modeling.
+- More `ggplot2` output options.
+- `ethno_boot()`: non-parametric bootstrap as a Bayesian model.
 
 ## Bug fixes
-
-- Removed pbapply options
-- Address issues with the gap.degree in chord plots (add a warning that more than 50 species or informants is a lot)
-- Remove arguments for dplyr (to work with version on the way)
-- Address CRAN issue https://cran.r-project.org/web/checks/check_results_isoband.html
+- Removed `pbapply` options.
+- Fixed `gap.degree` in chord plots; warns above 50 species or informants.
+- Removed `dplyr` arguments for the upcoming version.
+- Addressed CRAN issue https://cran.r-project.org/web/checks/check_results_isoband.html
 
 # version 0.1.8 News
 
-This version 0.1.8 of ethnobotanyR (Whitney 2021) is a patch:
-
-Fixed bugs in functions from Myanmar work and China work/ removed more old functions updated for new methods in the tidyverse
+Patch (Whitney 2021). Fixed bugs from Myanmar and China work; removed old functions for new tidyverse methods.
 
 # version 0.1.7 News
 
-This version 0.1.7 of ethnobotanyR (Whitney 2020c) is a patch:
-Added new functions from Myanmar work and China work/ removed old functions
+Patch (Whitney 2020c). Added functions from Myanmar and China work; removed old functions.
 
 # version 0.1.6 News
 
-This version 0.1.6 of ethnobotanyR (Whitney 2020b) is a patch:
-Fixed some bugs / added some more model options and figure options
+Patch (Whitney 2020b). Fixed bugs; more model and figure options.
 
 # version 0.1.5 News
 
-This version 0.1.5 of ethnobotanyR (Whitney 2020a) is a patch:
-Removed some bugs / added some more model options and figure options
+Patch (Whitney 2020a). Fixed bugs; more model and figure options.
 
 # version 0.1.4 News
 
-This version 0.1.4 of ethnobotanyR is a patch:
-Removed some bugs and added some new methods/models and figures
+Patch. Fixed bugs; new methods, models and figures.
 
 # version 0.1.3 News
 
-This version 0.1.3 of ethnobotanyR (Whitney 2019b)  is a patch:
-Fixed some bugs and added some new indices and figures
+Patch (Whitney 2019b). Fixed bugs; new indices and figures.
 
 # version 0.1.2 News
 
-This version 0.1.2 of ethnobotanyR is a patch:
-Removed some bugs / added some new methods
+Patch. Fixed bugs; new methods.
 
 # version 0.1.1 News
 
-This version 0.1.1 of ethnobotanyR (Whitney 2019a) is a patch:
-Fixed some bugs and added some new indices
+Patch (Whitney 2019a). Fixed bugs; new indices.
 
 # version 0.1.0 News
 
-This version 0.1.0 of ethnobotanyR is a new release
-The package ethnobotanyR 'Calculate Quantitative Ethnobotany Indices' following some common standard indices used in ethnobotany. 
+New release: 'Calculate Quantitative Ethnobotany Indices', common standard ethnobotany indices.
 
 ## References
 
