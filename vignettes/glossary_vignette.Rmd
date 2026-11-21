@@ -1,0 +1,58 @@
+---
+title: "Glossary: Uncertainty-Aware Ethnobotanical Estimation"
+author: "Cory Whitney"
+output: rmarkdown::html_vignette
+bibliography: references/ethnobotanyR.bib
+vignette: >
+  %\VignetteIndexEntry{Glossary: Uncertainty-Aware Ethnobotanical Estimation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+This vignette defines the terms used throughout `ethnobotanyR`'s uncertainty-aware functions (`ethno_beta()`, `ethno_saturation()`, `ethno_boot()`, `ethno_consensus()`, `ethno_bayes_consensus()`). It is meant to be readable by anyone working with ethnobotanical survey data, whether or not they are familiar with R or with Bayesian statistics.
+
+### Prior
+
+What you believe about a quantity (for example, the share of participants who use a species for a given purpose) *before* looking at the data. In `ethno_beta()` a prior is a pair of numbers, `c(a, b)`, describing a Beta distribution; `c(1, 1)` is uniform (uninformative, treating every value between 0 and 1 as equally likely before seeing data).
+
+### Posterior
+
+What you believe about a quantity *after* combining the prior with the observed data. This is the main output of `ethno_beta()`: for each species and use, a posterior mean and a credible interval.
+
+### Credible interval
+
+A range of values that, given the data and the prior, has a stated probability (by default 90%) of containing the true value. Unlike a classical confidence interval, a credible interval can be read directly as "there is a 90% chance the true value is in this range, given the model."
+
+### Distribution
+
+The full set of plausible values for a quantity, each with a weight (a probability or relative likelihood). A posterior mean and credible interval are both summaries of a distribution; the distribution itself carries more information than either summary alone, which is why `ethno_boot()` returns the full set of resampled values rather than only a point estimate.
+
+### Bayesian bootstrap
+
+A resampling method (used by `ethno_boot()`) that creates many plausible replicate data sets by reweighting the observed participants (optionally with `use_weights = TRUE` for unequal weights), and recomputes a statistic (for example a mean or a ratio) on each replicate. The spread of the resulting values approximates the posterior distribution of that statistic, without requiring a closed-form model.
+
+### Saturation
+
+Whether a data set is large enough to have found most of the species-use combinations that are actually present in the community (`ethno_saturation()`). A saturation curve that is still rising steeply as participants are added means more interviews would likely find new uses, so use probabilities and rankings based on the current sample could still change substantially.
+
+### Competence (*D*)
+
+In the consensus models (`ethno_consensus()`, `ethno_bayes_consensus()`), a participant's competence is the probability that their answer agrees with the shared "correct" answer, rather than disagreeing by chance. A competence of 0 means guessing (no better than chance); a competence of 1 means always agreeing with the consensus. `ethno_consensus()` estimates competence from patterns of agreement across participants; `ethno_bayes_consensus()` takes competence as a supplied input.
+
+### Consensus
+
+The single shared answer key implied by participants' responses when they are assumed to share one underlying body of knowledge, weighted by how competent each participant is estimated (or assumed) to be. Consensus models answer "what is the most likely correct answer, and who is the most reliable source?", which is a different question from the descriptive indices (Use Value, Relative Frequency of Citation, and so on), which only summarize raw citation counts.
+
+## See also
+
+- `ethno_beta()` for Beta-binomial estimates of use with a credible interval.
+- `ethno_saturation()` for the saturation curve.
+- `ethno_boot()` for the Bayesian bootstrap.
+- `ethno_consensus()` and `ethno_bayes_consensus()` for the consensus models.
+- The `ethnobotanyR_modeling_vignette` and `TEK_modeling_vignette` vignettes for worked examples.
+
+## References
